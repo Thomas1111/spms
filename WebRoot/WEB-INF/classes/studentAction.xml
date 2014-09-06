@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"  
+
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+      
+<struts>  
+             
+    <package name="studentManager" namespace="/student" extends="struts-default"> 
+        
+        <action name="queryTerm" class="jxau.spms.student.action.QueryTermAction" method="queryTerm">  
+            <result name="success">/files/tutor/displayStuInfo.jsp</result>
+        </action>
+     	<action name="queryStudent" class="jxau.spms.student.action.QueryStudentAction" method="queryStudent">  
+            <result name="tutorDoc">/files/tutor/uploadFile.jsp</result>
+        </action>
+    </package> 
+    
+     <package name="studentManagerAjax" namespace="/student" extends="json-default">  
+            
+        <action name="queryStudentAsyc" class="jxau.spms.student.action.QueryStudentAsyc" method="queryStudent">  
+            <result type="json">
+            </result>
+        </action>
+        
+    </package> 
+  
+</struts>

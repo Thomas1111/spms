@@ -1,0 +1,10 @@
+校级工作人员 	 hosInsuranceInfo/hosInsuranceQuery!getAllHosByTeacher 查询医保   
+             hosInsuranceInfo/hosInsuranceInfo!updateHoss　教师更新医保
+             hosInsuranceInfo/hosInsuranceInfo!getAllHosByTeacher　审核
+			 hosInsuranceInfo/hosInsuranceInfo!getAllHosByTeacher　教师获取全部医保
+
+
+
+学生　　　hosInsuranceInfo/hosInsuranceInfo!modifyStu学生更新医保信息
+　　　　　hosInsuranceInfo/hosInsuranceInfo!showYiBaoForStudent显示当前学生的信息
+         hosInsuranceInfo/hosInsuranceInfo!applyYiBao学生申请医保

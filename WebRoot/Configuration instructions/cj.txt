@@ -1,0 +1,5 @@
+StuBasicInfoAction!loadTeacher 学生基本信息 模块，进入模块url
+
+StuBasicInfoVerifyAction!gainWaitingForClassName 学生基本信息 模块，进入审核页面url
+
+StuBasicInfoAction!entryStuBasicInfoLists 学生基本信息 模块 ,录入基本信息

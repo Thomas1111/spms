@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"  
+
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+
+<struts>
+	<!-- 指定默认编码集 ，作用于HttpServletRequest的setCharacterEncoding（）和freemarker，vilocity的输出 -->
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+
+	<!-- 当struts配置文件修改时是否自动加载 -->
+	<constant name="struts.configuration.xmlreload" value="true" />
+
+	<!-- 开发模式下打印详细的错误信息，默认为false -->
+	<constant name="struts.devMode" value="true" />
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+
+	<!-- 标准的UI主题，默认的UI主题为xhtml，可以为simple,xhtml或ajax -->
+	<constant name="struts.ui.theme" value="xhtml" />
+	<!--指定文件存储的文件路径-->
+	<constant name="struts.convention.package.locators" value="action" /> 
+	<!--struts2 指定上传文件的最大值-->
+	<constant name="struts.multipart.maxSize" value="104857600"></constant>
+	
+	
+    
+	<!--过滤Action层-->
+	<package name="interceptor">
+      <interceptors>
+         <interceptor name="alias" class="com.opensymphony.xwork2.interceptor.AliasInterceptor"/>
+         <interceptor name="autowiring" class="com.opensymphony.xwork2.spring.interceptor.ActionAutowiringInterceptor"/>
+      </interceptors>
+   </package>
+   
+   <!--用户登录-->
+	<package name="userLogin" namespace="/" extends="struts-default">
+    	<action name="userlogin" class="jxau.spms.login.action.LoginAction" method="login">
+			<result name="error">/login.jsp</result>
+		<!-- 
+			<result name="tutor" type="redirect">/index_tutor.jsp</result>
+			<result name="student" type="redirect">/index_student.jsp</result>
+			<result name="admin" type="redirect">/index_admin.jsp</result>
+		 -->
+		</action>
+	</package>
+	<!-- 测试Strut2 Json-->
+	<package name="example"  extends="json-default">
+     <action name="JSONExample" class="jxau.spms.student.test.TestJsonAction">
+        <result type="json"/>
+     </action>
+     
+  	</package>
+	<!--外部action配置文件-->
+	<include file="studentAction.xml"></include>	
+	<include file="tutorAction.xml"></include>	
+	<include file="adminAction.xml"></include>
+  	<include file="noticeAction.xml"></include>
+  	<include file="documentAction.xml"></include>
+  	<include file="phaseManAction.xml"></include>
+  	
+</struts> 

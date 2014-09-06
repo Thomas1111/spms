@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd  
+           http://www.springframework.org/schema/aop   
+           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd  
+           http://www.springframework.org/schema/tx  
+           http://www.springframework.org/schema/tx/spring-tx-3.1.xsd  
+           http://www.springframework.org/schema/jdbc   
+           http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd  
+           http://www.springframework.org/schema/context  
+           http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- 采用注解的方式配置bean -->
+	<context:annotation-config />
+
+	<!-- 配置要扫描的包 -->
+	<context:component-scan base-package="jxau"></context:component-scan>
+
+	<!-- 配置数据源属性文件 -->
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="classpath:db.properties" />
+	</bean>
+
+
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${database.driver}" />
+		<property name="jdbcUrl" value="${database.url}" />
+		<property name="user" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+
+		<!-- c3p0配置 配置说明见WebRoot/Configuation instructions/C3P0-instructions -->
+
+		<property name="initialPoolSize" value="${love.initialPoolSize}"></property>
+		<property name="minPoolSize" value="${love.minPoolSize}"></property>
+		<property name="maxPoolSize" value="${love.maxPoolSize}"></property>
+		<property name="maxIdleTime" value="${love.maxIdleTime}"></property>
+		<property name="acquireIncrement" value="${love.acquireIncrement}"></property>
+		<property name="idleConnectionTestPeriod" value="${love.idleConnectionTestPeriod}"></property>
+		<property name="acquireRetryAttempts" value="${love.acquireRetryAttempts}"></property>
+		<property name="breakAfterAcquireFailure" value="${love.breakAfterAcquireFailure}"></property>
+		<property name="maxStatements" value="${love.maxStatements}"></property>
+		<property name="testConnectionOnCheckout" value="${love.testConnectionOnCheckout}"></property>
+	</bean>
+
+	<!-- 配置mybatis的SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis.xml"></property>
+		<property name="mapperLocations"  >
+
+		  <list>
+              <value>classpath:jxau/spms/dao/*.xml</value>
+          </list>
+          
+		</property>
+	</bean>
+
+	<!-- 允许批量处理 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+		<constructor-arg index="1" value="BATCH" />
+	</bean>
+
+	<!-- 配置mybatis数据处理的方式，共四种方式，这里采用MapperScannerConfigurer方式 -->
+	<!-- SqlSessionTemplate 这个需要写配置文件，在实现类中注入sqlsession，再使用sqlsession,是细颗粒控制 
+		SqlSessionDaoSupport 这个只需要在实现类中继承特殊类就可以使用sqlsession MapperFactoryBean 这个要写配置文件，把对应的所有接口在配置文件中引用即可，无需写实现类 
+		MapperScannerConfigurer 这个要写配置文件，只要给出接口所在的包即可，会自动把包中的接口引入，无需写实现类 -->
+
+	<!-- <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> <property 
+		name="basePackage" value="com.sms.*.dao"/> </bean> -->
+
+
+	<!-- 开启注解版事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" mode="proxy" proxy-target-class="true"/>
+
+	<!-- 事务配置 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- jdbc初始化数据库 <jdbc:initialize-database data-source="dataSource" ignore-failures="NONE" 
+		enabled="${jdbc.initializedatabase}"> <jdbc:script encoding="utf-8" location="/WEB-INF/db-init.sql"/> 
+		</jdbc:initialize-database> -->
+</beans>  

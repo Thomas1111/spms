@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="jxau.spms.dao"><!-- namespace必须是与接口的包路径一致，不然会报错误 -->
+
+    <!--<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" /> --><!-- Mybaties内置二级缓存 -->
+    <!-- 查询返回集合类型的配置 -->
+    <!-- 查询返回集合类型的配置 -->
+    <!-- 使用第三方缓存插件实现二级缓存-->
+   
+    <!--获取导师上传文档信息-->
+    <select id="selectSubject" parameterType="java.util.Map"  resultType="jxau.spms.commmon.po.SubjectInfo">
+		select * from subject_info si where 
+		<if test="term != null">
+			si.subTerm = #{term} and
+		</if>
+		si.tutorNo = #{account};
+    </select>
+    
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="jxau.spms.dao"><!-- namespace必须是与接口的包路径一致，不然会报错误 -->
+
+    <!--<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" /> --><!-- Mybaties内置二级缓存 -->
+    <!-- 查询返回集合类型的配置 -->
+    <!-- 查询返回集合类型的配置 -->
+    <!-- 使用第三方缓存插件实现二级缓存-->
+   	<!--获取单个导师信息-->
+    <select id="selectTutorBasicInfo" parameterType="java.util.Map"  resultType="jxau.spms.tutor.po.TutorBasicInfo">
+		select * from tutor_basic_info tb where tb.tutorNo = #{tutorNo};
+    </select>
+    <!--获取管理员管理的所有导师信息-->
+    <select id="selectTutors" parameterType="java.util.Map"  resultType="jxau.spms.tutor.po.TutorBasicInfo">
+		select * from tutor_basic_info tb where tb.adminNo = #{adminNo} 
+		and tb.tutorState = 1
+		<if test="start != null">
+			limit #{start},#{number}
+		</if> 
+		;
+    </select>
+    <select id="getTutorNum" parameterType="java.util.Map"  resultType="int">
+		select count(*) from tutor_basic_info tb where tb.adminNo = #{adminNo} 
+		and tb.tutorState = 1;
+    </select>
+    <!--更新导师信息-->
+    <update id="updateTutor" parameterType="jxau.spms.tutor.po.TutorBasicInfo">
+		update tutor_basic_info ti set 
+		<if test="college != null">
+			ti.college = #{college} 
+		</if>
+		<if test="major != null">
+			ti.major = #{major} 
+		</if>
+		<if test="political != null">
+			ti.political = #{political} 
+		</if>
+		<if test="tutorTitle != null">
+			ti.tutorTitle = #{tutorTitle} 
+		</if>
+		<if test="eduBackground != null">
+			ti.eduBackground = #{eduBackground} 
+		</if>
+		<if test="direction != null">
+			ti.direction = #{direction} 
+		</if>
+		<if test="telephone != null">
+			ti.telephone = #{telephone} 
+		</if>
+		<if test="email != null">
+			ti.email = #{email} 
+		</if>
+		<if test="qq != null">
+			ti.qq = #{qq} 
+		</if>
+		<if test="remarks != null">
+			ti.remarks = #{remarks} 
+		</if>
+		<if test="tutorState != null">
+			ti.tutorState = #{tutorState} 
+		</if>
+		where ti.tutorNo = #{tutorNo};
+    </update>
+    <update id="updateTutorPass" parameterType="java.util.Map">
+		update tutor_info ti set 
+		<if test="modifyPass != null">
+			ti.tutorPass = #{modifyPass} 
+		</if>
+		where ti.tutorNo = #{account};
+    </update>
+     <update id="updateStuPass" parameterType="java.util.Map">
+		update stu_info si set 
+		<if test="modifyPass != null">
+			si.studentPass = #{modifyPass} 
+		</if>
+		where si.studentNo = #{account};
+    </update>
+     <update id="updateAdminPass" parameterType="java.util.Map">
+		update admin_info ai set 
+		<if test="modifyPass != null">
+			ai.adminPass = #{modifyPass} 
+		</if>
+		where ai.adminNo = #{account};
+    </update>
+     <insert id="batchAddTutor" parameterType="java.util.Map">
+		insert into tutor_basic_info values
+			(#{tutorNo},#{tutorName},#{sex},#{nation},
+			 #{hometown},#{college},#{major},#{political},
+			 #{tutorTitle},#{eduBackground},#{direction},
+			 #{telephone},#{email},#{qq},#{remarks},
+			 #{tutorState},#{adminNo});
+    </insert>
+    
+</mapper>

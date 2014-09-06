@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"  
+
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+      
+<struts>  
+             
+    <package name="noticeManager" namespace="/notice" extends="struts-default">  
+               
+        <action name="uploadNotice" class="jxau.spms.notice.action.NoticeUploadAction" method="addNotice">  
+            <result name="success">/files/admin/addNotice.jsp</result>
+        </action>
+        <action name="queryNotice" class="jxau.spms.notice.action.QueryNoticeAction" method="queryNotice">  
+            <result name="success">/files/admin/displayNotice.jsp</result>
+        </action>
+ 
+    </package> 
+ 
+</struts>
