@@ -10,12 +10,16 @@
     <!-- 使用第三方缓存插件实现二级缓存-->
    
     <!--获取导师上传文档信息-->
-    <select id="selectSubject" parameterType="java.util.Map"  resultType="jxau.spms.commmon.po.SubjectInfo">
+    <select id="selectSubject" parameterType="java.util.Map"  resultType="jxau.spms.common.po.SubjectInfo">
 		select * from subject_info si where 
 		<if test="term != null">
 			si.subTerm = #{term} and
 		</if>
-		si.tutorNo = #{account};
+		si.tutorNo = #{tutorNo}
+		<if test="start != null">
+			limit #{start},#{number}
+		</if>
+		;
     </select>
     
 </mapper>

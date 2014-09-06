@@ -57,48 +57,15 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 
 <link href="<%=basePath%>css/css.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="<%=basePath%>js/xiangmu.js"></script>
+<script src="<%=basePath%>js/xiangmu.js"></script>
+<script src="<%=basePath%>js/tutor.js"></script>
+<script src="<%=basePath%>/js/jquery-1.7.2.min.js"></script>
 </head>
 <SCRIPT language=JavaScript>
-function sousuo(){
-	window.open("gaojisousuo.htm","","depended=0,alwaysRaised=1,width=800,height=510,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-}
-function selectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			obj[i].checked = true;
-		}
-	}
-}
 
-function unselectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			if (obj[i].checked==true) obj[i].checked = false;
-			else obj[i].checked = true;
-		}
-	}
-}
-
-function link(){
-    document.getElementById("fom").action="xiangmu.htm";
-   document.getElementById("fom").submit();
-}
-
-function on_load(){
-	var loadingmsg=document.getElementById("loadingmsg");
-	var mainpage=document.getElementById("mainpage");
-	loadingmsg.style.display="";
-	mainpage.style.display="none";
-	
-	loadingmsg.style.display="none";
-	mainpage.style.display="";
-}
 </SCRIPT>
 
-<body onload="on_load()">
+<body onload="initCascadeInfo('no')">
 <form name="fom" id="fom" method="post" action="">
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">
 
@@ -112,15 +79,13 @@ function on_load(){
 			<td width="21"><img src="<%=basePath%>images/ico07.gif" width="20" height="18" /></td>
 			<td width="550" class="font051">
           选择学期：
-          <select name="term">
-            <option>2011-2012</option>
-            <option>2012-2013</option>
-            <option>2013-2014</option>
+         <select id="term" name="term" 
+      		onchange="reloadSubByterm(this.options
+      			[this.options.selectedIndex].value,'subject/querySubjectAsyc?','no')">
           </select>
           选题名称：
-          <select name="subject">
-            <option>基于B/S架构的飞机航班订票系统的设计与开发</option>
-            <option>基于c/S架构的飞机航班订票系统的设计与开发</option>
+          <select id="subject">
+      
           </select>
       </td> 
 		  </tr>
@@ -186,22 +151,17 @@ function on_load(){
                         <input type="button" name="cancel" value="重置" class="button" />
                     </td>
                   </tr>
-                </table></td>
+                </table>
+                </td>
               </tr>
             </table>
         </td>
         </tr>
       </table>
-     </td>
-              </tr>
-          </table>
        </fieldset>
-      </td>
-     </tr>
-      </table>
-  </td>
-  </tr>
-</table>
+     </td>
+    </tr>
+  </table>
 </form>
 </body>
 </html>

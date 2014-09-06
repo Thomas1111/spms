@@ -114,6 +114,9 @@ insert into class_info(classNo,className,classBreif,majorNo,classState) values('
 insert into subject_info values(null,'2014-2015','基于B/S架构的飞机航班订票系统的设计与开发','省部级以上','一教阶二','理论研究','校内','无',0,'格式不正确','20111826','1231','0791');
 insert into subject_info values(null,'2014-2015','基于B/S架构的毕业设计系统的设计与开发','省部级以上','一教阶二','理论研究','校内','无',0,'格式不正确','20111827','1231','0791');
 insert into subject_info values(null,'2014-2015','基于B/S架构的网上餐厅系统的设计与开发','省部级以上','一教阶二','理论研究','校内','无',0,'格式不正确','20111828','1231','0791');
+insert into subject_info values(null,'2013-2014','基于B/S架构的飞机航班订票系统的设计与开发','省部级以上','一教阶二','理论研究','校内','无',0,'格式不正确','20111826','1231','0791');
+insert into subject_info values(null,'2013-2014','基于B/S架构的毕业设计系统的设计与开发','省部级以上','一教阶二','理论研究','校内','无',0,'格式不正确','20111827','1231','0791');
+insert into subject_info values(null,'2013-2014','基于B/S架构的网上餐厅系统的设计与开发','省部级以上','一教阶二','理论研究','校内','无',0,'格式不正确','20111828','1231','0791');
 ##任务信息
 insert into task_info values(null,1,'无','无','无','无','无');
 insert into task_info values(null,2,'无','无','无','无','无');
