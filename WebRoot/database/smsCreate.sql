@@ -146,14 +146,11 @@ create table subject_info(
 	memo varchar(90),
 	studentNo char(8),
 	tutorNo	char(4),
-	adminNo	char(4),
-	constraint fk_subject_adminNo foreign key (adminNo) references admin_basic_info(adminNo),
 	constraint fk_subject_tutorNo foreign key (tutorNo) references tutor_basic_info(tutorNo),
 	constraint fk_subject_studentNo foreign key (studentNo) references stu_basic_info(studentNo)
 );
 
 /*任务信息表12*/
-/*drop table task_info;*/
 create table task_info(
 	taskNo int auto_increment primary key,
 	subjectNo int,

@@ -6,7 +6,6 @@ public class SubjectInfo {
 	private String subTerm;
 	private String studentNo;
 	private String tutorNo;
-	private String adminNo;
 	private String subName;
 	private String subSource;
 	private String papLocation;
@@ -39,12 +38,6 @@ public class SubjectInfo {
 	}
 	public void setTutorNo(String tutorNo) {
 		this.tutorNo = tutorNo;
-	}
-	public String getAdminNo() {
-		return adminNo;
-	}
-	public void setAdminNo(String adminNo) {
-		this.adminNo = adminNo;
 	}
 	public String getSubName() {
 		return subName;

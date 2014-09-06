@@ -60,4 +60,18 @@ public class SubjectServiceImple implements SubjectService {
 		return subjectInfos;
 	}
 
+	@Override
+	public void addSubject(SubjectInfo subjectInfo) throws RuntimeException {
+		// TODO Auto-generated method stub
+		
+		if (subjectInfo == null) {		//判断参数
+			throw new UnusualParamsException("参数不能为空");
+		}
+		
+		subjectInfo.setExameState(1);	//设置审核状态为'已提交状态'
+		//调用dao插入方法
+		dao.add(mapper+"addSubject", subjectInfo);
+		
+	}
+
 }

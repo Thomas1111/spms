@@ -9,7 +9,7 @@
     <!-- 查询返回集合类型的配置 -->
     <!-- 使用第三方缓存插件实现二级缓存-->
    
-    <!--获取导师上传文档信息-->
+    <!--获取选题信息-->
     <select id="selectSubject" parameterType="java.util.Map"  resultType="jxau.spms.common.po.SubjectInfo">
 		select * from subject_info si where 
 		<if test="term != null">
@@ -21,5 +21,12 @@
 		</if>
 		;
     </select>
+    
+    <!--获取导师上传文档信息-->
+   <insert id="addSubject" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="subjectNo">
+		insert into subject_info values
+			(null,#{subTerm},#{subName},#{subSource},#{papLocation},
+			 #{subType},#{subPosition},#{subBrief},#{exameState},null,null,#{tutorNo});
+    </insert>
     
 </mapper>

@@ -5,21 +5,13 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd">
       
 <struts>  
-   <!-- 
-   		 <package name="TutorManager" namespace="/tutor" extends="struts-default">  
-        <action name="queryTutor" class="jxau.spms.tutor.action.QueryTutorAction" method="queryTutor">  
-            <result name="tutor">/files/tutor/displayTeaInfo.jsp</result>
-            <result name="admin">/files/admin/displayTutorInfo.jsp</result>
-            <result name="adminManifest">/files/admin/allocateStudent.jsp</result>  
-        </action>
-        <action name="modifyPass" class="jxau.spms.tutor.action.ModifyPasswordAction" method="modifyPass">  
-            <result name="success">/files/tutor/modifyPassword.jsp</result>
-        </action>
-         <action name="modifyTutor" class="jxau.spms.tutor.action.ModifyTutorAction" method="modifyTutor">  
-            <result name="success">/files/admin/displayTutorInfo.jsp</result>
+
+   	<package name="SubjectManager" namespace="/subject" extends="struts-default">  
+        <action name="addSubject" class="jxau.spms.subjectManagement.action.AddSubjectAction" method="addSubject">  
+            <result>/files/tutor/addSubject.jsp</result>
         </action>
     </package> 
-    -->       
+ 
    
  	 <package name="SubjectManagerAjax" namespace="/subject" extends="json-default">  
                

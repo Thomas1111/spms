@@ -21,4 +21,10 @@ public interface SubjectService {
 	 */
 	public List<SubjectInfo> querySubject(Map<String, Object> params,PageVo pageVo)
 		throws RuntimeException;
+	/**
+	 * TODO 增加选题信息
+	 * @param subjectInfo 选题信息实体
+	 * @throws RuntimeException 插入数据时异常
+	 */
+	public void addSubject(SubjectInfo subjectInfo) throws RuntimeException;
 }

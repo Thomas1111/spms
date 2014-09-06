@@ -36,7 +36,7 @@ function reloadSubByterm(term,url,type){
 	$.get(url+"type="+type+"&term="+term,function(data){
 		var subject = document.getElementById("subject");	//获取subject节点
 		var optLength = subject.options.length;		//之前options数量
-		var subjectInfos = data.subjectInfos;
+		var subjectInfos = data.subjectInfos;		//加载选题信息
 		for(var i = 0;i < optLength;i++){
 			subject.remove(i);	//移除subject选项信息
 		}
@@ -46,4 +46,37 @@ function reloadSubByterm(term,url,type){
 			subject.appendChild(option);	//添加option节点
 		}
 	});
+}
+//上报选题---检查信息合理性
+function checkSubInfo(){
+	var flag = true;
+	var type = false;
+	var location = false;
+	
+	var subName = document.getElementById("subName").value;
+	var subSource = document.getElementsByName("subSource"); 
+	var subLocation = document.getElementsByName("subLocation").value; 
+	var subType = document.getElementsByName("subType"); 
+	var intruduce = document.getElementById("intruduce").value;
+	
+	for(var i = 0;i <subSource.length;i++){
+		if(subSource[i].checked == true){
+			location = true;
+		}
+	}
+	
+	for(var j = 0;j <subType.length;j++){
+		if(subType[j].checked == true){
+			type = true;
+		}
+	}
+	if(subName == null || 
+			subLocation == null || 
+				intruduce == null || 
+					!type || !location){
+		alert("您还有必要信息尚未填，请检查");
+		flag = false;
+	}
+	
+	return flag;
 }

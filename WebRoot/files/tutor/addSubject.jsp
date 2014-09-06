@@ -52,48 +52,14 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 <link href="<%=basePath%>css/css.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<%=basePath%>js/xiangmu.js"></script>
+<script src="<%=basePath%>js/tutor.js"></script>
 </head>
 <SCRIPT language=JavaScript>
-function sousuo(){
-	window.open("gaojisousuo.htm","","depended=0,alwaysRaised=1,width=800,height=510,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-}
-function selectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			obj[i].checked = true;
-		}
-	}
-}
-
-function unselectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			if (obj[i].checked==true) obj[i].checked = false;
-			else obj[i].checked = true;
-		}
-	}
-}
-
-function link(){
-    document.getElementById("fom").action="xiangmu.htm";
-   document.getElementById("fom").submit();
-}
-
-function on_load(){
-	var loadingmsg=document.getElementById("loadingmsg");
-	var mainpage=document.getElementById("mainpage");
-	loadingmsg.style.display="";
-	mainpage.style.display="none";
 	
-	loadingmsg.style.display="none";
-	mainpage.style.display="";
-}
 </SCRIPT>
 
 <body>
-<form name="fom" id="fom" method="post" action="">
+<form id="subjectInfo" method="post" action="subject/addSubject" onsubmit="return checkSubInfo();">
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">
 
   <tr>
@@ -118,11 +84,11 @@ function on_load(){
               <tr>
                 <td height="40" class="font42"><table width="100%" border="0" cellpadding="4" cellspacing="1" bgcolor="#464646" class="newfont03">
                 <tr>
-                    <td height="20" colspan="13" align="center" bgcolor="#EEEEEE"class="tablestyle_title"><center>选题基本信息表</cente></td>
+                    <td height="20" colspan="13" align="center" bgcolor="#EEEEEE"class="tablestyle_title"><center>选题基本信息表</center></td>
                 </tr>
                 <tr align="center">
                     <td width="10%" height="20" align="center" bgcolor="#EEEEEE">*题目名称</td>
-                    <td width="10%" align="center" bgcolor="#FFFFFF" colspan="9"><input name='subName' type="text" class="text" style="width:350px" value="" /></td>
+                    <td width="10%" align="center" bgcolor="#FFFFFF" colspan="9"><input id='subName' name='subName' type="text" class="text" style="width:350px" value="" /></td>
                 </tr>
                 <tr align="center">
                     <td width="10%" height="20" align="center" bgcolor="#EEEEEE">*题目来源</td>
@@ -134,14 +100,14 @@ function on_load(){
                     </td>
                     <td width="10%" height="20" align="center" bgcolor="#EEEEEE" colspan="2">*毕业设计论文地点</td>
                     <td width="10%" align="center" bgcolor="#FFFFFF" colspan="2">
-                        <input name='subLocation' type="text" class="text" style="width:350px" value="" />
+                        <input id="subLocation" name="subLocation" type="text" class="text" style="width:350px" value="" />
                     </td>
                 </tr>
                  <tr align="center">
                    <td width="10%" height="20" align="center" bgcolor="#EEEEEE">*题目类型</td>
                     <td width="10%" align="center" bgcolor="#FFFFFF" colspan="9">
                       <input type="radio" name="subType" value="pragmatism"  /> 实际运用研究
-                      <input type="radio" name="subType" value="pragmatism" /> 理论研究
+                      <input type="radio" name="subType" value="theory" /> 理论研究
                       <input type="radio" name="subType" value="praAndTheory" /> 运用于理论结合研究
                     </td>
                 </tr>
@@ -165,8 +131,8 @@ function on_load(){
                     <td width="10%" align="center" bgcolor="#EEEEEE">*来自</td>
                     <td width="10%" height="20" bgcolor="#FFFFFF">
                         <select name="sourceType">
-                            <option name="inside">校内</option>
-                            <option name="outside">校外</option>
+                            <option id="inside">校内</option>
+                            <option id="outside">校外</option>
                         </select>
                     </td>
                     <td width="10%" align="center" bgcolor="#EEEEEE">电话</td>
@@ -176,7 +142,7 @@ function on_load(){
                      <td width="10%" height="20" align="center" bgcolor="#FFFFFF" colspan="10">
                       <fieldset style="height:100%;">
                          <legend>*选题介绍：（主要内容、现有条件、时间安排、预期结果及表现形式）</legend>
-                         <textarea name="intruduce" rows="6" cols="120"></textarea>
+                         <textarea id="intruduce" name="intruduce" rows="6" cols="120"></textarea>
                       </fieldset>
                   </td>
                   </tr>
@@ -194,11 +160,7 @@ function on_load(){
       </table>
       </td>
               </tr>
-          </table></td>
-        </tr>
-      </table></td>
-  </tr>
-</table>
+          </table>
 </form>
 </body>
 </html>
