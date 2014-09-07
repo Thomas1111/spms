@@ -53,12 +53,13 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<%=basePath%>js/xiangmu.js"></script>
 <script src="<%=basePath%>js/tutor.js"></script>
+<script src="<%=basePath%>js/jquery-1.7.2.min.js"></script>
 </head>
 <SCRIPT language=JavaScript>
 	
 </SCRIPT>
 
-<body>
+<body onload="initTerm()">
 <form id="subjectInfo" method="post" action="subject/addSubject" onsubmit="return checkSubInfo();">
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">
 
@@ -142,8 +143,9 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                      <td width="10%" height="20" align="center" bgcolor="#FFFFFF" colspan="10">
                       <fieldset style="height:100%;">
                          <legend>*选题介绍：（主要内容、现有条件、时间安排、预期结果及表现形式）</legend>
-                         <textarea id="intruduce" name="intruduce" rows="6" cols="120"></textarea>
+                         <textarea id="intruduce" name="intruduce" rows="6" cols="120" ></textarea>
                       </fieldset>
+                      <input type="hidden" id="hidTerm" name="subTerm" value="term" />
                   </td>
                   </tr>
                   <tr>

@@ -40,51 +40,30 @@ public class AddSubjectAction extends ActionSupport {
 		request = ServletActionContext.getRequest();
 		String subType = request.getParameter("subType");	//获取选题类型
 		String subSurce = request.getParameter("subSource");	//获取选题来源
-		if (subType == null || subSurce == null) {
+		String subBrief = request.getParameter("intruduce");
+		String papLocation = request.getParameter("subLocation");
+		String subName = request.getParameter("subName");
+		String sourceType = request.getParameter("sourceType");
+		String subTerm = request.getParameter("subTerm");
+		//判断选题信息是否为空
+		if (subType == null || subSurce == null 
+				|| subBrief == null || papLocation == null
+					|| subName == null|| sourceType == null
+						|| subTerm == null) {
 			message = "请填写必要信息";
 			request.setAttribute("message", message);
 			return SUCCESS;
 		}
-		//选择选题类型信息
-		switch (subType) {
-		case "ministry":
-			subType = "实际运用研究";
-			break;
-		case "theory":
-			subType = "理论研究";
-			break;
-		case "praAndTheory":
-			subType = "运用于理论结合研究";
-			break;
-		default:
-			break;
-		}
-		//选择选题来源信息
-		switch (subSurce) {
-		case "ministry":
-			subSurce = "省部级以上";         
-			break;
-		case "fee":
-			subSurce = "横向且有经费";
-			break;
-		case "selectOn":
-			subSurce = "自选";
-			break;
-		case "city":
-			subSurce = "市厅级";
-			break;
-		default:
-			break;
-		}
+		
 		//实例化选题信息对象
 		SubjectInfo subjectInfo = new SubjectInfo();
 		//设置选题对象信息
-		subjectInfo.setSubBrief(request.getParameter("intruduce"));
-		subjectInfo.setPapLocation(request.getParameter("subLocation"));
-		subjectInfo.setSubName(request.getParameter("subName"));	//设置
-		subjectInfo.setSubPosition(request.getParameter("sourceType"));
+		subjectInfo.setSubBrief(subBrief);
+		subjectInfo.setPapLocation(papLocation);
+		subjectInfo.setSubName(subName);	//设置
+		subjectInfo.setSubPosition(sourceType);
 		subjectInfo.setSubSource(subSurce);
-		subjectInfo.setSubTerm(request.getParameter("subName"));
+		subjectInfo.setSubTerm(subTerm);
 		subjectInfo.setSubType(subType);
 		subjectInfo.setTutorNo((String)request.
 				getSession().getAttribute("account"));
