@@ -15,18 +15,81 @@
 		<if test="term != null">
 			si.subTerm = #{term} and
 		</if>
+		<if test="subState != null">
+			si.exameState = #{subState} and
+		</if>
 		si.tutorNo = #{tutorNo}
 		<if test="start != null">
 			limit #{start},#{number}
 		</if>
 		;
     </select>
-    
-    <!--获取导师上传文档信息-->
+    <!--导师获取学生选题信息-->
+    <select id="selectStuSub" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.StuSubjectVo">
+		select si.subjectNo,si.subName,sb.studentNo,sb.studentName,si.subTerm,si.stuExaState 
+		from subject_info si inner join stu_basic_info sb
+		on si.studentNo = sb.studentNo where 
+		<if test="term != null">
+			si.subTerm = #{term} and
+		</if>
+		si.tutorNo = #{tutorNo}
+		<if test="start != null">
+			limit #{start},#{number}
+		</if>
+		;
+    </select>
+    <!--学生获取选题信息-->
+    <select id="selectSubInfo" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.StuSubjectVo">
+		select si.subjectNo,si.subName,si.applyNum,si.leftNum,tb.tutorName from subject_info si
+		inner join tutor_basic_info tb on si.tutorNo = tb.tutorNo
+		inner join stu_basic_info sb on sb.tutorNo = si.tutorNo
+		where 
+		<if test="term != null">
+			si.subTerm = #{term} and
+		</if>
+		<if test="subState != null">
+			si.exameState = #{subState} and
+		</if>
+		sb.studentNo = #{studentNo} 
+		<if test="start != null">
+			limit #{start},#{number}
+		</if>
+		;
+    </select>
+    <!--上报选题信息-->
    <insert id="addSubject" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="subjectNo">
 		insert into subject_info values
 			(null,#{subTerm},#{subName},#{subSource},#{papLocation},
-			 #{subType},#{subPosition},#{subBrief},#{exameState},null,null,#{tutorNo});
+			 #{subType},#{subPosition},#{subBrief},#{applyTime},#{exameState},#{stuExaState},null,null,#{tutorNo});
     </insert>
-    
+   <!--审核选题信息-->
+   <update id="verStuSubject" parameterType="java.util.Map">
+		update subject_info si set 
+		<if test="stuExaState != null">
+			si.stuExaState = #{stuExaState}
+		</if>
+		<if test="exameState != null">
+			si.exameState = #{exameState}
+		</if>
+		where si.subTerm = #{term} and
+		<if test="studentNo != null">
+			si.studentNo = #{studentNo}
+		</if>
+		<if test="tutorNo != null">
+			si.tutorNo = #{tutorNo}
+		</if>
+		;
+    </update>
+    <!--学生申请、退选选题信息-->
+   <update id="opeSubject" parameterType="java.util.Map">
+		update subject_info si set 
+		<if test="opeType == 'apply'">
+			si.studentNo = #{studentNo},
+		</if>
+		<if test="opeType == 'cancel'">
+			si.studentNo = null,
+		</if>
+		si.leftNum = #{leftNum}
+		where si.subjectNo = #{subjectNo};
+    </update>
 </mapper>

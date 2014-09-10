@@ -81,5 +81,14 @@ public class AdminBasicInfo {
 		this.remarks = remarks;
 	}
 	
+	@Override
+	public String toString() {
+		return "AdminBasicInfo [adminNo=" + adminNo + ", adminName="
+				+ adminName + ", sex=" + sex + ", nation=" + nation
+				+ ", college=" + college + ", rank=" + rank + ", adminTitle="
+				+ adminTitle + ", eduBackground=" + eduBackground
+				+ ", telephone=" + telephone + ", email=" + email
+				+ ", remarks=" + remarks + "]";
+	}
 	
 }

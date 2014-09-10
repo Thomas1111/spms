@@ -1,15 +1,20 @@
 package jxau.spms.subjectManagement.action;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import jxau.spms.common.po.SubjectInfo;
 import jxau.spms.exception.UnusualParamsException;
 import jxau.spms.subjectManagement.service.SubjectService;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionSupport;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 /**
  * @author Lai Huiqiang 
@@ -57,6 +62,10 @@ public class AddSubjectAction extends ActionSupport {
 		
 		//实例化选题信息对象
 		SubjectInfo subjectInfo = new SubjectInfo();
+		//生成上报时间
+		SimpleDateFormat format = new SimpleDateFormat
+				("yyyy-MM-dd hh:mm:ss");
+		String currentTime = format.format(new Date());
 		//设置选题对象信息
 		subjectInfo.setSubBrief(subBrief);
 		subjectInfo.setPapLocation(papLocation);
@@ -65,6 +74,7 @@ public class AddSubjectAction extends ActionSupport {
 		subjectInfo.setSubSource(subSurce);
 		subjectInfo.setSubTerm(subTerm);
 		subjectInfo.setSubType(subType);
+		subjectInfo.setApplyTime(currentTime);
 		subjectInfo.setTutorNo((String)request.
 				getSession().getAttribute("account"));
 		

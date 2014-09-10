@@ -117,7 +117,8 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
           <td height="6"><img src="<%=basePath%>images/spacer.gif" width="1" height="1" /></td>
         </tr>
         <tr>
-          <td height="33"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="right-font08">
+          <td height="33">
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="right-font08">
               <tr>
                 <td width="50%">共 <span id="pageNum" class="right-text09"></span> 
                 	第<span id="currentPage" class="right-text09"></span> 页</td>

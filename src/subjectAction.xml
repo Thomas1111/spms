@@ -10,11 +10,16 @@
         <action name="addSubject" class="jxau.spms.subjectManagement.action.AddSubjectAction" method="addSubject">  
             <result>/files/tutor/addSubject.jsp</result>
         </action>
+         <action name="verifySubject" class="jxau.spms.subjectManagement.action.VerifySubjectAction" method="verifySubject">  
+            <result>/files/tutor/verifySubject.jsp</result>
+        </action>
+        <action name="opeSubject" class="jxau.spms.subjectManagement.action.OpeSubjectAction" method="opeSubject">  
+            <result>/files/student/applySubject.jsp</result>
+        </action>
     </package> 
  
    
- 	 <package name="SubjectManagerAjax" namespace="/subject" extends="json-default">  
-               
+ 	 <package name="SubjectManagerAjax" namespace="/subject" extends="json-default">     
         <action name="querySubjectAsyc" class="jxau.spms.subjectManagement.action.QuerySubjectAsyc" method="querySubject">  
             <result type="json"></result>
         </action>

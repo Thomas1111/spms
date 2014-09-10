@@ -34,6 +34,7 @@ public class QuerySubjectAsyc extends ActionSupport {
 
 	private SubjectService subjectService;
 	private HttpServletRequest request;
+	private HttpSession session;
 	private List<SubjectInfo> subjectInfos;
 	private PageVo pageVo;
 	private String message;
@@ -51,19 +52,35 @@ public class QuerySubjectAsyc extends ActionSupport {
 		pageVo = null;
 		message = "加载成功";
 		request = ServletActionContext.getRequest();
+		session = request.getSession();
 		//获取导师账号
-		String tutorNo = (String) request.getSession().getAttribute("account");
+		int role =  (int) request.getSession().getAttribute("role");
 		String term =request.getParameter("term");		//获取学期信息
 		String type =request.getParameter("type");		//判断是否需要分页
+		String utility = request.getParameter("utility");	//获取用途参数
 		if ("asyc".equals(type)) {
 			pageVo = new PageVo();
 		}
 		//设置查询条件
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("tutorNo", tutorNo);
-		params.put("term",term);
+		//判断是否需要过滤状态
+		if (request.getParameter("subState") != null) {
+			int subState = Integer.parseInt(request.getParameter("subState"));	//获取审核状态
+			params.put("subState", subState);
+		}
+		//判断角色参数
+		if (role == 1) {
+			String studentNo = (String) session.getAttribute("account");
+			params.put("studentNo", studentNo);
+		}else if (role == 2){
+			String tutorNo = (String)session.getAttribute("account");
+			params.put("tutorNo", tutorNo);
+		}else {
+			params.put("tutorNo",null);
+		}
+		params.put("term",term);	//设置学期参数
 		try {
-			subjectInfos = subjectService.querySubject(params, pageVo);
+			subjectInfos = subjectService.querySubject(params, pageVo,utility);
 		} catch (UnusualParamsException e) {
 			// TODO: handle exception
 			message = e.getMessage();

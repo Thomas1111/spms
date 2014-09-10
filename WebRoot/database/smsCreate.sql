@@ -1,3 +1,4 @@
+
 drop database spms;
 create database spms;
 use spms;
@@ -142,14 +143,17 @@ create table subject_info(
 	subType	varchar(24) not null,
 	subPosition	char(6) not null,
 	subBrief text not null,
+	applyTime date not null,
+	applyNum tinyint not null default 1,
+	leftNum tinyint not null default 1,
 	exameState tinyint not null default 0,
+	stuExaState tinyint not null default 0,
 	memo varchar(90),
 	studentNo char(8),
 	tutorNo	char(4),
 	constraint fk_subject_tutorNo foreign key (tutorNo) references tutor_basic_info(tutorNo),
 	constraint fk_subject_studentNo foreign key (studentNo) references stu_basic_info(studentNo)
 );
-
 /*任务信息表12*/
 create table task_info(
 	taskNo int auto_increment primary key,

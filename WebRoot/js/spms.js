@@ -25,11 +25,13 @@ function init(url){
 			termOptions.options[terms.length-1].selected=true;
 			var term = termOptions.options[terms.length-1].text;	//获取默认节点的属性值
 			//alert("初始化学期为"+term);
-			$.get(url+"currentPage=1&term="+term,function(data){
-				//alert(data.pageVo);
-				createStuInfoTab(data.pageVo,data.stuBasicInfos);
-			});
+			loadInfoAsyc(url,term);
 		});
+}
+function loadInfoAsyc(url,term){
+	$.get(url+"currentPage=1&term="+term,function(data){
+		createStuInfoTab(data);
+	});
 }
 //移除已存在的数据
 function removeExistStuInfo(){
@@ -40,11 +42,10 @@ function removeExistStuInfo(){
 	}
 }
 //动态创建表格
-function createStuInfoTab(pageVo,stuBasicInfo){
-	var pageNum = document.getElementById("pageNum");	//获取span对象
-	var currentPage = document.getElementById("currentPage");	//获取span对象
-	pageNum.innerHTML = pageVo.pageNum;		//写入页面总数html属性
-	currentPage.innerHTML = pageVo.currentPage;  //写入当前页面html属性
+function createStuInfoTab(data){
+	var pageVo = data.pageVo;
+	var stuBasicInfo = data.stuBasicInfos;
+	setPageInfo(pageVo);	//设置分页信息
 	var stuInfoTab = document.getElementById("stuInfoTab"); 	//获取显示信息的table
 	var cols = document.getElementById("firstRow").childNodes;		//获取行数的所有节点
 		for(var i = 0;i < stuBasicInfo.length;i++){
@@ -65,12 +66,20 @@ function createStuInfoTab(pageVo,stuBasicInfo){
 			stuInfoTab.appendChild(row);		//添加行
 		};
 	}
+//获取
 
+//设置显示分页内容
+function setPageInfo(pageVo){
+	var pageNum = document.getElementById("pageNum");	//获取span对象
+	var currentPage = document.getElementById("currentPage");	//获取span对象
+	pageNum.innerHTML = pageVo.pageNum;		//写入页面总数html属性
+	currentPage.innerHTML = pageVo.currentPage;  //写入当前页面html属性
+}
 //获取下拉选项学期的学生信息
 function reloadByterm(term,url){
 	$.get(url+"currentPage=1&term="+term,function(data){
 				removeExistStuInfo();		//移除已有表格信息
-				createStuInfoTab(data.pageVo,data.stuBasicInfos);		//创建表格
+				createStuInfoTab(data);		//创建表格
 	});
 }
 //页面更换,重新加载数据
@@ -119,7 +128,7 @@ function change(opeType,url){
 		//alert("当前学期"+term);
 		$.get(url+"currentPage="+currentPage+"&term="+term,function(data){
 			removeExistStuInfo();
-			createStuInfoTab(data.pageVo,data.stuBasicInfos);
+			createStuInfoTab(data);
 		});
 }
 //填充学生基本表格信息

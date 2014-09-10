@@ -40,7 +40,7 @@ public class FileUpload {
                 + account + File.separator + storageFileName;
     	
     	File storageFile = new File(tarPath); 	//实例化目标文件
-        FileUpload.createAdminDir(tarPath);		//创建notice下目录(adminNo)
+        createAdminDir(tarPath);		//创建notice下目录(adminNo)
         //调用工具类copy实现存储文件
         FileUpload.copy(upload, storageFile); 
 	}

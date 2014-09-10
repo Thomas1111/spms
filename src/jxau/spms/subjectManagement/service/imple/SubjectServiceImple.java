@@ -11,6 +11,7 @@ import jxau.spms.abstraction.dao.Dao;
 import jxau.spms.common.po.SubjectInfo;
 import jxau.spms.common.vo.PageVo;
 import jxau.spms.exception.CommonErrorException;
+import jxau.spms.exception.SubNumberOutOfRange;
 import jxau.spms.exception.UnusualParamsException;
 import jxau.spms.subjectManagement.service.SubjectService;
 
@@ -34,8 +35,9 @@ public class SubjectServiceImple implements SubjectService {
 	 * @see jxau.spms.subjectManagement.service.SubjectService#querySubject(java.util.Map, jxau.spms.common.vo.PageVo)
 	 * TODO 查询符合条件的选题信息
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<SubjectInfo> querySubject(Map<String, Object> params,PageVo pageVo)
+	public <E> List<E> querySubject(Map<String, Object> params,PageVo pageVo,String type)
 		throws UnusualParamsException,CommonErrorException{
 		// TODO Auto-generated method stub
 		if (params == null) {	//检查查询参数
@@ -46,9 +48,17 @@ public class SubjectServiceImple implements SubjectService {
 			params.put("start", pageVo.getFirstIndex());		//设置起始位置
 			params.put("number", pageVo.getSize());		//设置数量
 		}
-		
+		List<E> subjectInfos = null;
 		//调用dao方法
-		List<SubjectInfo> subjectInfos = dao.select(mapper + "selectSubject", params);
+		if ("subInfo".equals(type)||type == null) {	//判断是否是导师查询选题信息
+			subjectInfos = dao.select(mapper + "selectSubject", params);
+			
+		}else if("stuSubInfo".equals(type)) {		//查询学生选题基本信息
+			subjectInfos = dao.select(mapper + "selectStuSub", params);
+		}else {
+			subjectInfos = dao.select(mapper + "selectSubInfo", params);
+		}
+		
 		if (subjectInfos.size() == 0) {		//判读选题信息是否为空
 			throw new CommonErrorException("选题信息不存在");
 		}else {
@@ -57,7 +67,7 @@ public class SubjectServiceImple implements SubjectService {
 			}
 		}
 		
-		return subjectInfos;
+		return (List<E>) subjectInfos;
 	}
 
 	@Override
@@ -68,10 +78,73 @@ public class SubjectServiceImple implements SubjectService {
 			throw new UnusualParamsException("参数不能为空");
 		}
 		
-		subjectInfo.setExameState(1);	//设置审核状态为'已提交状态'
+		subjectInfo.setExameState(2);	//设置选题审核状态为'审核中状态'
+		subjectInfo.setStuExaState(0);	//设置学生选题审核状态为'未提交状态'
 		//调用dao插入方法
 		dao.add(mapper+"addSubject", subjectInfo);
+	}
+
+	/* (non-Javadoc)
+	 * @see jxau.spms.subjectManagement.service.SubjectService#verifySubject(java.util.Map)
+	 * TODO
+	 */
+	@Override
+	public String verifySubject(Map<String, Object> params)
+			throws UnusualParamsException {
+		// TODO Auto-generated method stub
+		String message = "审核成功";
+		if (params == null) {	//检查查询参数
+			throw new UnusualParamsException("参数不能为空");
+		}
+		if (params.get("term") == null) {
+			throw new UnusualParamsException("缺少必要参数");
+		}
+		if ((params.get("studentNo") == null &&params.get("stuExaState") == null)
+				&&(params.get("tutorNo") == null &&params.get("exameState") == null)) {
+			message = "参数信息有误";
+			return message;
+		}
+		//调用dao更新方法
+		dao.update(mapper+"verStuSubject", params);
 		
+		return message;
+	}
+
+	/* (non-Javadoc)
+	 * @see jxau.spms.subjectManagement.service.SubjectService#operateSubject(java.util.Map)
+	 * TODO 学生申请、退选选题
+	 */
+	@Override
+	public String operateSubject(Map<String, Object> params)
+			throws UnusualParamsException,SubNumberOutOfRange {
+		// TODO Auto-generated method stub
+		String message = "";
+		if (params == null) {	//检查查询参数
+			throw new UnusualParamsException("参数不能为空");
+		}
+		String opeType = (String) params.get("opeType");	//获取操作类型
+		int leftNum = (int) params.get("leftNum");	//获取选题剩余数量
+		if (params.get("studentNo") == null
+				|| params.get("subjectNo") == null
+					|| opeType == null
+						|| params.get("leftNum") == null) {
+			throw new UnusualParamsException("缺少必要参数");
+		}
+		if ("apply".equals(opeType)) {
+			if (leftNum == 0) {		//判断数量为零
+				throw new SubNumberOutOfRange("对不起，选题已达到上限");
+			}
+			leftNum--;		//选题剩余数量减一
+			message = "申请成功";
+		}else {
+			leftNum++;		//选题剩余数量减一
+			message = "退选成功";
+		}
+		params.put("leftNum", leftNum);		//设置操作后的选题数量
+		//调用dao更新方法
+		dao.update(mapper + "opeSubject", params);
+		
+		return message;
 	}
 
 }

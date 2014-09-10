@@ -12,9 +12,17 @@ public class SubjectInfo {
 	private String subType;
 	private String subPosition;
 	private String subBrief;
+	private String applyTime;
 	private int exameState;
+	private int stuExaState;
 	private String memo;
 	
+	public String getApplyTime() {
+		return applyTime;
+	}
+	public void setApplyTime(String applyTime) {
+		this.applyTime = applyTime;
+	}
 	public int getSubjectNo() {
 		return subjectNo;
 	}
@@ -80,6 +88,12 @@ public class SubjectInfo {
 	}
 	public void setExameState(int exameState) {
 		this.exameState = exameState;
+	}
+	public int getStuExaState() {
+		return stuExaState;
+	}
+	public void setStuExaState(int stuExaState) {
+		this.stuExaState = stuExaState;
 	}
 	public String getMemo() {
 		return memo;
