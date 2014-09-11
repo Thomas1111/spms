@@ -122,6 +122,9 @@ function displaySubInfo(utility){
 				case 3:
 					createApplyTab(term,url);
 					break;
+				case 4:
+					createCancelTab(term,url);
+					break;
 				default:
 					break;
 				}
@@ -140,8 +143,7 @@ function createSubTable(term,url){
             "<td width='5%' align='center' bgcolor='#EEEEEE'>现选人数</td>"+
             "<td width='20%' align='center' bgcolor='#EEEEEE'>上报时间</td>"+
             "<td width='10%' align='center' bgcolor='#EEEEEE'>选题状态</td>"+
-            "<td width='10%' align='center' bgcolor='#EEEEEE'>选题操作</td>"+
-            +"</tr>";
+            "<td width='10%' align='center' bgcolor='#EEEEEE'>选题操作</td></tr>";
 			for(var j = 0;j < subjectInfos.length;j++){
 				//获取审核状态并进行转换
 				var exameState = displayExamState(subjectInfos[j].exameState);
@@ -163,7 +165,7 @@ function createSubTable(term,url){
 		};
 	});
 }
-//创建选题表格
+//创建审核选题表格
 function createVerSubTab(term,url){
 	$.get(url+"type=asyc"+"&term="+term,function(data){
 		var message = data.message;		
@@ -175,12 +177,11 @@ function createVerSubTab(term,url){
             "<td width='10%' align='center' bgcolor='#EEEEEE'>学生学号</td>"+
             "<td width='10%' align='center' bgcolor='#EEEEEE'>学生姓名</td>"+
             "<td width='10%' align='center' bgcolor='#EEEEEE'>通过状态</td>"+
-            "<td width='20%' align='center' bgcolor='#EEEEEE'>审核状态</td>"+
-            +"</tr>";
+            "<td width='20%' align='center' bgcolor='#EEEEEE'>审核状态</td></tr>";
 			for(var j = 0;j < subjectInfos.length;j++){
 				//获取审核状态并进行转换
 				var exameState = displayExamState(subjectInfos[j].stuExaState);
-				var subTerm = term.split("-");
+				var subTerm = subjectInfos[j].subTerm.split("-");
 				var temp = "<tr align='center'>"+
 			    "<td width='30%' height='20' align='center' bgcolor='#FFFFFF'>"+subjectInfos[j].subName+"</td>"+
 			    "<td width='10%' align='center' bgcolor='#FFFFFF'>"+subjectInfos[j].studentNo+"</td>" +
@@ -200,8 +201,7 @@ function createVerSubTab(term,url){
 		}
 	});
 }
-
-//审核//创建选题表格
+//创建申请选题表格
 function createApplyTab(term,url){
 	$.get(url+"type=asyc"+"&term="+term,function(data){
 		var message = data.message;		
@@ -213,22 +213,22 @@ function createApplyTab(term,url){
             "<td width='5%' align='center' bgcolor='#EEEEEE'>上限人数</td>"+
             "<td width='5%' align='center' bgcolor='#EEEEEE'>剩余人数</td>"+
             "<td width='15%' align='center' bgcolor='#EEEEEE'>指导老师</td>"+
-            "<td width='10%' align='center' bgcolor='#EEEEEE'>选题操作</td>"+
-            +"</tr>";
+            "<td width='10%' align='center' bgcolor='#EEEEEE'>选题操作</td>"+"</tr>";
 			for(var j = 0;j < subjectInfos.length;j++){
 				//获取审核状态并进行转换
 				var exameState = displayExamState(subjectInfos[j].stuExaState);
-				var subTerm = term.split("-");
-				var buttton;
+				var subTerm = subjectInfos[j].subTerm.split("-");
+				var button;
 				var temp = "<tr align='center'>"+
 			    "<td width='30%' height='20' align='center' bgcolor='#FFFFFF'>"+subjectInfos[j].subName+"</td>"+
 			    "<td width='5%' align='center' bgcolor='#FFFFFF'>"+subjectInfos[j].applyNum+"</td>" +
 			    "<td width='5%' align='center' bgcolor='#FFFFFF'>"+subjectInfos[j].leftNum+"</td>" +
-			    "<td width='15%' align='center' bgcolor='#FFFFFF'>"+subjectInfos[j].tutorName+"</td>" +"<td width='10%' align='center' bgcolor='#FFFFFF'>";
+			    "<td width='15%' align='center' bgcolor='#FFFFFF'>"+subjectInfos[j].tutorName+"</td>" 
+			    +"<td width='10%' align='center' bgcolor='#FFFFFF'>";
 			    if(subjectInfos[j].leftNum == 0){
-			    	你来晚了哦;
+			    	button = "你来晚了哦";
 			    }else{
-			    	button = "<input type='button' name='revoke' value='申请' onclick='operateSub(1,"+subjectInfos[j].subjectNo+","+subjectInfos[j].leftNum+")'/>";
+			    	button = "<input type='button' name='revoke' value='申请' onclick='operateSub(1,"+subjectInfos[j].subjectNo+","+subjectInfos[j].leftNum+","+subTerm+")'/>";
 			    }
 				button = button + "</td></tr>";
 				temp = temp +button;
@@ -241,20 +241,79 @@ function createApplyTab(term,url){
 		}
 	});
 }
-function operateSub(opeType,subjectNo,leftNum){
-	if(opeType == 1){
-		opetype = "apply";
+//创建退选选题表格
+function createCancelTab(term,url){
+	$.get(url+"&term="+term,function(data){
+		var message = data.message;		
+		var subjectInfos = data.subjectInfos;
+		if(message == "加载成功"){
+			var subject = document.getElementById("subjectInfo");
+			var subInfoHtml = "<tr>"+
+			"<td width='30%' height='20' align='center' bgcolor='#EEEEEE'>选题名称</td>"+
+            "<td width='5%' align='center' bgcolor='#EEEEEE'>上限人数</td>"+
+            "<td width='15%' align='center' bgcolor='#EEEEEE'>指导老师</td>"+
+            "<td width='15%' align='center' bgcolor='#EEEEEE'>选题状态</td>"+
+            "<td width='10%' align='center' bgcolor='#EEEEEE'>选题操作</td></tr>";
+			for(var j = 0;j < subjectInfos.length;j++){
+				//获取审核状态并进行转换
+				var exameState = displayExamState(subjectInfos[j].stuExaState);
+				alert(subjectInfos[j].stuExaState);
+				var button;
+				var subTerm = subjectInfos[j].subTerm.split("-");
+				var temp = "<tr align='center'>"+
+			    "<td width='30%' height='20' align='center' bgcolor='#FFFFFF'>"+subjectInfos[j].subName+"</td>"+
+			    "<td width='5%' align='center' bgcolor='#FFFFFF'>"+subjectInfos[j].applyNum+"</td>" +
+			    "<td width='15%' align='center' bgcolor='#FFFFFF'>"+subjectInfos[j].tutorName+"</td>" +
+			    "<td width='15%' align='center' bgcolor='#FFFFFF'>"+exameState+"</td>" +"<td width='10%' align='center' bgcolor='#FFFFFF'>";
+				if(subjectInfos[j].stuExaState == 1){
+					button = "<input type='button' name='revoke' value='退选' disabled=true/>";
+				}else{
+					button = "<input type='button' name='revoke' value='退选' onclick='operateSub(2,"+subjectInfos[j].subjectNo+","+subjectInfos[j].leftNum+","+subTerm+")'/>";
+				}
+				button = button + "</td></tr>";
+				temp = temp + button;
+				subInfoHtml = subInfoHtml + temp;
+			}
+			subject.innerHTML = subInfoHtml;
+		}else{
+			alert(message);
+		}
+	});
+}
+//学生操作选题(包括申请、退选)
+function operateSub(type,subjectNo,leftNum,subTerm){
+	var opeType;
+	var term = subTerm+"-"+(subTerm+1);	// 获取学期
+	var url;
+	if(type == 1){		//判断操作类型
+		opeType = "apply";
+		url = identityUrl(3);
 	}else{
-		opetype = "cancel";
+		opeType = "cancel";
+		url = identityUrl(4);
 	}
-	alert(opetype);
-	window.location.href="subject/opeSubject?opeType="+opeType+"&subjectNo="+subjectNo+"&leftNum="+leftNum;
+	$.get("subject/opeSubject!opeSubject?opeType="+opeType+"&subjectNo="+subjectNo+"&leftNum="+leftNum+"&term="+term,function(data){
+		alert(data.message);
+		removeExistSubInfo();		//移除现存信息
+		if(type == 1){
+			createApplyTab(term,url);	//更新申请选题信息
+		}else{
+			createCancelTab(term,url);		//更新退选选题信息
+		}
+		
+	});
 }
 //审核选题信息
 function verifyInfo(state,studentNo,subTerm){
 	var term = subTerm+"-"+(subTerm+1);	// 获取学期
-	window.location.href="subject/verifySubject?stuExaState="+state+"&studentNo="+studentNo+"&term="+term;
+	var url = identityUrl(2);	//获取路径
+	$.get("subject/opeSubject!verifySubject?stuExaState="+state+"&studentNo="+studentNo+"&term="+term,function(data){
+		alert(data.message);		//显示操作信息
+		removeExistSubInfo();		//移除现存信息
+		createVerSubTab(term,url);	//更新审核信息
+	});
 }
+//移除现存在的信息
 function removeExistSubInfo(){
 	var subjectTab = document.getElementById("subjectInfo");
 	var rows = subjectTab.rows.length;
@@ -276,6 +335,9 @@ function reloadInfoByterm(term,utility){
 			break;
 		case 3:
 			createApplyTab(term,url);
+			break;
+		case 4:
+			createCancelTab(term,url);
 			break;
 		default:
 			break;
@@ -311,6 +373,9 @@ function identityUrl(utility){
 		break;
 	case 3:
 		url = "subject/querySubjectAsyc?utility=studentInfo&subState=1&";
+		break;
+	case 4:
+		url = "subject/querySubjectAsyc?utility=stuCancelInfo";
 		break;
 	default:
 		break;

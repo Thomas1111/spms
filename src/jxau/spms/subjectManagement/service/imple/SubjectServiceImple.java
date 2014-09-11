@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import jxau.spms.abstraction.dao.Dao;
 import jxau.spms.common.po.SubjectInfo;
 import jxau.spms.common.vo.PageVo;
+import jxau.spms.common.vo.StuSubjectVo;
 import jxau.spms.exception.CommonErrorException;
 import jxau.spms.exception.SubNumberOutOfRange;
 import jxau.spms.exception.UnusualParamsException;
@@ -55,6 +56,14 @@ public class SubjectServiceImple implements SubjectService {
 			
 		}else if("stuSubInfo".equals(type)) {		//查询学生选题基本信息
 			subjectInfos = dao.select(mapper + "selectStuSub", params);
+			if (subjectInfos.size() == 0) {		//判读选题信息是否为空
+				throw new CommonErrorException("还未有人申请选题");
+			}
+		}else if ("stuCancelInfo".equals(type)) {
+			subjectInfos = dao.select(mapper + "selectCancelInfo", params);
+			if (subjectInfos.size() == 0) {		//判读选题信息是否为空
+				throw new CommonErrorException("你还未申请选题");
+			}
 		}else {
 			subjectInfos = dao.select(mapper + "selectSubInfo", params);
 		}
@@ -122,21 +131,25 @@ public class SubjectServiceImple implements SubjectService {
 		if (params == null) {	//检查查询参数
 			throw new UnusualParamsException("参数不能为空");
 		}
+		//获取当前学生选题信息
+		StuSubjectVo exist = dao.selectOne(mapper + "applyOrNot", params);
 		String opeType = (String) params.get("opeType");	//获取操作类型
 		int leftNum = (int) params.get("leftNum");	//获取选题剩余数量
-		if (params.get("studentNo") == null
-				|| params.get("subjectNo") == null
-					|| opeType == null
-						|| params.get("leftNum") == null) {
-			throw new UnusualParamsException("缺少必要参数");
-		}
 		if ("apply".equals(opeType)) {
 			if (leftNum == 0) {		//判断数量为零
 				throw new SubNumberOutOfRange("对不起，选题已达到上限");
 			}
+			if (exist != null) {	//判断是否已选选题
+				message = "你已申请选题，请先退选";
+				return message;
+			}
 			leftNum--;		//选题剩余数量减一
 			message = "申请成功";
 		}else {
+			if (exist.getStuExaState() == 1) {	//判断是否通过
+				message = "审核已通过,不能再退选";
+				return message;
+			}
 			leftNum++;		//选题剩余数量减一
 			message = "退选成功";
 		}

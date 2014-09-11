@@ -20,13 +20,13 @@ public class SubjectTestCase {
 		HashMap<String, Object> params = new HashMap<>();
 		//params.put("tutorNo", "1231");
 		params.put("studentNo", "20111826");
-		params.put("term", "2013-2014");
-		//PageVo pageVo = null;
-		PageVo pageVo = new PageVo();
-		params.put("start", 0);
-		params.put("number", 10);
-		subjectService.querySubject(params, pageVo,"studentInfo");
-		System.out.println("页面数量==="+pageVo.getCount());
+		params.put("term", "2014-2015");
+		PageVo pageVo = null;
+		//PageVo pageVo = new PageVo();
+		//params.put("start", 0);
+		//params.put("number", 10);
+		subjectService.querySubject(params, pageVo,"stuCancelInfo");
+		//System.out.println("页面数量==="+pageVo.getCount());
 	}
 	//@Test
 	public void testAddSubject(){
@@ -65,11 +65,11 @@ public class SubjectTestCase {
 		public void testOpeSubject(){
 			HashMap<String, Object> params = new HashMap<>();
 			params.put("subjectNo", 1);
-			params.put("studentNo", "20111826");
-			params.put("leftNum", 0);
-			params.put("opeType", "cancel");
+			params.put("studentNo", "20111827");
+			params.put("leftNum", 1);
+			params.put("opeType", "apply");
 			params.put("term", "2014-2015");
 			
-			subjectService.operateSubject(params);
+			System.out.print(subjectService.operateSubject(params));
 		}	
 }
