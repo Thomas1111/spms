@@ -58,38 +58,11 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 
 <link href="<%=basePath%>css/css.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="<%=basePath%>js/xiangmu.js"></script>
 <script src="<%=basePath%>/js/jquery-1.7.2.min.js"></script>
+<script src="<%=basePath%>/js/admin.js"></script>
+<script src="<%=basePath%>/js/spms.js"></script>
 </head>
-<SCRIPT language=JavaScript>
-function sousuo(){
-	window.open("gaojisousuo.htm","","depended=0,alwaysRaised=1,width=800,height=510,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-}
-function selectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			obj[i].checked = true;
-		}
-	}
-}
 
-function unselectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			if (obj[i].checked==true) obj[i].checked = false;
-			else obj[i].checked = true;
-		}
-	}
-}
-
-function link(){
-    document.getElementById("fom").action="xiangmu.htm";
-   document.getElementById("fom").submit();
-}
-
-</SCRIPT>
 
 <body>
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -133,7 +106,7 @@ function link(){
                   </tr>
              <s:iterator value="%{#request.tutorsInfo}" id="id" status="status"> 
                  <tr>
-                    <td width="10%" height="20" align="center" bgcolor="#EEEEEE">
+                    <td width="10%" height="20" align="center" bgcolor="#FFFFFF">
                     <a href="<%=path%>/tutor/queryTutor?tutorNo=<s:property value="%{#request.tutorsInfo[#status.index].tutorNo}" />"
                     		target="mainFrame">
                     	<s:property value="%{#request.tutorsInfo[#status.index].tutorNo}" />
@@ -175,16 +148,16 @@ function link(){
         <tr>
           <td height="33"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="right-font08">
               <tr>
-                <td width="50%">共 <span class="right-text09">
+                <td width="50%">共 <span id="pageNum" class="right-text09">
                 	<s:property value="%{#request.pageVo.pageNum}" />
-                </span> 第<span class="right-text09">
+                </span> 第<span id="currentPage" class="right-text09">
                 	<s:property value="%{#request.pageVo.currentPage}" />
                 </span> 页</td>
-                <td width="49%" align="right">[<a href="#" class="right-font08" onclick="getFirstPage()">
+                <td width="49%" align="right">[<a class="right-font08" onclick="change('first',null)">
                                                 首页</a> 
-                | <a href="#" class="right-font08" onclick="change('fore')">上一页</a>
-                | <a href="#" class="right-font08" onclick="change('next')">下一页</a> 
-                | <a href="#" class="right-font08" onclick="change('last')">末页</a>] 
+                | <a class="right-font08" onclick="change('fore',null)">上一页</a>
+                | <a class="right-font08" onclick="change('next',null)">下一页</a> 
+                | <a class="right-font08" onclick="change('last',null)">末页</a>] 
                                                 转至</td>
                 <td width="1%"><table width="20" border="0" cellspacing="0" cellpadding="0">
                     <tr>

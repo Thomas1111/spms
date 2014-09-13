@@ -136,6 +136,7 @@ public class QuerySubjectAsyc extends ActionSupport {
 		pageVo = new PageVo();
 		String term =request.getParameter("term");		//获取学期信息
 		String adminNo = (String)session.getAttribute("account");
+		
 		params.put("adminNo", adminNo);	//设置导师账号参数
 		params.put("term",term);	//设置学期参数
 		

@@ -17,6 +17,7 @@ import jxau.spms.exception.CommonErrorException;
 import jxau.spms.exception.SubNumberOutOfRange;
 import jxau.spms.exception.UnusualParamsException;
 import jxau.spms.subjectManagement.service.SubjectService;
+import jxau.spms.tutor.po.TutorBasicInfo;
 
 /**
  * @author Lai Huiqiang
@@ -199,7 +200,7 @@ public class SubjectServiceImple implements SubjectService {
 	 * TODO 管理员获取导师选题信息
 	 */
 	@Override
-	public List<VerTutorSubVo> queryTutSub(Map<String, Object> params,
+	public <E> List<E> queryTutSub(Map<String, Object> params,
 			PageVo pageVo) throws RuntimeException {
 		// TODO Auto-generated method stub
 		if (params == null) {	//检查查询参数
@@ -213,13 +214,14 @@ public class SubjectServiceImple implements SubjectService {
 		params.put("number", pageVo.getSize());		//设置数量
 		//调用dao获取导师选题数量(使用触发器)
 		//List<SubjectInfo> subNum = dao.select(mapper + "selectSubject", params);
-		List<VerTutorSubVo> subjectInfos = dao.select(mapper + "selectTutSub", params);
-		//subjectInfos
+		List<E> subjectInfos = dao.select(mapper + "selectTutors", params);
+		
+		pageVo.setCount(subjectInfos.size());	//设置查询数量
 		if (subjectInfos.size() == 0) {		//判读选题信息是否为空
 			throw new CommonErrorException("暂时没有导师尚提交选题信息");
 		}
 		
-		return null;
+		return subjectInfos;
 	}
 
 }

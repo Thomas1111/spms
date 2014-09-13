@@ -41,7 +41,7 @@ public interface SubjectService {
 	 * @return 符合条件的导师选题信息
 	 * @throws RuntimeException
 	 */
-	public List<VerTutorSubVo> queryTutSub(Map<String, Object> params,PageVo pageVo)
+	public <E> List<E> queryTutSub(Map<String, Object> params,PageVo pageVo)
 			throws RuntimeException;
 	/**
 	 * TODO 增加选题信息
