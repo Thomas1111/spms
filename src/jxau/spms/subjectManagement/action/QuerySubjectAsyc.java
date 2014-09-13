@@ -2,6 +2,7 @@ package jxau.spms.subjectManagement.action;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import jxau.spms.common.po.SubjectInfo;
 import jxau.spms.common.vo.PageVo;
+import jxau.spms.common.vo.VerTutorSubVo;
 import jxau.spms.exception.CommonErrorException;
 import jxau.spms.exception.UnusualParamsException;
 import jxau.spms.student.po.StuBasicInfo;
@@ -33,10 +35,12 @@ public class QuerySubjectAsyc extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
 	private SubjectService subjectService;
-	private HttpServletRequest request;
-	private HttpSession session;
+	private HttpServletRequest request = ServletActionContext.getRequest();
+	private HttpSession session = request.getSession();
 	private List<SubjectInfo> subjectInfos;
-	private PageVo pageVo;
+	private List<VerTutorSubVo> tutorSubInfos;
+	private Map<String, Object> results;
+	private PageVo pageVo = null;
 	private String message;
 
 	@Resource(name="subjectService")
@@ -49,10 +53,7 @@ public class QuerySubjectAsyc extends ActionSupport {
 	 * @return 
 	 */
 	public String querySubject(){
-		pageVo = null;
 		message = "加载成功";
-		request = ServletActionContext.getRequest();
-		session = request.getSession();
 		//获取导师账号
 		int role =  (int) request.getSession().getAttribute("role");
 		String term =request.getParameter("term");		//获取学期信息
@@ -75,6 +76,7 @@ public class QuerySubjectAsyc extends ActionSupport {
 		}else if (role == 2){
 			String tutorNo = (String)session.getAttribute("account");
 			params.put("tutorNo", tutorNo);
+			params.put("stuExaState",1);	//设置学生选题状态为通过
 		}else {
 			params.put("tutorNo",null);
 		}
@@ -93,6 +95,80 @@ public class QuerySubjectAsyc extends ActionSupport {
 		
 	}
 	
+	/**
+	 * TODO	获取学生选题结果
+	 * @return 
+	 */
+	@SuppressWarnings("unchecked")
+	public String querySubResult(){
+		message = "加载成功";
+		//设置查询条件
+		HashMap<String, Object> params = new HashMap<>();
+		pageVo = new PageVo();
+		String term =request.getParameter("term");		//获取学期信息
+		String tutorNo = (String)session.getAttribute("account");
+		params.put("tutorNo", tutorNo);	//设置导师账号参数
+		params.put("stuExaState",1);	//设置学生选题状态为通过
+		params.put("term",term);	//设置学期参数
+		
+		try {
+			results = subjectService.querySubResult(params, pageVo);
+		} catch (UnusualParamsException e) {
+			// TODO: handle exception
+			message = e.getMessage();	
+		}catch (CommonErrorException e) {
+			// TODO: handle exception
+			message = e.getMessage();
+		}
+		
+		return SUCCESS;
+	}
+	
+	/**
+	 * TODO	获取学生选题结果
+	 * @return 
+	 */
+	@SuppressWarnings("unchecked")
+	public String queryTutSub(){
+		message = "加载成功";
+		//设置查询条件
+		HashMap<String, Object> params = new HashMap<>();
+		pageVo = new PageVo();
+		String term =request.getParameter("term");		//获取学期信息
+		String adminNo = (String)session.getAttribute("account");
+		params.put("adminNo", adminNo);	//设置导师账号参数
+		params.put("term",term);	//设置学期参数
+		
+		try {
+			tutorSubInfos = subjectService.queryTutSub(params, pageVo);
+		} catch (UnusualParamsException e) {
+			// TODO: handle exception
+			message = e.getMessage();	
+		}catch (CommonErrorException e) {
+			// TODO: handle exception
+			message = e.getMessage();
+		}
+		
+		return SUCCESS;
+	}
+	
+	
+	public List<VerTutorSubVo> getTutorSubInfos() {
+		return tutorSubInfos;
+	}
+
+	public void setTutorSubInfos(List<VerTutorSubVo> tutorSubInfos) {
+		this.tutorSubInfos = tutorSubInfos;
+	}
+
+	public Map<String, Object> getResults() {
+		return results;
+	}
+
+	public void setResults(Map<String, Object> results) {
+		this.results = results;
+	}
+
 	public List<SubjectInfo> getSubjectInfos() {
 		return subjectInfos;
 	}

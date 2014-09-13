@@ -1,5 +1,6 @@
 package jxau.spms.subjectManagement.service.imple;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import jxau.spms.abstraction.dao.Dao;
 import jxau.spms.common.po.SubjectInfo;
 import jxau.spms.common.vo.PageVo;
 import jxau.spms.common.vo.StuSubjectVo;
+import jxau.spms.common.vo.VerTutorSubVo;
 import jxau.spms.exception.CommonErrorException;
 import jxau.spms.exception.SubNumberOutOfRange;
 import jxau.spms.exception.UnusualParamsException;
@@ -86,7 +88,7 @@ public class SubjectServiceImple implements SubjectService {
 		if (subjectInfo == null) {		//判断参数
 			throw new UnusualParamsException("参数不能为空");
 		}
-		
+		//设置状态系数
 		subjectInfo.setExameState(2);	//设置选题审核状态为'审核中状态'
 		subjectInfo.setStuExaState(0);	//设置学生选题审核状态为'未提交状态'
 		//调用dao插入方法
@@ -158,6 +160,66 @@ public class SubjectServiceImple implements SubjectService {
 		dao.update(mapper + "opeSubject", params);
 		
 		return message;
+	}
+
+	/* (non-Javadoc)
+	 * @see jxau.spms.subjectManagement.service.SubjectService#querySubResult(java.util.Map, jxau.spms.common.vo.PageVo)
+	 * TODO 导师查询学生选题结果
+	 */
+	@Override
+	public Map<String, Object> querySubResult(Map<String, Object> params,
+			PageVo pageVo) throws RuntimeException {
+		// TODO Auto-generated method stub
+		Map<String, Object> resultInfo = new HashMap<String, Object>();
+		if (params == null) {	//检查查询参数
+			throw new UnusualParamsException("参数不能为空");
+		}
+		//设置查询参数(起始位置、查询数量)
+		if (pageVo == null||pageVo.getCurrentPage() == 0) {
+			throw new UnusualParamsException("缺少重要参数");
+		}
+		params.put("start", pageVo.getFirstIndex());		//设置起始位置
+		params.put("number", pageVo.getSize());		//设置数量
+		List<StuSubjectVo> subjectInfos = dao.select(mapper + "selectStuSub", params);
+		if (subjectInfos.size() == 0) {		//判读选题信息是否为空
+			throw new CommonErrorException("学生选题结果为空");
+		}
+		pageVo.setCount(subjectInfos.size());	//设置查询数量
+		//获取已发布任务书的选题
+		List<Integer> subjectNos = dao.select(mapper + "selectSubResult", params);
+		//设置结果信息
+		resultInfo.put("subResult", subjectInfos);
+		resultInfo.put("distribution", subjectNos);
+		
+		return resultInfo;
+	}
+
+	/* (non-Javadoc)
+	 * @see jxau.spms.subjectManagement.service.SubjectService#queryTutSub(java.util.Map, jxau.spms.common.vo.PageVo)
+	 * TODO 管理员获取导师选题信息
+	 */
+	@Override
+	public List<VerTutorSubVo> queryTutSub(Map<String, Object> params,
+			PageVo pageVo) throws RuntimeException {
+		// TODO Auto-generated method stub
+		if (params == null) {	//检查查询参数
+			throw new UnusualParamsException("参数不能为空");
+		}
+		//设置查询参数(起始位置、查询数量)
+		if (pageVo == null||pageVo.getCurrentPage() == 0) {
+			throw new UnusualParamsException("缺少重要参数");
+		}
+		params.put("start", pageVo.getFirstIndex());		//设置起始位置
+		params.put("number", pageVo.getSize());		//设置数量
+		//调用dao获取导师选题数量(使用触发器)
+		//List<SubjectInfo> subNum = dao.select(mapper + "selectSubject", params);
+		List<VerTutorSubVo> subjectInfos = dao.select(mapper + "selectTutSub", params);
+		//subjectInfos
+		if (subjectInfos.size() == 0) {		//判读选题信息是否为空
+			throw new CommonErrorException("暂时没有导师尚提交选题信息");
+		}
+		
+		return null;
 	}
 
 }

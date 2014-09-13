@@ -55,7 +55,6 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 </style>
 <link href="<%=basePath%>css/css.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
-<script src="<%=basePath%>js/xiangmu.js"></script>
 <script src="<%=basePath%>js/tutor.js"></script>
 <script src="<%=basePath%>js/spms.js"></script>
 <script src="<%=basePath%>js/jquery-1.7.2.min.js"></script>

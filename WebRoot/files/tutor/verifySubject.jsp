@@ -60,9 +60,6 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 <script src="<%=basePath%>js/tutor.js"></script>
 <script src="<%=basePath%>js/jquery-1.7.2.min.js"></script>
 </head>
-<SCRIPT language=JavaScript>
-
-</SCRIPT>
 
 <body onload="displaySubInfo(2)">
 

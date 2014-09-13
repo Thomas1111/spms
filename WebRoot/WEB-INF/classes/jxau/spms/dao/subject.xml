@@ -26,6 +26,20 @@
 		</if>
 		;
     </select>
+    <!--管理员获取导师选题信息-->
+    <select id="selectTutSub" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.VerTutorSubVo">
+		select ti.tutorNo,ti.tutorName,ti.sex,ti.college,ti.major,si.exameState 
+		from subject_info si,admin_basic_info ab,tutor_basic_info ti where 
+		si.tutorNo = ti.tutorNo and ti.adminNo = ab.adminNo and
+		<if test="term != null">
+			si.subTerm = #{term} and
+		</if>
+		ab.adminNo = #{adminNo}
+		<if test="start != null">
+			limit #{start},#{number}
+		</if>
+		;
+    </select>
     <!--导师获取学生选题信息-->
     <select id="selectStuSub" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.StuSubjectVo">
 		select si.subjectNo,si.subName,sb.studentNo,sb.studentName,si.subTerm,si.stuExaState 
@@ -33,6 +47,23 @@
 		on si.studentNo = sb.studentNo where 
 		<if test="term != null">
 			si.subTerm = #{term} and
+		</if>
+		si.tutorNo = #{tutorNo}
+		<if test="start != null">
+			limit #{start},#{number}
+		</if>
+		;
+    </select>
+	 <!--导师获取学生选题结果-->
+    <select id="selectSubResult" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.StuSubjectVo">
+		select si.subjectNo from subject_info si inner join stu_basic_info sb on si.studentNo = sb.studentNo 
+		inner join task_info ti on si.subjectNo = ti.subjectNo
+		where 
+		<if test="term != null">
+			si.subTerm = #{term} and
+		</if>
+		<if test="stuExaState != null">
+			si.stuExaState = #{stuExaState} and
 		</if>
 		si.tutorNo = #{tutorNo}
 		<if test="start != null">

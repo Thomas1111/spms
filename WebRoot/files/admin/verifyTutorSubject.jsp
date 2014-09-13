@@ -57,51 +57,15 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 
 <link href="<%=basePath%>css/css.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="<%=basePath%>js/xiangmu.js"></script>
+<script src="<%=basePath%>js/spms.js"></script>
+<script src="<%=basePath%>js/tutor.js"></script>
+<script src="<%=basePath%>js/admin.js"></script>
+<script src="<%=basePath%>js/jquery-1.7.2.min.js"></script>
 </head>
-<SCRIPT language=JavaScript>
-function sousuo(){
-	window.open("gaojisousuo.htm","","depended=0,alwaysRaised=1,width=800,height=510,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-}
-function selectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			obj[i].checked = true;
-		}
-	}
-}
 
-function unselectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			if (obj[i].checked==true) obj[i].checked = false;
-			else obj[i].checked = true;
-		}
-	}
-}
-
-function link(){
-    document.getElementById("fom").action="xiangmu.htm";
-   document.getElementById("fom").submit();
-}
-
-function on_load(){
-	var loadingmsg=document.getElementById("loadingmsg");
-	var mainpage=document.getElementById("mainpage");
-	loadingmsg.style.display="";
-	mainpage.style.display="none";
-	
-	loadingmsg.style.display="none";
-	mainpage.style.display="";
-}
-</SCRIPT>
-
-<body onload="on_load()">
+<body onload="displaySubInfo(6)">
 <form name="fom" id="fom" method="post" action="">
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">
-
   <tr>
     <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
@@ -111,10 +75,9 @@ function on_load(){
 		  <tr>
 			<td width="21"><img src="<%=basePath%>images/ico07.gif" width="20" height="18" /></td>
 			<td width="550" class="font051">
-        学期：
-          <select name="term">
-            <option>2013-2014</option>
-            <option>2012-2013</option>
+      选择学期：
+          <select id="term" name="term" onchange="reloadInfoByterm(this.options
+      			[this.options.selectedIndex].value,2)">
           </select>
       </td>
 		  </tr>
@@ -123,57 +86,21 @@ function on_load(){
     </table></td>
   </tr>
   <tr>
-    <td><table id="subtree1" style="DISPLAY: " width="100%" border="0" cellspacing="0" cellpadding="0">
-
+    <td>
+    <table id="subtree1" style="DISPLAY: " width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td><table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
+          <td>
+          <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
               <tr>
-                <td height="40" class="font42"><table width="100%" border="0" cellpadding="4" cellspacing="1" bgcolor="#464646" class="newfont03">
+                <td height="40" class="font42">
+            <table id="subjectInfo" width="100%" border="0" cellpadding="4" cellspacing="1" bgcolor="#464646" class="newfont03">
                 <tr>
                     <td height="20" colspan="13" align="center" bgcolor="#EEEEEE"class="tablestyle_title"><center>
-                        导师上报选题信息表
-                    </cente></td>
+                        	导师上报选题信息表
+                    </center>
+                    </td>
                 </tr>
-                  <tr>
-                    <td width="10%" height="20" align="center" bgcolor="#EEEEEE">学工号</td>
-                    <td width="10%" align="center" bgcolor="#EEEEEE">姓名</td>
-                    <td width="5%" align="center" bgcolor="#EEEEEE">性别</td>
-                    <td width="15%" align="center" bgcolor="#EEEEEE">学院</td>
-                    <td width="15%" align="center" bgcolor="#EEEEEE">系别</td>
-                    <td width="10%" align="center" bgcolor="#EEEEEE">选题数量</td>
-                    <td width="10%" align="center" bgcolor="#EEEEEE">选题操作</td>
-                    <td width="20%" align="center" bgcolor="#EEEEEE">审核操作</td>
-                  </tr>
-                 <tr>
-                    <td width="10%" height="20" align="center" bgcolor="#FFFFFF"><a href="<%=basePath%>files/admin/displaySpecificInfo.jsp" target="mainFrame">6016</a></td>
-                    <td width="10%" align="center" bgcolor="#FFFFFF">彭莹琼</td>
-                    <td width="5%" align="center" bgcolor="#FFFFFF">女</td>
-                    <td width="15%" align="center" bgcolor="#FFFFFF">软件学院</td>
-                    <td width="15%" align="center" bgcolor="#FFFFFF">软件开发</td>
-                    <td width="10%" align="center" bgcolor="#FFFFFF">15</td>
-                    <td width="10%" align="center" bgcolor="#FFFFFF">
-                      <input type="button" name="displaySubject" value="查看所有选题" onclick="javascript:window.location.href='<%=basePath%>files/admin/displaySubject.jsp'"/>
-                    </td>
-                    <td width="20%" align="center" bgcolor="#FFFFFF">
-                      <input type="button" name="yes" value="通过" />
-                      <input type="button" name="no" value="不通过" />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td width="10%" height="20" align="center" bgcolor="#FFFFFF"><a href="displaySpecificInfo.html" target="mainFrame">6017</a></td>
-                    <td width="10%" align="center" bgcolor="#FFFFFF">徐呈康</td>
-                    <td width="5%" align="center" bgcolor="#FFFFFF">男</td>
-                    <td width="15%" align="center" bgcolor="#FFFFFF">软件学院</td>
-                    <td width="15%" align="center" bgcolor="#FFFFFF">软件开发</td>
-                    <td width="10%" align="center" bgcolor="#FFFFFF">10</td>
-                    <td width="10%" align="center" bgcolor="#FFFFFF">
-                      <input type="button" name="displaySubject" value="查看所有选题" />
-                    </td>
-                    <td width="20%" align="center" bgcolor="#FFFFFF">
-                      <input type="button" name="yes" value="通过" />
-                      <input type="button" name="no" value="不通过" />
-                    </td>
-                  </tr>
+                
                 </table></td>
               </tr>
             </table>

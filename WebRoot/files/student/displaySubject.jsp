@@ -105,13 +105,20 @@ html {
 							cellspacing="0" cellpadding="0">
 							<tr>
 								<td>
-									<table id="subjectInfo" width="90%" border="0" align="center" cellpadding="0"
+									<table width="90%" border="0" align="center" cellpadding="0"
 										cellspacing="0">
-										
+							<tr>
+								<td>
+									<table id="subjectInfo" width="100%" border="0"
+													cellpadding="4" cellspacing="1" bgcolor="#464646"
+													class="newfont03">
 									</table>
 											</td>
 										</tr>
 									</table>
+									</td>
+									</tr>
+								</table>
 							</fieldset>
 								</td>
 							</tr>

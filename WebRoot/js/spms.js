@@ -133,7 +133,7 @@ function change(opeType,url){
 }
 //填充学生基本表格信息
 function fillStuTabInfo(stuBasicInfo,i,k){
-	var colValue = 0;		//列信息
+	var colValue = "";		//列信息
 	switch(k)
 	{
 		case 1:
@@ -143,7 +143,7 @@ function fillStuTabInfo(stuBasicInfo,i,k){
 			colValue =  stuBasicInfo[i].studentName;
 			break;
 		case 3:
-			colValue =  stuBasicInfo[i].sex;
+			colValue =  displaySex(stuBasicInfo[i].sex);
 			break;
 		case 4:
 			colValue =  stuBasicInfo[i].college;
@@ -162,3 +162,11 @@ function fillStuTabInfo(stuBasicInfo,i,k){
 	return colValue;
 }
 
+//转换性别
+function displaySex(sex){
+	var type = "男";
+	if(sex == 1){
+		type = "女";
+	}
+	return type;
+}

@@ -125,6 +125,12 @@ function displaySubInfo(utility){
 				case 4:
 					createCancelTab(term,url);
 					break;
+				case 5:
+					createSubResultTab(term,url);
+					break;
+				case 6:
+					createTutSubTab(term,url);
+					break;
 				default:
 					break;
 				}
@@ -201,6 +207,7 @@ function createVerSubTab(term,url){
 		}
 	});
 }
+
 //创建申请选题表格
 function createApplyTab(term,url){
 	$.get(url+"type=asyc"+"&term="+term,function(data){
@@ -275,10 +282,60 @@ function createCancelTab(term,url){
 				subInfoHtml = subInfoHtml + temp;
 			}
 			subject.innerHTML = subInfoHtml;
+			setPageInfo(data.pageVo);	//设置分页属性
 		}else{
 			alert(message);
 		}
 	});
+}
+//创建导师选题结果
+function createSubResultTab(term,url){
+	$.get(url+"&term="+term,function(data){
+		var message = data.message;		
+		var subResult = data.results.subResult;		//获取选题结果信息
+		var distribution = data.results.distribution;	//获取已发布任务书选题编号
+		if(message == "加载成功"){
+			var subject = document.getElementById("subjectInfo");
+			var subInfoHtml = "<tr>"+
+			"<td width='10%' height='20' align='center' bgcolor='#EEEEEE'>学生学号</td>"+
+            "<td width='10%' align='center' bgcolor='#EEEEEE'>学生姓名</td>"+
+            "<td width='30%' align='center' bgcolor='#EEEEEE'>选题名称</td>"+
+            "<td width='10%' align='center' bgcolor='#EEEEEE'>任务书状态</td>"+
+            "<td width='20%' align='center' bgcolor='#EEEEEE'>操作</td></tr>";
+			for(var j = 0;j < subResult.length;j++){
+				var button;
+				var subTerm = subResult[j].subTerm.split("-");
+				var temp = "<tr align='center'>"+
+			    "<td width='10%' height='20' align='center' bgcolor='#FFFFFF'>"+subResult[j].studentNo+"</td>"+
+			    "<td width='10%' align='center' bgcolor='#FFFFFF'>"+subResult[j].studentName+"</td>" +
+			    "<td width='30%' align='center' bgcolor='#FFFFFF'>"+subResult[j].subName+"</td>"; 
+				if(identifyTaskInfo(distribution,subResult[j].subjectNo)){
+					button = "<td width='10%' align='center' bgcolor='#FFFFFF'>已发布任务书</td>" 
+				    +"<td width='10%' align='center' bgcolor='#FFFFFF'>"+"<input type='button' name='appriseMission' value='发布任务书' disabled=true/>";
+				}else{
+					button = "<td width='10%' align='center' bgcolor='#FFFFFF'>未发布任务书</td>" 
+				    +"<td width='10%' align='center' bgcolor='#FFFFFF'>"+"<input type='button' name='appriseMission' value='发布任务书' />";
+				}
+				button = button + "</td></tr>";
+				temp = temp + button;
+				subInfoHtml = subInfoHtml + temp;
+			}
+			subject.innerHTML = subInfoHtml;
+			setPageInfo(data.pageVo);
+		}else{
+			alert(message);
+		}
+	});
+}
+//检查是否已发布任务书
+function identifyTaskInfo(distribution,subjectNo){
+	var flag = false;
+	for(var i = 0;i < distribution.length;i++){
+		if(distribution[i].subjectNo == subjectNo){	//判断选题编号是否一致
+			flag = true;
+		}
+	}
+	return flag;
 }
 //学生操作选题(包括申请、退选)
 function operateSub(type,subjectNo,leftNum,subTerm){
@@ -339,6 +396,12 @@ function reloadInfoByterm(term,utility){
 		case 4:
 			createCancelTab(term,url);
 			break;
+		case 5:
+			createSubResultTab(term,url);
+			break;
+		case 6:
+			createTutSubTab(term,url);
+			break;
 		default:
 			break;
 		}
@@ -366,7 +429,7 @@ function identityUrl(utility){
 	var url = " ";
 	switch(utility){
 	case 1:
-		url = "subject/querySubjectAsyc?";
+		url = "subject/querySubjectAsyc?";	//获取选题基本信息
 		break;
 	case 2:
 		url = "subject/querySubjectAsyc?utility=stuSubInfo&";
@@ -375,7 +438,13 @@ function identityUrl(utility){
 		url = "subject/querySubjectAsyc?utility=studentInfo&subState=1&";
 		break;
 	case 4:
-		url = "subject/querySubjectAsyc?utility=stuCancelInfo";
+		url = "subject/querySubjectAsyc?utility=stuCancelInfo&";
+		break;
+	case 5:
+		url = "subject/querySubjectAsyc!querySubResult?";
+		break;
+	case 6:
+		url = "subject/querySubjectAsyc!queryTutSub?";		//获取导师选题信息
 		break;
 	default:
 		break;
@@ -436,8 +505,18 @@ function changePage(opeType,utility){
 			case 3:
 				createApplyTab(term,url);
 				break;
+			case 4:
+				createCancelTab(term,url);
+				break;
+			case 5:
+				createSubResultTab(term,url);
+				break;
+			case 6:
+				createTutSubTab(term,url);
+				break;
 			default:
 				break;
 			}
 		});
 }
+

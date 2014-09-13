@@ -15,17 +15,21 @@ public class SubjectTestCase {
 			new ClassPathXmlApplicationContext("applicationContext.xml");
 	private SubjectService subjectService = (SubjectService) 
 			actionContext.getBean("subjectService");
-	//@Test
+	@Test
 	public void testQuerySubject(){
 		HashMap<String, Object> params = new HashMap<>();
 		//params.put("tutorNo", "1231");
-		params.put("studentNo", "20111826");
+		params.put("adminNo", "0791");
+		//params.put("studentNo", "20111826");
 		params.put("term", "2014-2015");
-		PageVo pageVo = null;
-		//PageVo pageVo = new PageVo();
-		//params.put("start", 0);
-		//params.put("number", 10);
-		subjectService.querySubject(params, pageVo,"stuCancelInfo");
+		//PageVo pageVo = null;
+		PageVo pageVo = new PageVo();
+		params.put("start", 0);
+		params.put("number", 10);
+		//params.put("stuExaState", 1);
+		subjectService.queryTutSub(params, pageVo);
+		//subjectService.querySubResult(params, pageVo);
+		//subjectService.querySubject(params, pageVo,"stuSubInfo");
 		//System.out.println("页面数量==="+pageVo.getCount());
 	}
 	//@Test
@@ -61,7 +65,7 @@ public class SubjectTestCase {
 		subjectService.verifySubject(params);
 	}
 	
-		@Test
+		//@Test
 		public void testOpeSubject(){
 			HashMap<String, Object> params = new HashMap<>();
 			params.put("subjectNo", 1);

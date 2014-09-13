@@ -5,6 +5,8 @@ import java.util.Map;
 
 import jxau.spms.common.po.SubjectInfo;
 import jxau.spms.common.vo.PageVo;
+import jxau.spms.common.vo.StuSubjectVo;
+import jxau.spms.common.vo.VerTutorSubVo;
 
 /**
  * @author Lai Huiqiang 
@@ -21,13 +23,32 @@ public interface SubjectService {
 	 */
 	public <E> List<E> querySubject(Map<String, Object> params,PageVo pageVo,String type)
 		throws RuntimeException;
+	
+	/**
+	 * TODO 导师获取学生选题结果信息
+	 * @param params 查询结果条件
+	 * @param pageVo 分页组件
+	 * @return 学生选题结果信息
+	 * @throws RuntimeException
+	 */
+	public Map<String, Object> querySubResult(Map<String, Object> params,PageVo pageVo)
+		throws RuntimeException;
+	
+	/**
+	 * TODO 管理员获取特定学期导师的选题信息
+	 * @param params 查询条件
+	 * @param pageVo 分页组件
+	 * @return 符合条件的导师选题信息
+	 * @throws RuntimeException
+	 */
+	public List<VerTutorSubVo> queryTutSub(Map<String, Object> params,PageVo pageVo)
+			throws RuntimeException;
 	/**
 	 * TODO 增加选题信息
 	 * @param subjectInfo 选题信息实体
 	 * @throws RuntimeException 插入数据时异常
 	 */
 	public void addSubject(SubjectInfo subjectInfo) throws RuntimeException;
-	
 	/**
 	 * TODO 审核学生
 	 * 上午9:26:14
