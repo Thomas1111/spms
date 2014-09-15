@@ -15,19 +15,20 @@ public class SubjectTestCase {
 			new ClassPathXmlApplicationContext("applicationContext.xml");
 	private SubjectService subjectService = (SubjectService) 
 			actionContext.getBean("subjectService");
-	@Test
+	//@Test
 	public void testQuerySubject(){
 		HashMap<String, Object> params = new HashMap<>();
 		//params.put("tutorNo", "1231");
-		params.put("adminNo", "0791");
+		params.put("subjectNo", 1);
 		//params.put("studentNo", "20111826");
-		params.put("term", "2014-2015");
+		//params.put("term", "2014-2015");
 		//PageVo pageVo = null;
-		PageVo pageVo = new PageVo();
-		params.put("start", 0);
-		params.put("number", 10);
+		//PageVo pageVo = new PageVo();
+		//params.put("start", 0);
+		//params.put("number", 10);
 		//params.put("stuExaState", 1);
-		subjectService.queryTutSub(params, pageVo);
+		subjectService.querySpeSub(params);
+		//subjectService.queryTutSub(params, pageVo);
 		//subjectService.querySubResult(params, pageVo);
 		//subjectService.querySubject(params, pageVo,"stuSubInfo");
 		//System.out.println("页面数量==="+pageVo.getCount());
@@ -75,5 +76,18 @@ public class SubjectTestCase {
 			params.put("term", "2014-2015");
 			
 			System.out.print(subjectService.operateSubject(params));
-		}	
+		}
+	@Test
+	public void testQueryNum(){
+		HashMap<String, Object> params = new HashMap<>();
+		PageVo pageVo = new PageVo();
+		pageVo.setCurrentPage(1);
+		
+		params.put("term", "2014-2015");
+		params.put("tutorNo", 1231);
+		params.put("subState",1);
+		
+		//System.out.print(subjectService.querySubResult(params, pageVo));
+		//System.out.print(subjectService.querySubject(params, pageVo,"subInfo"));
+	}
 }

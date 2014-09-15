@@ -2,16 +2,22 @@ package jxau.spms.phaseManagement.service.imple;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import jxau.spms.abstraction.dao.Dao;
 import jxau.spms.common.po.ReportInfo;
+import jxau.spms.common.po.SubjectInfo;
 import jxau.spms.common.vo.ReportInfoVo;
+import jxau.spms.common.vo.TaskInfoVo;
+import jxau.spms.exception.CommonErrorException;
 import jxau.spms.exception.ReportNotExistException;
 import jxau.spms.exception.UnusualParamsException;
 import jxau.spms.phaseManagement.service.ReportService;
+import jxau.spms.tutor.po.TaskInfo;
 
 /**
  * @author Lai Huiqiang
@@ -61,6 +67,7 @@ public class ReportServiceImple implements ReportService {
 		if (reportInfo == null) {
 			throw new UnusualParamsException("参数不能为空!");
 		}
+		//调用dao添加方法
 		dao.add(mapper+"addReportInfo", reportInfo);
 	}
 	/* (non-Javadoc)
@@ -85,6 +92,61 @@ public class ReportServiceImple implements ReportService {
 		}
 	
 		return repNumber;
+	}
+	/* (non-Javadoc)
+	 * @see jxau.spms.phaseManagement.service.ReportService#addTaskInfo(jxau.spms.tutor.po.TaskInfo, java.util.Map)
+	 * TODO 导师添加任务信息
+	 */
+	@Override
+	public void addTaskInfo(TaskInfo taskInfo,Map<String, Object> params) throws RuntimeException {
+		// TODO Auto-generated method stub
+		if (taskInfo == null
+				|| params == null) {		//判读参数是否为空
+			throw new UnusualParamsException("参数不能为空!");
+		}
+		//判断参数内容是否为空
+		if (params.get("term") == null
+				||params.get("tutorNo") == null
+					||params.get("subName") == null) {
+			throw new UnusualParamsException("请设置参数数值!");
+		}
+		//判断用户输入内容是否为空
+		if (" ".equals(taskInfo.getContent())
+				|| " ".equals(taskInfo.getDiagram())
+					|| " ".equals(taskInfo.getIndicator())
+						|| " ".equals(taskInfo.getReference())
+							|| " ".equals(taskInfo.getSchedule())) {
+			throw new UnusualParamsException("信息不能为空");
+		}
+		//调用dao获取选题subjectNo
+		SubjectInfo subjectInfo = dao.selectOne(mapper + "selectSubject", params);
+		taskInfo.setSubjectNo(subjectInfo.getSubjectNo());		//设置选题编号信息
+		//调用dao添加方法
+		dao.add(mapper+"addTaskInfo", taskInfo);
+	}
+	/* (non-Javadoc)
+	 * @see jxau.spms.phaseManagement.service.ReportService#queryTaskInfo(java.util.HashMap)
+	 * TODO 学生查询任务书信息
+	 */
+	@Override
+	public TaskInfoVo queryTaskInfo(HashMap<String, Object> params)
+			throws RuntimeException {
+		// TODO Auto-generated method stub
+		if (params == null) {		//判读参数是否为空
+			throw new UnusualParamsException("参数不能为空!");
+		}
+		//判断参数内容是否为空
+		if (params.get("studentNo") == null
+				||params.get("term") == null) {
+			throw new UnusualParamsException("请设置参数数值!");
+		}
+		TaskInfoVo taskInfo = dao.selectOne(mapper + "selectTaskInfo", params);	//调用dao查询方法
+		//判断信息是否存在
+		if (taskInfo == null) {
+			throw new CommonErrorException("导师尚未发布任务书");
+		}
+		
+		return taskInfo;
 	}
 
 }

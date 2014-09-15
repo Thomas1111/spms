@@ -188,7 +188,7 @@ function list(idstr){
 	  <table id="subtree3" style="DISPLAY: none" width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="left-table02">
 		<tr>
           <td width="9%" height="20" ><img id="xiaotu1" src="<%=basePath%>images/ico06.gif" width="8" height="12" /></td>
-          <td width="91%"><a href="<%=basePath%>files/admin/verifyTutorSubject.jsp" target="mainFrame" class="left-font03" onClick="tupian('1');">审核导师选题</a></td>
+          <td width="91%"><a href="<%=path%>/tutor/queryTutor?opeType=verifySub&currentPage=1" target="mainFrame" class="left-font03" onClick="tupian('1');">审核导师选题</a></td>
         </tr>
       </table>
 <!--毕设管理 -->

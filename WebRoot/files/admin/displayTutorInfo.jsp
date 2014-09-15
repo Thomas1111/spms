@@ -62,8 +62,6 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 <script src="<%=basePath%>/js/admin.js"></script>
 <script src="<%=basePath%>/js/spms.js"></script>
 </head>
-
-
 <body>
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -90,7 +88,8 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
         <tr>
           <td><table width="95%" border="0" align="center" cellpadding="0" cellspacing="0">
               <tr>
-                <td height="40" class="font42"><table width="100%" border="0" cellpadding="4" cellspacing="1" bgcolor="#464646" class="newfont03">
+                <td height="40" class="font42">
+                <table width="100%" border="0" cellpadding="4" cellspacing="1" bgcolor="#464646" class="newfont03">
                 <tr>
                     <td height="20" colspan="13" align="center" bgcolor="#EEEEEE"class="tablestyle_title"><center>导师基本信息表</center></td>
                 </tr>
@@ -117,12 +116,12 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                     	<s:property value="%{#request.tutorsInfo[#status.index].tutorName}" />
                     </td>
                     <td width="5%" align="center" bgcolor="#FFFFFF">
-                   	<s:if test='%{#request.tutorInfo[#status.index].sex}=="0"'>
-                    	女
-                    </s:if>
-                    <s:else>
-                    	<s:property value="%{#request.tutorsInfo[#status.index].sex}" />
-                    </s:else>
+                   <s:if test="#request.tutorsInfo[#status.index].sex==0">
+						男
+					</s:if> 
+					<s:else>
+						女	
+					</s:else>
                     </td>
                     <td width="15%" align="center" bgcolor="#FFFFFF">
                     	<s:property value="%{#request.tutorsInfo[#status.index].college}" />
@@ -153,19 +152,19 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                 </span> 第<span id="currentPage" class="right-text09">
                 	<s:property value="%{#request.pageVo.currentPage}" />
                 </span> 页</td>
-                <td width="49%" align="right">[<a class="right-font08" onclick="change('first',null)">
+                <td width="49%" align="right">[<a class="right-font08" onclick="changePageNum('first',null)">
                                                 首页</a> 
-                | <a class="right-font08" onclick="change('fore',null)">上一页</a>
-                | <a class="right-font08" onclick="change('next',null)">下一页</a> 
-                | <a class="right-font08" onclick="change('last',null)">末页</a>] 
+                | <a class="right-font08" onclick="changePageNum('fore',null)">上一页</a>
+                | <a class="right-font08" onclick="changePageNum('next',null)">下一页</a> 
+                | <a class="right-font08" onclick="changePageNum('last',null)">末页</a>] 
                                                 转至</td>
                 <td width="1%"><table width="20" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <td width="1%">
-                      <input id="changeNum" name="changeNum" type="text" class="right-textfield03" size="1" />
+                      <input id="changePageNumNum" name="changePageNumNum" type="text" class="right-textfield03" size="1" />
                       </td>
                       <td width="87%">
-                      <input name="sure" type="button" class="right-button06" onclick="change('input')"/>
+                      <input name="sure" type="button" class="right-button06" onclick="changePageNum('input')"/>
                       </td>
                     </tr>
                 </table>

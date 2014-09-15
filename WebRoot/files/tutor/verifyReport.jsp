@@ -57,35 +57,15 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 
 <link href="<%=basePath%>css/css.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="<%=basePath%>js/xiangmu.js"></script>
+<script src="<%=basePath%>js/report.js"></script>
+<script src="<%=basePath%>js/jquery-1.7.2.min.js"></script>
 </head>
-<SCRIPT language=JavaScript>
-function selectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			obj[i].checked = true;
-		}
-	}
-}
 
-function unselectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			if (obj[i].checked==true) obj[i].checked = false;
-			else obj[i].checked = true;
-		}
-	}
-}
-</SCRIPT>
-
-<body>
-<form name="fom" id="fom" method="post" action="">
+<body onload="initTerm()">
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">
-
   <tr>
-    <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <td height="30">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td height="62" background="<%=basePath%>images/nav04.gif">
           
@@ -95,13 +75,10 @@ function unselectAll(){
 			<td width="550" class="font051">
           选择学期：
           <select id="term" name="term" 
-      		onchange="reloadByterm(this.options
-      			[this.options.selectedIndex].value)">
-            <option>2011-2012</option>
-            <option>2012-2013</option>
-            <option>2013-2014</option>
-            <option>2014-2015</option>
+      		onchange="reloadReportByterm(this.options
+      			[this.options.selectedIndex].value),''">
           </select>
+          <input type="hidden" id="currentTerm" name="currentTerm" value="" />
       </td> 
 		  </tr>
         </table></td>
@@ -201,14 +178,5 @@ function unselectAll(){
   </td>
   </tr>
 </table>
-</form>
 </body>
-<SCRIPT language=JavaScript>
-//获取对应学期的学生信息
-function reloadByterm(term){
-	var tutorNo = <s:property value="#session.account" /> ;	//获取导师账号
-	//重定位,选择对应学期的学生信息
-	window.location.href = "<%=path%>/report/queryReport?tutorNo="+tutorNo+"&currentPage=1&reportTerm="+term;
-};
-</script>
 </html>

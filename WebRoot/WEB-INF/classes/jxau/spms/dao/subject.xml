@@ -15,6 +15,9 @@
 		<if test="term != null">
 			si.subTerm = #{term} and
 		</if>
+		<if test="subName != null">
+			si.subName = #{subName} and
+		</if>
 		<if test="subState != null">
 			si.exameState = #{subState} and
 		</if>
@@ -23,6 +26,20 @@
 		</if>
 		<if test="start != null">
 			limit #{start},#{number}
+		</if>
+		;
+    </select>
+    <!-- 获取选题信息数量 -->
+    <select id="getSubjectNum" parameterType="java.util.Map"  resultType="int">
+		select count(*) from subject_info si where 
+		<if test="term != null">
+			si.subTerm = #{term} and
+		</if>
+		<if test="subState != null">
+			si.exameState = #{subState} and
+		</if>
+		<if test="tutorNo != null">
+			si.tutorNo = #{tutorNo}
 		</if>
 		;
     </select>
@@ -40,6 +57,15 @@
 		</if>
 		;
     </select>
+     <!--管理员获取详细选题信息-->
+    <select id="selectSpeSub" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.SpecificSubjectVo">
+		select * from subject_info si,tutor_basic_info ti where 
+		si.tutorNo = ti.tutorNo and
+		<if test="subjectNo != null">
+			si.subjectNo = #{subjectNo} 
+		</if>
+		;
+    </select>
     <!--导师获取学生选题信息-->
     <select id="selectStuSub" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.StuSubjectVo">
 		select si.subjectNo,si.subName,sb.studentNo,sb.studentName,si.subTerm,si.stuExaState 
@@ -53,6 +79,14 @@
 			limit #{start},#{number}
 		</if>
 		;
+    </select>
+    <select id="getStuSubNum" parameterType="java.util.Map"  resultType="int">
+		select count(*) from subject_info si inner join stu_basic_info sb
+		on si.studentNo = sb.studentNo where 
+		<if test="term != null">
+			si.subTerm = #{term} and
+		</if>
+		si.tutorNo = #{tutorNo};
     </select>
 	 <!--导师获取学生选题结果-->
     <select id="selectSubResult" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.StuSubjectVo">
@@ -89,6 +123,21 @@
 		</if>
 		;
     </select>
+    <!-- 学生获取选题数量 -->
+     <select id="getSubInfoNum" parameterType="java.util.Map"  resultType="int">
+		select count(*) from subject_info si
+		inner join tutor_basic_info tb on si.tutorNo = tb.tutorNo
+		inner join stu_basic_info sb on sb.tutorNo = si.tutorNo
+		where 
+		<if test="term != null">
+			si.subTerm = #{term} and
+		</if>
+		<if test="subState != null">
+			si.exameState = #{subState} and
+		</if>
+		sb.studentNo = #{studentNo} 
+		;
+    </select>
      <!--学生获取选题信息(退选)-->
     <select id="selectCancelInfo" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.StuSubjectVo">
 		select si.subjectNo,si.subName,si.subTerm,si.applyNum,si.leftNum,si.stuExaState,tb.tutorName from subject_info si
@@ -114,7 +163,7 @@
    <insert id="addSubject" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="subjectNo">
 		insert into subject_info values
 			(null,#{subTerm},#{subName},#{subSource},#{papLocation},
-			 #{subType},#{subPosition},#{subBrief},#{applyTime},#{exameState},#{stuExaState},null,null,#{tutorNo});
+			 #{subType},#{subPosition},#{subBrief},#{applyTime},#{applyNum},#{leftNum},#{exameState},#{stuExaState},null,null,#{tutorNo});
     </insert>
    <!--审核选题信息-->
    <update id="verStuSubject" parameterType="java.util.Map">
@@ -129,8 +178,8 @@
 		<if test="studentNo != null">
 			si.studentNo = #{studentNo}
 		</if>
-		<if test="tutorNo != null">
-			si.tutorNo = #{tutorNo}
+		<if test="subjectNo != null">
+			si.subjectNo = #{subjectNo}
 		</if>
 		;
     </update>

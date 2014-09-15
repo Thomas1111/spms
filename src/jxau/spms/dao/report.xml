@@ -37,11 +37,28 @@
 		</if>
 		;
     </select>
+     <!--学生获取任务书信息-->
+    <select id="selectTaskInfo" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.TaskInfoVo">
+		select si.subName,ti.content,ti.diagram,ti.indicator,ti.schedule,ti.reference
+		from subject_info si inner join task_info ti
+		on si.subjectNo = ti.subjectNo
+		where
+		<if test="term != null">
+			si.subTerm = #{term} and
+		</if>
+			si.studentNo = #{studentNo}
+		;
+    </select>
      <!--添加信息-->
     <insert id="addReportInfo" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="reportNo">
 		insert into report_info values
 			(#{reportNo},#{studentNo},#{tutorNo},#{uploadTime},
 			 #{exameState},#{memo},#{reportTerm},#{identifier});
     </insert>
-    
+    <!--添加信息-->
+    <insert id="addTaskInfo" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="taskNo">
+		insert into task_info values
+			(null,#{subjectNo},#{content},#{diagram},
+			 #{indicator},#{schedule},#{reference});
+    </insert>
 </mapper>

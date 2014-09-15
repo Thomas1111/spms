@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%> 
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -62,52 +63,8 @@ html {
 
 <link href="<%=basePath%>css/css.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="<%=basePath%>js/xiangmu.js"></script>
+
 </head>
-<SCRIPT language=JavaScript>
-	function sousuo() {
-		window
-				.open(
-						"gaojisousuo.htm",
-						"",
-						"depended=0,alwaysRaised=1,width=800,height=510,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-	}
-	function selectAll() {
-		var obj = document.fom.elements;
-		for ( var i = 0; i < obj.length; i++) {
-			if (obj[i].name == "delid") {
-				obj[i].checked = true;
-			}
-		}
-	}
-
-	function unselectAll() {
-		var obj = document.fom.elements;
-		for ( var i = 0; i < obj.length; i++) {
-			if (obj[i].name == "delid") {
-				if (obj[i].checked == true)
-					obj[i].checked = false;
-				else
-					obj[i].checked = true;
-			}
-		}
-	}
-
-	function link() {
-		document.getElementById("fom").action = "xiangmu.htm";
-		document.getElementById("fom").submit();
-	}
-
-	function on_load() {
-		var loadingmsg = document.getElementById("loadingmsg");
-		var mainpage = document.getElementById("mainpage");
-		loadingmsg.style.display = "";
-		mainpage.style.display = "none";
-
-		loadingmsg.style.display = "none";
-		mainpage.style.display = "";
-	}
-</SCRIPT>
 
 <body>
 	<form name="fom" id="fom" method="post" action="">
@@ -128,7 +85,7 @@ html {
 										</td>
 										<td width="550" class="font051">导师详细选题信息 <input
 											type="button" name="allocation" value="返回" class="font201"
-											onclick="javascript:window.location.href='<%=basePath%>files/admin/displaySubject.jsp'" />
+											onclick="javascript:window.location.href='<%=path%>/subject/displaySubject?currentPage=1&term=2014-2015&tutorNo='+<s:property value="%{#request.speSubVo.tutorNo}"/>" />
 										</td>
 									</tr>
 								</table>
@@ -159,57 +116,77 @@ html {
 													<td width="10%" height="20" align="center"
 														bgcolor="#EEEEEE">*题目名称</td>
 													<td width="10%" align="center" bgcolor="#FFFFFF"
-														colspan="9">基于B/S架构的飞机航班订票系统的设计与开发</td>
+														colspan="9">
+														<s:property value="%{#request.speSubVo.subName}" />
+														</td>
 												</tr>
 												<tr align="center">
 													<td width="10%" height="20" align="center"
 														bgcolor="#EEEEEE">*题目来源</td>
 													<td width="10%" align="center" bgcolor="#FFFFFF"
-														colspan="5">横向且有经费</td>
+														colspan="5">
+														<s:property value="%{#request.speSubVo.subSource}" />
+														</td>
 													<td width="10%" height="20" align="center"
 														bgcolor="#EEEEEE" colspan="2">*毕业设计论文地点</td>
 													<td width="10%" align="center" bgcolor="#FFFFFF"
-														colspan="2">5教102</td>
+														colspan="2">
+															<s:property value="%{#request.speSubVo.papLocation}" />
+														</td>
 												</tr>
 												<tr align="center">
 													<td width="10%" height="20" align="center"
 														bgcolor="#EEEEEE">*题目类型</td>
 													<td width="10%" align="center" bgcolor="#FFFFFF"
-														colspan="9">运用于理论结合研究</td>
+														colspan="9">
+														<s:property value="%{#request.speSubVo.subType}" />
+														</td>
 												</tr>
 												<tr align="center">
 													<td width="10%" height="20" bgcolor="#EEEEEE">导师姓名</td>
-													<td width="10%" align="center" bgcolor="#FFFFFF">彭莹琼</td>
+													<td width="10%" align="center" bgcolor="#FFFFFF">
+														<s:property value="%{#request.speSubVo.tutorName}" />
+													</td>
 													<td width="10%" align="center" bgcolor="#EEEEEE">性别</td>
-													<td width="5%" align="center" bgcolor="#FFFFFF">女</td>
+													<td width="5%" align="center" bgcolor="#FFFFFF">
+														<s:property value="%{#request.speSubVo.sex}" />
+													</td>
 													<td width="10%" align="center" bgcolor="#EEEEEE">年龄</td>
-													<td width="10%" height="20" bgcolor="#FFFFFF">38</td>
+													<td width="10%" height="20" bgcolor="#FFFFFF">
+														<s:property value="%{#request.speSubVo.age}" />
+													</td>
 													<td width="10%" align="center" bgcolor="#EEEEEE">职称</td>
-													<td width="10%" align="center" bgcolor="#FFFFFF">副教授</td>
+													<td width="10%" align="center" bgcolor="#FFFFFF">
+														<s:property value="%{#request.speSubVo.tutorTitle}" />
+													</td>
 													<td width="5%" align="center" bgcolor="#EEEEEE">学位</td>
-													<td width="10%" align="center" bgcolor="#FFFFFF">学士</td>
+													<td width="10%" align="center" bgcolor="#FFFFFF">
+														<s:property value="%{#request.speSubVo.eduBackground}" />
+													</td>
 												</tr>
 												<tr align="center">
 													<td width="10%" height="20" bgcolor="#EEEEEE">所在单位</td>
 													<td width="10%" align="center" bgcolor="#FFFFFF"
 														colspan="2">江西农业大学</td>
 													<td width="10%" align="center" bgcolor="#EEEEEE">所学专业</td>
-													<td width="5%" align="center" bgcolor="#FFFFFF" colspan="2">软件工程</td>
+													<td width="5%" align="center" bgcolor="#FFFFFF" colspan="2">
+														<s:property value="%{#request.speSubVo.major}" />
+													</td>
 													<td width="10%" align="center" bgcolor="#EEEEEE">*来自</td>
-													<td width="10%" height="20" bgcolor="#FFFFFF">校内</td>
+													<td width="10%" height="20" bgcolor="#FFFFFF">
+														<s:property value="%{#request.speSubVo.subPosition}" />
+													</td>
 													<td width="10%" align="center" bgcolor="#EEEEEE">电话</td>
-													<td width="10%" align="center" bgcolor="#FFFFFF">180705114243</td>
+													<td width="10%" align="center" bgcolor="#FFFFFF">
+														<s:property value="%{#request.speSubVo.telephone}" />
+													</td>
 												</tr>
 												<tr align="center">
 													<td width="10%" height="20" align="center"
 														bgcolor="#FFFFFF" rowspan="4" colspan="10">
 														<fieldset style="height:100%;">
 															<legend>*选题介绍：（主要内容、现有条件、时间安排、预期结果及表现形式）</legend>
-															该系统在B/S模式开发，具有良好的界面交互性以及较好的页面响应能力
-															该系统在B/S模式开发，具有良好的界面交互性以及较好的页面响应能力
-															该系统在B/S模式开发，具有良好的界面交互性以及较好的页面响应能力
-															该系统在B/S模式开发，具有良好的界面交互性以及较好的页面响应能力
-															该系统在B/S模式开发，具有良好的界面交互性以及较好的页面响应能力该系统在B/S模式开发，具有良好的界面交互性以及较好的页面响应能力
+															<s:property value="%{#request.speSubVo.subBrief}" />
 														</fieldset></td>
 												</tr>
 											</table>

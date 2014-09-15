@@ -13,6 +13,8 @@ public class SubjectInfo {
 	private String subPosition;
 	private String subBrief;
 	private String applyTime;
+	private int applyNum;
+	private int leftNum;
 	private int exameState;
 	private int stuExaState;
 	private String memo;
@@ -88,6 +90,18 @@ public class SubjectInfo {
 	}
 	public void setExameState(int exameState) {
 		this.exameState = exameState;
+	}
+	public int getApplyNum() {
+		return applyNum;
+	}
+	public void setApplyNum(int applyNum) {
+		this.applyNum = applyNum;
+	}
+	public int getLeftNum() {
+		return leftNum;
+	}
+	public void setLeftNum(int leftNum) {
+		this.leftNum = leftNum;
 	}
 	public int getStuExaState() {
 		return stuExaState;

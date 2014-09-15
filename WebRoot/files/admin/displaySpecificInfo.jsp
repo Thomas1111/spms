@@ -59,47 +59,8 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<%=basePath%>js/xiangmu.js"></script>
 </head>
-<SCRIPT language=JavaScript>
-function sousuo(){
-	window.open("gaojisousuo.htm","","depended=0,alwaysRaised=1,width=800,height=510,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-}
-function selectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			obj[i].checked = true;
-		}
-	}
-}
 
-function unselectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			if (obj[i].checked==true) obj[i].checked = false;
-			else obj[i].checked = true;
-		}
-	}
-}
-
-function link(){
-    document.getElementById("fom").action="xiangmu.htm";
-   document.getElementById("fom").submit();
-}
-
-function on_load(){
-	var loadingmsg=document.getElementById("loadingmsg");
-	var mainpage=document.getElementById("mainpage");
-	loadingmsg.style.display="";
-	mainpage.style.display="none";
-	
-	loadingmsg.style.display="none";
-	mainpage.style.display="";
-}
-</SCRIPT>
-
-<body onload="on_load()">
-<form name="fom" id="fom" method="post" action="">
+<body>
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">
 
   <tr>
@@ -124,11 +85,13 @@ function on_load(){
               <tr>
                 <td height="40" class="font42"><table width="100%" border="0" cellpadding="4" cellspacing="1" bgcolor="#464646" class="newfont03">
                 <tr>
-                    <td height="20" colspan="13" align="center" bgcolor="#EEEEEE"class="tablestyle_title"><center>导师基本信息表</cente></td>
+                    <td height="20" colspan="13" align="center" bgcolor="#EEEEEE"class="tablestyle_title"><center>导师基本信息表</center></td>
                 </tr>
                   <tr>
                     <td width="10%" height="20" align="center" bgcolor="#EEEEEE">姓名</td>
-                    <td width="10%" align="center" bgcolor="#FFFFFF">彭莹琼</td>
+                    <td width="10%" align="center" bgcolor="#FFFFFF">
+                    	<s:property value="%{#request.pageVo.pageNum}" />
+                    </td>
                     <td width="10%" align="center" bgcolor="#EEEEEE">性别</td>
                     <td width="5%" align="center" bgcolor="#FFFFFF">女</td>
                     <td width="10%" align="center" bgcolor="#EEEEEE">民族</td>
@@ -172,6 +135,5 @@ function on_load(){
       </table></td>
   </tr>
 </table>
-</form>
 </body>
 </html>

@@ -6,11 +6,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.scripting.xmltags.VarDeclSqlNode;
 import org.springframework.stereotype.Service;
 
 import jxau.spms.abstraction.dao.Dao;
 import jxau.spms.common.po.SubjectInfo;
 import jxau.spms.common.vo.PageVo;
+import jxau.spms.common.vo.SpecificSubjectVo;
 import jxau.spms.common.vo.StuSubjectVo;
 import jxau.spms.common.vo.VerTutorSubVo;
 import jxau.spms.exception.CommonErrorException;
@@ -44,6 +46,7 @@ public class SubjectServiceImple implements SubjectService {
 	public <E> List<E> querySubject(Map<String, Object> params,PageVo pageVo,String type)
 		throws UnusualParamsException,CommonErrorException{
 		// TODO Auto-generated method stub
+		int count = 0;
 		if (params == null) {	//检查查询参数
 			throw new UnusualParamsException("参数不能为空");
 		}
@@ -56,26 +59,29 @@ public class SubjectServiceImple implements SubjectService {
 		//调用dao方法
 		if ("subInfo".equals(type)||type == null) {	//判断是否是导师查询选题信息
 			subjectInfos = dao.select(mapper + "selectSubject", params);
-			
+			count = dao.selectOne(mapper + "getSubjectNum", params);
 		}else if("stuSubInfo".equals(type)) {		//查询学生选题基本信息
 			subjectInfos = dao.select(mapper + "selectStuSub", params);
 			if (subjectInfos.size() == 0) {		//判读选题信息是否为空
 				throw new CommonErrorException("还未有人申请选题");
 			}
+			count = dao.selectOne(mapper + "getStuSubNum", params);
 		}else if ("stuCancelInfo".equals(type)) {
 			subjectInfos = dao.select(mapper + "selectCancelInfo", params);
 			if (subjectInfos.size() == 0) {		//判读选题信息是否为空
 				throw new CommonErrorException("你还未申请选题");
 			}
+			count = subjectInfos.size();
 		}else {
 			subjectInfos = dao.select(mapper + "selectSubInfo", params);
+			count = dao.selectOne(mapper + "getSubInfoNum", params);
 		}
 		
 		if (subjectInfos.size() == 0) {		//判读选题信息是否为空
 			throw new CommonErrorException("选题信息不存在");
 		}else {
 			if (pageVo != null) {		//判断pageVo 是否为空
-				pageVo.setCount(subjectInfos.size());	//设置查询数量
+				pageVo.setCount(count);	//设置查询数量
 			}
 		}
 		
@@ -92,6 +98,8 @@ public class SubjectServiceImple implements SubjectService {
 		//设置状态系数
 		subjectInfo.setExameState(2);	//设置选题审核状态为'审核中状态'
 		subjectInfo.setStuExaState(0);	//设置学生选题审核状态为'未提交状态'
+		subjectInfo.setApplyNum(1);		//设置上限人数
+		subjectInfo.setLeftNum(1);		//设置剩余人数
 		//调用dao插入方法
 		dao.add(mapper+"addSubject", subjectInfo);
 	}
@@ -171,6 +179,7 @@ public class SubjectServiceImple implements SubjectService {
 	public Map<String, Object> querySubResult(Map<String, Object> params,
 			PageVo pageVo) throws RuntimeException {
 		// TODO Auto-generated method stub
+		int count = 0;
 		Map<String, Object> resultInfo = new HashMap<String, Object>();
 		if (params == null) {	//检查查询参数
 			throw new UnusualParamsException("参数不能为空");
@@ -185,7 +194,8 @@ public class SubjectServiceImple implements SubjectService {
 		if (subjectInfos.size() == 0) {		//判读选题信息是否为空
 			throw new CommonErrorException("学生选题结果为空");
 		}
-		pageVo.setCount(subjectInfos.size());	//设置查询数量
+		count = dao.selectOne(mapper + "getStuSubNum", params);		//获取查询数量
+		pageVo.setCount(count);		//设置查询数量
 		//获取已发布任务书的选题
 		List<Integer> subjectNos = dao.select(mapper + "selectSubResult", params);
 		//设置结果信息
@@ -203,6 +213,7 @@ public class SubjectServiceImple implements SubjectService {
 	public <E> List<E> queryTutSub(Map<String, Object> params,
 			PageVo pageVo) throws RuntimeException {
 		// TODO Auto-generated method stub
+		int count = 0;
 		if (params == null) {	//检查查询参数
 			throw new UnusualParamsException("参数不能为空");
 		}
@@ -215,13 +226,29 @@ public class SubjectServiceImple implements SubjectService {
 		//调用dao获取导师选题数量(使用触发器)
 		//List<SubjectInfo> subNum = dao.select(mapper + "selectSubject", params);
 		List<E> subjectInfos = dao.select(mapper + "selectTutors", params);
-		
-		pageVo.setCount(subjectInfos.size());	//设置查询数量
-		if (subjectInfos.size() == 0) {		//判读选题信息是否为空
+		count = dao.selectOne(mapper + "getTutorNum", params);		//获取总数量
+		pageVo.setCount(count);	//设置查询数量
+		if (count == 0) {		//判读选题信息是否为空
 			throw new CommonErrorException("暂时没有导师尚提交选题信息");
 		}
-		
 		return subjectInfos;
+	}
+
+	@Override
+	public SpecificSubjectVo querySpeSub(Map<String, Object> params)
+			throws RuntimeException {
+		// TODO Auto-generated method stub
+		if (params == null) {	//检查查询参数
+			throw new UnusualParamsException("参数不能为空");
+		}
+		if (params.get("subjectNo") == null) {
+			throw new UnusualParamsException("缺少重要参数");
+		}
+		SpecificSubjectVo speSubVo = dao.selectOne(mapper + "selectSpeSub", params);
+		if (speSubVo == null) {
+			throw new CommonErrorException("对不起，信息错误");
+		}
+		return speSubVo;
 	}
 
 }

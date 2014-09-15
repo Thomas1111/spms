@@ -94,10 +94,10 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                 <tr align="center">
                     <td width="10%" height="20" align="center" bgcolor="#EEEEEE">*题目来源</td>
                     <td width="10%" align="center" bgcolor="#FFFFFF" colspan="5">
-                      <input type="radio" name="subSource" value="ministry" /> 省部级以上
-                      <input type="radio" name="subSource" value="fee" /> 横向且有经费
-                      <input type="radio" name="subSource" value="selectOn" /> 自选
-                      <input type="radio" name="subSource" value="city" /> 市厅级
+                      <input type="radio" name="subSource" value="省部级以上" /> 省部级以上
+                      <input type="radio" name="subSource" value="横向且有经费" /> 横向且有经费
+                      <input type="radio" name="subSource" value="自选" /> 自选
+                      <input type="radio" name="subSource" value="市厅级" /> 市厅级
                     </td>
                     <td width="10%" height="20" align="center" bgcolor="#EEEEEE" colspan="2">*毕业设计论文地点</td>
                     <td width="10%" align="center" bgcolor="#FFFFFF" colspan="2">
@@ -107,9 +107,9 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                  <tr align="center">
                    <td width="10%" height="20" align="center" bgcolor="#EEEEEE">*题目类型</td>
                     <td width="10%" align="center" bgcolor="#FFFFFF" colspan="9">
-                      <input type="radio" name="subType" value="pragmatism"  /> 实际运用研究
-                      <input type="radio" name="subType" value="theory" /> 理论研究
-                      <input type="radio" name="subType" value="praAndTheory" /> 运用于理论结合研究
+                      <input type="radio" name="subType" value="实际运用研究"  /> 实际运用研究
+                      <input type="radio" name="subType" value="实际运用研究" /> 实际运用研究
+                      <input type="radio" name="subType" value="运用于理论结合研究" /> 运用于理论结合研究
                     </td>
                 </tr>
                   <tr align="center">

@@ -61,6 +61,8 @@ public class QuerySubjectAsyc extends ActionSupport {
 		String utility = request.getParameter("utility");	//获取用途参数
 		if ("asyc".equals(type)) {
 			pageVo = new PageVo();
+			String currentPage = request.getParameter("currentPage");
+			pageVo.setCurrentPage(Integer.parseInt(currentPage));
 		}
 		//设置查询条件
 		HashMap<String, Object> params = new HashMap<>();
@@ -70,15 +72,16 @@ public class QuerySubjectAsyc extends ActionSupport {
 			params.put("subState", subState);
 		}
 		//判断角色参数
-		if (role == 1) {
-			String studentNo = (String) session.getAttribute("account");
-			params.put("studentNo", studentNo);
+		if (role == 1) {	//角色为学生
+			String studentNo = (String) session.getAttribute("account");	//获取账号信息
+			params.put("studentNo", studentNo);		//设置学生学号参数
 		}else if (role == 2){
 			String tutorNo = (String)session.getAttribute("account");
-			params.put("tutorNo", tutorNo);
-			params.put("stuExaState",1);	//设置学生选题状态为通过
-		}else {
-			params.put("tutorNo",null);
+			params.put("tutorNo", tutorNo);		//设置导师参数
+			params.put("stuExaState",1);	//设置学生选题状态为通过	
+		}else {			//角色为管理员
+			String tutorNo = (String) request.getParameter("tutorNo");	//管理员获取导师工号
+			params.put("tutorNo",tutorNo);		//设置导师工号
 		}
 		params.put("term",term);	//设置学期参数
 		try {
@@ -92,7 +95,6 @@ public class QuerySubjectAsyc extends ActionSupport {
 		}
 		
 		return SUCCESS;
-		
 	}
 	
 	/**
@@ -105,6 +107,8 @@ public class QuerySubjectAsyc extends ActionSupport {
 		//设置查询条件
 		HashMap<String, Object> params = new HashMap<>();
 		pageVo = new PageVo();
+		String currentPage = request.getParameter("currentPage");	//获取当前页面
+		pageVo.setCurrentPage(Integer.parseInt(currentPage));		//设置当前页面
 		String term =request.getParameter("term");		//获取学期信息
 		String tutorNo = (String)session.getAttribute("account");
 		params.put("tutorNo", tutorNo);	//设置导师账号参数
@@ -125,7 +129,7 @@ public class QuerySubjectAsyc extends ActionSupport {
 	}
 	
 	/**
-	 * TODO	获取学生选题结果
+	 * TODO	获取导师选题信息
 	 * @return 
 	 */
 	@SuppressWarnings("unchecked")
@@ -134,6 +138,8 @@ public class QuerySubjectAsyc extends ActionSupport {
 		//设置查询条件
 		HashMap<String, Object> params = new HashMap<>();
 		pageVo = new PageVo();
+		String currentPage = request.getParameter("currentPage");	//获取当前页面
+		pageVo.setCurrentPage(Integer.parseInt(currentPage));		//设置当前页面
 		String term =request.getParameter("term");		//获取学期信息
 		String adminNo = (String)session.getAttribute("account");
 		

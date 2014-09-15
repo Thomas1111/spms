@@ -136,13 +136,14 @@ html {
 													<td width="10%" align="center" bgcolor="#FFFFFF"><s:property
 															value="%{#request.tutorsInfo[#status.index].tutorName}" />
 													</td>
-													<td width="5%" align="center" bgcolor="#FFFFFF"><s:if
-															test='%{#request.tutorInfo[#status.index].sex}=="0"'>
-                    	女
-                    </s:if> <s:else>
-															<s:property
-																value="%{#request.tutorsInfo[#status.index].sex}" />
-														</s:else></td>
+													<td width="5%" align="center" bgcolor="#FFFFFF">
+													<s:if test="#request.tutorsInfo[#status.index].sex}==0">
+								                    	男
+								                    </s:if> 
+								                    <s:else>
+														女	
+													</s:else>
+													</td>
 													<td width="15%" align="center" bgcolor="#FFFFFF"><s:property
 															value="%{#request.tutorsInfo[#status.index].college}" />
 													</td>
@@ -181,18 +182,18 @@ html {
 										class="right-text09"> <s:property
 												value="%{#request.pageVo.currentPage}" /> </span> 页</td>
 									<td width="49%" align="right">[<a 
-										class="right-font08" onclick="getFirstPage()"> 首页</a> | <a
-										class="right-font08" onclick="change('fore')">上一页</a>
-										| <a class="right-font08" onclick="change('next')">下一页</a>
-										| <a class="right-font08" onclick="change('last')">末页</a>]
+										class="right-font08" onclick="changePageNum('first',1)"> 首页</a> | <a
+										class="right-font08" onclick="changePageNum('fore',1)">上一页</a>
+										| <a class="right-font08" onclick="changePageNum('next',1)">下一页</a>
+										| <a class="right-font08" onclick="changePageNum('last',1)">末页</a>]
 										转至</td>
 									<td width="1%"><table width="20" border="0"
 											cellspacing="0" cellpadding="0">
 											<tr>
-												<td width="1%"><input id="changeNum" name="changeNum"
+												<td width="1%"><input id="changePageNumNum" name="changePageNumNum"
 													type="text" class="right-textfield03" size="1" /></td>
 												<td width="87%"><input name="sure" type="button"
-													class="right-button06" onclick="change('input')" /></td>
+													class="right-button06" onclick="changePageNum('input',1)" /></td>
 											</tr>
 										</table></td>
 								</tr>

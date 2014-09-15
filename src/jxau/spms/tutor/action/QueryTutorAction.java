@@ -61,7 +61,8 @@ public class QueryTutorAction extends ActionSupport implements SessionAware{
 					flag = "admin";
 					//判断管理员的操作类型,确定跳转路径
 					String path = request.getParameter("opeType"); 	//获取跳转参数
-					if ("adminManifest".equals(path)) {
+					if ("adminManifest".equals(path)
+							|| "verifySub".equals(path)) {
 						flag = path;		
 					}
 				} catch (UnusualParamsException e) {

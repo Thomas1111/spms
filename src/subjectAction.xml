@@ -10,11 +10,12 @@
         <action name="addSubject" class="jxau.spms.subjectManagement.action.AddSubjectAction" method="addSubject">  
             <result>/files/tutor/addSubject.jsp</result>
         </action>
-        <!-- 
-         <action name="verifySubject" class="jxau.spms.subjectManagement.action.VerifySubjectAction" method="verifySubject">  
-            <result>/files/tutor/verifySubject.jsp</result>
+      
+         <action name="displaySubject" class="jxau.spms.subjectManagement.action.DisplaySubjectInfo" method="displaySubInfo">  
+            <result name="verify">/files/admin/displaySubject.jsp</result>
+             <result name="specificInfo">/files/admin/displaySpeSubInfo.jsp</result>
         </action>       
-         -->
+       
     </package> 
  
    

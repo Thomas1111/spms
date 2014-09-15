@@ -57,51 +57,12 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 
 <link href="<%=basePath%>css/css.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="<%=basePath%>js/xiangmu.js"></script>
+<script src="<%=basePath%>js/tutor.js"></script>
+<script src="<%=basePath%>js/jquery-1.7.2.min.js"></script>
 </head>
-<SCRIPT language=JavaScript>
-function sousuo(){
-	window.open("gaojisousuo.htm","","depended=0,alwaysRaised=1,width=800,height=510,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-}
-function selectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			obj[i].checked = true;
-		}
-	}
-}
 
-function unselectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			if (obj[i].checked==true) obj[i].checked = false;
-			else obj[i].checked = true;
-		}
-	}
-}
-
-function link(){
-    document.getElementById("fom").action="xiangmu.htm";
-   document.getElementById("fom").submit();
-}
-
-function on_load(){
-	var loadingmsg=document.getElementById("loadingmsg");
-	var mainpage=document.getElementById("mainpage");
-	loadingmsg.style.display="";
-	mainpage.style.display="none";
-	
-	loadingmsg.style.display="none";
-	mainpage.style.display="";
-}
-</SCRIPT>
-
-<body onload="on_load()">
-<form name="fom" id="fom" method="post" action="">
+<body onload="initTaskInfo()">
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">
-
   <tr>
     <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
@@ -112,12 +73,9 @@ function on_load(){
 			<td width="21"><img src="<%=basePath%>images/ico07.gif" width="20" height="18" /></td>
 			<td width="550" class="font051">
           选择学期：
-          <select name="term">
-            <option>2011-2012</option>
-            <option>2012-2013</option>
-            <option>2013-2014</option>
+          <select id="term" name="term">
           </select>
-          选题名称：基于B/S架构的飞机航班订票系统的设计与开发
+        	  选题名称：<span id="subName">基于B/S架构的飞机航班订票系统的设计与开发</span>
       </td> 
 		  </tr>
         </table></td>
@@ -128,7 +86,7 @@ function on_load(){
   <tr>
     <td>
     	<fieldset style="height:100%;">
-                  <legend>发布任务书</legend>
+                  <legend>查看任务书</legend>
     	<table id="subtree1" style="DISPLAY: " width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td>
@@ -136,61 +94,55 @@ function on_load(){
               <tr>
                 <td height="40" class="font42">
                   <table width="100%" border="0" cellpadding="4" cellspacing="1" bgcolor="#464646" class="newfont03">
-                  <tr>
+                  <tr rowspan="5">
                     <td height="20" align="left" bgcolor="#FFFFFF" class="tdTitle">一、毕业设计的主要内容和基本要求</td>
                   </tr>
                   <tr align="center" rowspan="5">
-                    <td height="100" align="center" bgcolor="#FFFFFF">
+                    <td id="content" height="100" align="center" bgcolor="#FFFFFF">
                          
                     </td>
                   </tr>
-                   <tr>
+                   <tr rowspan="5">
                     <td height="20" align="left" bgcolor="#FFFFFF" class="tdTitle">二、毕业设计图纸内容及张数</td>
                   </tr>
-                  <tr align="center" rowspan="5">
-                    <td height="100" align="center" bgcolor="#FFFFFF">
+                  <tr rowspan="5" align="center">
+                    <td id="diagram" height="100" align="center" bgcolor="#FFFFFF">
                         
                     </td>
                   </tr>
-                   <tr>
+                   <tr rowspan="5" >
                     <td height="20" align="left" bgcolor="#FFFFFF" class="tdTitle">三、毕业设计应完成的软硬件的名称、内容及主要技术指标</td>
                   </tr>
-                  <tr align="center" rowspan="5">
-                    <td height="100" align="center" bgcolor="#FFFFFF">
+                  <tr rowspan="5" align="center">
+                    <td id="indicator" height="100" align="center" bgcolor="#FFFFFF" >
                         
                     </td>
                   </tr>
-                   <tr>
+                   <tr rowspan="5">
                     <td height="20" align="left" bgcolor="#FFFFFF" class="tdTitle">四、毕业设计进度计划</td>
                   </tr>
-                  <tr align="center" rowspan="5">
-                    <td height="100" align="center" bgcolor="#FFFFFF">
+                  <tr rowspan="5" align="center">
+                    <td id="schedule" height="100" align="center" bgcolor="#FFFFFF">
                        
                     </td>
                   </tr>
-                   <tr>
+                   <tr rowspan="5">
                     <td height="20" align="left" bgcolor="#FFFFFF" class="tdTitle">五、主要参考资料</td>
                   </tr>
-                  <tr align="center" rowspan="5">
-                    <td height="100" align="center" bgcolor="#FFFFFF">
+                  <tr rowspan="5" align="center">
+                    <td id="reference" height="100" align="center" bgcolor="#FFFFFF">
                         
                     </td>
                   </tr>
-                </table></td>
+                </table>
+                </td>
               </tr>
             </table>
         </td>
         </tr>
       </table>
+       </fieldset>
      </td>
               </tr>
           </table>
-       </fieldset>
-      </td>
-     </tr>
-      </table>
-  </td>
-  </tr>
-</table>
-</form>
 </body>

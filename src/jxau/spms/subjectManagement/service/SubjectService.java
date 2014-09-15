@@ -5,6 +5,7 @@ import java.util.Map;
 
 import jxau.spms.common.po.SubjectInfo;
 import jxau.spms.common.vo.PageVo;
+import jxau.spms.common.vo.SpecificSubjectVo;
 import jxau.spms.common.vo.StuSubjectVo;
 import jxau.spms.common.vo.VerTutorSubVo;
 
@@ -43,6 +44,15 @@ public interface SubjectService {
 	 */
 	public <E> List<E> queryTutSub(Map<String, Object> params,PageVo pageVo)
 			throws RuntimeException;
+	
+	/**
+	 * TODO 获取导师选题详细信息
+	 * 下午4:11:20
+	 * @param subjectNo
+	 * @return	详细选题信息vo
+	 * @throws RuntimeException
+	 */
+	public SpecificSubjectVo querySpeSub(Map<String, Object> params) throws RuntimeException;
 	/**
 	 * TODO 增加选题信息
 	 * @param subjectInfo 选题信息实体

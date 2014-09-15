@@ -57,18 +57,12 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 
 <link href="<%=basePath%>css/css.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
-<script src="<%=basePath%>js/xiangmu.js"></script>
 <script src="<%=basePath%>js/tutor.js"></script>
 <script src="<%=basePath%>/js/jquery-1.7.2.min.js"></script>
 </head>
-<SCRIPT language=JavaScript>
-
-</SCRIPT>
 
 <body onload="initCascadeInfo('no')">
-<form name="fom" id="fom" method="post" action="">
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">
-
   <tr>
     <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
@@ -76,7 +70,8 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
           
 		   <table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
 		  <tr>
-			<td width="21"><img src="<%=basePath%>images/ico07.gif" width="20" height="18" /></td>
+			<td width="21">
+			<img src="<%=basePath%>images/ico07.gif" width="20" height="18" /></td>
 			<td width="550" class="font051">
           选择学期：
          <select id="term" name="term" 
@@ -95,6 +90,7 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
   </tr>
   <tr>
     <td>
+    <form id="addtTask" name="addtTask" method="post" action="" onsubmit="return checkTaskInfo()">
     	<fieldset style="height:100%;">
                   <legend>发布任务书</legend>
     	<table id="subtree1" style="DISPLAY: " width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -109,7 +105,7 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                   </tr>
                   <tr align="center">
                     <td height="20" align="center" bgcolor="#FFFFFF">
-                        <textarea name="content" rows="5" cols="180"> </textarea> 
+                        <textarea id="content" name="content" rows="5" cols="180"> </textarea> 
                     </td>
                   </tr>
                    <tr>
@@ -117,7 +113,7 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                   </tr>
                   <tr align="center">
                     <td height="20" align="center" bgcolor="#FFFFFF">
-                        <textarea name="digram" rows="5" cols="180"> </textarea> 
+                        <textarea id="digram" name="digram" rows="5" cols="180"> </textarea> 
                     </td>
                   </tr>
                    <tr>
@@ -125,7 +121,7 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                   </tr>
                   <tr align="center">
                     <td height="20" align="center" bgcolor="#FFFFFF">
-                        <textarea name="index" rows="5" cols="180"> </textarea> 
+                        <textarea id="index" name="index" rows="5" cols="180"> </textarea> 
                     </td>
                   </tr>
                    <tr>
@@ -133,7 +129,7 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                   </tr>
                   <tr align="center">
                     <td height="20" align="center" bgcolor="#FFFFFF">
-                        <textarea name="schedlue" rows="5" cols="180"> </textarea> 
+                        <textarea id="schedlue" name="schedlue" rows="5" cols="180"> </textarea> 
                     </td>
                   </tr>
                    <tr>
@@ -141,13 +137,13 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                   </tr>
                   <tr align="center">
                     <td height="20" align="center" bgcolor="#FFFFFF">
-                        <textarea name="reference" rows="5" cols="180"> </textarea> 
+                        <textarea id="reference" name="reference" rows="5" cols="180"> </textarea> 
                     </td>
                   </tr>
                   <tr align="center">
                     <td height="20" align="center" bgcolor="#FFFFFF">
                         <input type="submit" name="add" value="发布" class="button" />
-                        <input type="button" name="cancel" value="重置" class="button" />
+                        <input type="button" name="cancel" value="重置" class="button" onclick="resetTaskInfo()"/>
                     </td>
                   </tr>
                 </table>
@@ -158,9 +154,9 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
         </tr>
       </table>
        </fieldset>
+       </form>
      </td>
     </tr>
   </table>
-</form>
 </body>
 </html>

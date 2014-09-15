@@ -78,9 +78,9 @@ public class OpeSubjectAction extends ActionSupport {
 	public String verifySubject(){
 		message = "审核成功";
 		HashMap<String, Object> params = new HashMap<>();
-		int role = (int) session.getAttribute("role");	//获取角色编号
 		String term = request.getParameter("term");
 		params.put("term", term);		//设置学期参数
+		int role = (int) session.getAttribute("role");	//获取角色编号
 		//判断角色用户
 		if (role == 2) {	//判断是否是导师角色
 			//设置导师审核学生选题信息
@@ -88,7 +88,7 @@ public class OpeSubjectAction extends ActionSupport {
 			params.put("stuExaState",request.getParameter("stuExaState"));
 		}else {
 			//设置管理审核导师选题信息
-			params.put("tutorNo", request.getParameter("tutorNo"));
+			params.put("subjectNo", request.getParameter("subjectNo"));
 			params.put("exameState", request.getParameter("exameState"));
 		}
 		try {

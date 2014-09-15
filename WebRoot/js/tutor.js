@@ -1,6 +1,7 @@
 
 //发布任务书-初始化级联信息
 function initCascadeInfo(type){
+	var addForm = document.getElementById("addtTask");	//获取添加任务信息的表单元素
 	$.post("student/queryTerm",		//获取当前学期信息
 		function(data){
 			var terms = JSON.parse(data);		//转换为json格式内容
@@ -24,6 +25,8 @@ function initCascadeInfo(type){
 						option.text = subjectInfos[j].subName;		//赋值option
 						subject.appendChild(option);	//添加option节点
 					}
+					//设置添加表单的action属性
+					addForm.action = "report/manageTask!addTaskInfo?term="+term+"&subName="+subjectInfos[0].subName;
 				}else{
 					alert(message);
 				}
@@ -50,6 +53,53 @@ function reloadSubByterm(term,url,type){
 			alert(message);
 		}
 		
+	});
+}
+//发布任务书--判断添加信息的合理性
+function checkTaskInfo(){
+	var flag = true;
+	var content = document.getElementById("content").value;
+	var digram = document.getElementById("digram").value;
+	var index = document.getElementById("index").value;
+	var schedlue = document.getElementById("schedlue").value;
+	var reference = document.getElementById("reference").value;
+	//判断信息是否为空
+	if(content == " " || digram == " " 
+		|| index == " " ||schedlue == " " || reference == " "){
+		alert("信息不能为空!");
+		flag = false;
+	}
+	
+	return flag;
+}
+//发布任务书--重置任务书信息
+function resetTaskInfo(){
+	document.getElementById("content").value = " ";
+	document.getElementById("digram").value = " ";
+	document.getElementById("index").value = " ";
+	document.getElementById("schedlue").value = " ";
+	document.getElementById("reference").value = " ";
+}
+//学生查询任务书(term)
+function initTaskInfo(){
+	$.post("student/queryTerm",		//获取当前学期信息
+			function(data){
+				var terms = JSON.parse(data);		//转换为json格式内容
+				var termOptions = document.getElementById("term"); 	//获取select节点
+				//循环获取term并创建option节点
+				for(var j = 0;j < terms.length;j++){
+					var option = document.createElement('option');		//创建option元素
+					option.text = terms[j].term;		//赋值option
+					termOptions.appendChild(option);	//添加option节点
+				}
+				//设定option默认值(最新学期)
+				termOptions.options[terms.length-1].selected=true;
+				var term = termOptions.options[terms.length-1].text;	//获取默认节点的属性值
+				alert(term);
+				$.get("phaseManage/queryTaskAsyc?term="+term,function(data){	//获取当前学期信息
+					var subName = document.getElementById("subName");
+					subName.InnerHTML = data.taskInfoVo.subName;
+				});
 	});
 }
 //上报选题---初始化学期隐藏域
@@ -98,7 +148,7 @@ function checkSubInfo(){
 }
 //显示选题基本信息
 function displaySubInfo(utility){
-	var url = identityUrl(utility);
+	var url = identityUrl(utility,1);
 	$.post("student/queryTerm",		//获取当前学期信息
 			function(data){
 				var terms = JSON.parse(data);		//转换为json格式内容
@@ -244,6 +294,7 @@ function createApplyTab(term,url){
 			subject.innerHTML = subInfoHtml;
 			setPageInfo(data.pageVo);	//设置分页属性
 		}else{
+			alert("***");
 			alert(message);
 		}
 	});
@@ -282,7 +333,7 @@ function createCancelTab(term,url){
 				subInfoHtml = subInfoHtml + temp;
 			}
 			subject.innerHTML = subInfoHtml;
-			setPageInfo(data.pageVo);	//设置分页属性
+			//setPageInfo(data.pageVo);	//设置分页属性
 		}else{
 			alert(message);
 		}
@@ -342,12 +393,15 @@ function operateSub(type,subjectNo,leftNum,subTerm){
 	var opeType;
 	var term = subTerm+"-"+(subTerm+1);	// 获取学期
 	var url;
+	var currentPage;
 	if(type == 1){		//判断操作类型
 		opeType = "apply";
-		url = identityUrl(3);
+		currentPage = document.getElementById("currentPage").innerHTML;
+		currentPage = new Number(currentPage);		//将字符串转换为数字
+		url = identityUrl(3,currentPage);
 	}else{
 		opeType = "cancel";
-		url = identityUrl(4);
+		url = identityUrl(4,currentPage);
 	}
 	$.get("subject/opeSubject!opeSubject?opeType="+opeType+"&subjectNo="+subjectNo+"&leftNum="+leftNum+"&term="+term,function(data){
 		alert(data.message);
@@ -363,7 +417,9 @@ function operateSub(type,subjectNo,leftNum,subTerm){
 //审核选题信息
 function verifyInfo(state,studentNo,subTerm){
 	var term = subTerm+"-"+(subTerm+1);	// 获取学期
-	var url = identityUrl(2);	//获取路径
+	var currentPage = document.getElementById("currentPage").innerHTML;
+	currentPage = new Number(currentPage);		//将字符串转换为数字
+	var url = identityUrl(2,currentPage);	//获取路径
 	$.get("subject/opeSubject!verifySubject?stuExaState="+state+"&studentNo="+studentNo+"&term="+term,function(data){
 		alert(data.message);		//显示操作信息
 		removeExistSubInfo();		//移除现存信息
@@ -380,7 +436,7 @@ function removeExistSubInfo(){
 }
 //动态加载学期选题信息
 function reloadInfoByterm(term,utility){
-	var url = identityUrl(utility);
+	var url = identityUrl(utility,1);
 	$.get(url+"currentPage=1&type=asyc&term="+term,function(data){
 		removeExistSubInfo();		//移除已有表格信息
 		switch(utility){	//调用创建表格方法
@@ -425,36 +481,35 @@ function displayExamState(examState){
 	}
 	return state;
 }
-function identityUrl(utility){
+function identityUrl(utility,currentPage){
 	var url = " ";
 	switch(utility){
 	case 1:
-		url = "subject/querySubjectAsyc?";	//获取选题基本信息
+		url = "subject/querySubjectAsyc?currentPage="+currentPage+"&";	//获取选题基本信息
 		break;
 	case 2:
-		url = "subject/querySubjectAsyc?utility=stuSubInfo&";
+		url = "subject/querySubjectAsyc?currentPage="+currentPage+"&utility=stuSubInfo&";
 		break;
 	case 3:
-		url = "subject/querySubjectAsyc?utility=studentInfo&subState=1&";
+		url = "subject/querySubjectAsyc?currentPage="+currentPage+"&utility=studentInfo&subState=1&";
 		break;
 	case 4:
-		url = "subject/querySubjectAsyc?utility=stuCancelInfo&";
+		url = "subject/querySubjectAsyc?currentPage="+currentPage+"&utility=stuCancelInfo&";
 		break;
 	case 5:
-		url = "subject/querySubjectAsyc!querySubResult?";
+		url = "subject/querySubjectAsyc!querySubResult?currentPage="+currentPage+"&";
 		break;
 	case 6:
-		url = "subject/querySubjectAsyc!queryTutSub?";		//获取导师选题信息
+		url = "subject/querySubjectAsyc?currentPage="+currentPage+"&";		//获取导师选题信息
 		break;
 	default:
 		break;
 	}
-	//alert(url);
+	
 	return url;
 }
 //页面更换,重新加载数据
 function changePage(opeType,utility){
-		var url = identityUrl(utility);
 		var maxPage = document.getElementById("pageNum").innerHTML;
 		//alert("最大页面数量"+maxPage);
 		var term = document.getElementById("term").value; //获取当前学期	
@@ -493,9 +548,9 @@ function changePage(opeType,utility){
 				return;
 			};
 		}
-		$.get(url+"currentPage="+currentPage+"&type=asyc&term="+term,function(data){
-			removeExistSubInfo();		//移除已有表格信息
-			switch(utility){	//调用创建表格方法
+		var url = identityUrl(utility,currentPage);
+		removeExistSubInfo();		//移除已有表格信息
+		switch(utility){	//调用创建表格方法
 			case 1:
 				createSubTable(term,url);
 				break;
@@ -516,7 +571,6 @@ function changePage(opeType,utility){
 				break;
 			default:
 				break;
-			}
-		});
+		}
 }
 

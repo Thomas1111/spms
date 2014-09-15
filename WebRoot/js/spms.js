@@ -1,4 +1,4 @@
-var confirmPass = document.getElementById("confirmPass");
+
 /*学生查询模块*/
 function stuInfoInit(){
 	var url = "student/queryStudentAsyc?";
@@ -9,12 +9,32 @@ function changeStuPage(opeType){
 	change(opeType,url);
 }
 //检查修改密码信息
-confirmPass.onblur = function(){
+function checkModPass(){
+	var flag = true;
+	var confirmPass = document.getElementById("confirmPass").value;
 	var modifyPass = document.getElementById("modifyPass").value;
-	if(confirmPass ==confirmPass.value){
-		
+	var originPass = document.getElementById("originPass").value;
+	
+	if(confirmPass == ""
+		|| modifyPass == ""
+			|| originPass == ""){
+		alert("信息不能为空");
+		flag = false;
+	}else{
+		if(modifyPass !=confirmPass){
+			alert("前后密码不一致");
+			flag = false;
+		}
 	}
-};
+	
+	return flag;
+}
+//取消修改密码信息
+function cancelModPass(){
+	document.getElementById("confirmPass").value = "";
+	document.getElementById("modifyPass").value = "";
+	document.getElementById("originPass").value = "";
+}
 //默认加载学期
 function init(url){
 	$.post("student/queryTerm",		//获取当前学期信息
@@ -91,10 +111,7 @@ function reloadByterm(term,url){
 //页面更换,重新加载数据
 function change(opeType,url){
 		var maxPage = document.getElementById("pageNum").innerHTML;
-		//alert("最大页面数量"+maxPage);
-		if(url != null){	//判断url是否为空，是否需要使用学期参数
-			var term = document.getElementById("term").value; //获取当前学期
-		}	
+		var term = document.getElementById("term").value; //获取当前学期
 		var currentPage = document.getElementById("currentPage").innerHTML;
 		currentPage = new Number(currentPage);		//将字符串转换为数字
 		//alert("当前页面"+currentPage);
@@ -133,14 +150,11 @@ function change(opeType,url){
 				return;
 			};
 		}
-		if(url != null){
-			$.get(url+"currentPage="+currentPage+"&term="+term,function(data){
-				removeExistStuInfo();
-				createStuInfoTab(data);
-			});
-		}else{
-			window.location.href="./tutor/queryTutor?currentPage="+currentPage;
-		}
+		
+		$.get(url+"currentPage="+currentPage+"&term="+term,function(data){
+			removeExistStuInfo();
+			createStuInfoTab(data);
+		});
 }
 //填充学生基本表格信息
 function fillStuTabInfo(stuBasicInfo,i,k){
