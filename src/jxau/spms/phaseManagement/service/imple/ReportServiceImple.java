@@ -62,14 +62,22 @@ public class ReportServiceImple implements ReportService {
 	 * TODO	增加开题报告信息实现类
 	 */
 	@Override
-	public void addReport(ReportInfo reportInfo) throws RuntimeException {
+	public void addReport(ReportInfo reportInfo,Map<String, Object> params) throws RuntimeException {
 		// TODO Auto-generated method stub
-		if (reportInfo == null) {
+		if (reportInfo == null	|| params == null) {
 			throw new UnusualParamsException("参数不能为空!");
+		}
+		//获取导师工号
+		String tutorNo = dao.selectOne(mapper + "selectTutorNo",params);
+		reportInfo.setTutorNo(tutorNo);		//设置导师工号
+		int count =  dao.selectOne(mapper + "repExistOrNot",params);	//获取开题报告数量
+		if (count >= 1) {	//判断开题报告信息是否已存在
+			dao.delete(mapper + "deleteReportInfo", params);	//删除已存在信息
 		}
 		//调用dao添加方法
 		dao.add(mapper+"addReportInfo", reportInfo);
 	}
+	
 	/* (non-Javadoc)
 	 * @see jxau.spms.phaseManagement.service.ReportService#queryRepNumber(java.util.HashMap)
 	 * TODO 获取开题报告数量实现类
@@ -148,5 +156,30 @@ public class ReportServiceImple implements ReportService {
 		
 		return taskInfo;
 	}
-
+	/* (non-Javadoc)
+	 * @see jxau.spms.phaseManagement.service.ReportService#verifyReport(java.util.Map)
+	 * TODO 导师审核开题报告
+	 */
+	@Override
+	public void verifyReport(Map<String, Object> params)
+			throws RuntimeException {
+		// TODO Auto-generated method stub
+		if (params == null) {		//判读参数是否为空
+			throw new UnusualParamsException("参数不能为空!");
+		}
+		if (params.get("type") == null
+				||params.get("reportNo") == null) {
+			throw new UnusualParamsException("请设置参数数值!");
+		}
+		String type = (String) params.get("type");	//获取审核类型
+		//判断审核类型，设置状态
+		if ("pass".equals(type)) {
+			params.put("exameState", 1);
+		}else {
+			params.put("exameState", 3);
+		}
+		
+		//调用dao方法更新开题报告
+		dao.update(mapper + "verifyReportInfo", params);
+	}
 }

@@ -23,23 +23,9 @@
 	-->
 <link rel="stylesheet" rev="stylesheet" href="<%=basePath%>css/style.css"
 	type="text/css" media="all" />
-
-<script language="JavaScript" type="text/javascript">
-	function tishi() {
-		var a = confirm('132');
-		if (a != true)
-			return false;
-		window
-				.open(
-						"³åÍ»Ò³.htm",
-						"",
-						"depended=0,alwaysRaised=1,width=800,height=400,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-	}
-
-	function check() {
-		document.getElementById("aa").style.display = "";
-	}
-</script>
+<script src="<%=basePath%>js/admin.js"></script>
+<script src="<%=basePath%>js/report.js"></script>
+<script src="<%=basePath%>js/jquery-1.7.2.min.js"></script>
 <style type="text/css">
 .atten {
 	font-size: 18px;
@@ -49,9 +35,8 @@
 </style>
 </head>
 
-<body class="ContentBody">
-	<form action="" method="post" enctype="multipart/form-data" name="form"
-		target="sypost">
+<body class="ContentBody" onload="initTerm()">
+	<form id="addDocuemnt" action="report/manageReport!addReport" method="post" enctype="multipart/form-data" onsubmit="return checkReportInfo(this)">
 		<div class="MainDiv">
 			<table width="99%" border="0" cellpadding="0" cellspacing="0"
 				class="CContent">
@@ -64,20 +49,24 @@
 							style="width:100%">
 							<TR>
 								<TD width="100%">
-									<fieldset style="height:100%;" align="center">
+									<fieldset style="height:100%;" >
 										<legend>上传资料</legend>
 										<table border="0" cellpadding="2" cellspacing="1"
 											style="width:100%">
 											<tr>
-												<td width="25%" align="center" class="atten">上传文件类型： <select
-													name="fileType">
-														<option checked="true">开题报告类</option>
+												<td width="30%" align="center" class="atten">上传文件类型： <select
+													id="fileType" name="fileType">
+														<option selected=true>开题报告类</option>
 														<option>毕设文档类</option>
 												</select></td>
-												<td nowrap align="center" width="25%"><input
-													type="file" name="fileName" /></td>
-												<td width="25%" align="left"><input type="button"
-													name="upload" value="上传" onclick="" /></td>
+												<td width="30%" align="center" class="atten">选择学期：
+														 <select id="term" name="term">
+         												 </select>
+												</td>
+												<td nowrap align="center" width="30%"><input id="upload"
+													type="file" name="upload" /></td>
+												<td width="10%" align="left"><input type="submit"
+													name="add" value="上传" /></td>
 											</tr>
 										</table>
 										<br />
@@ -86,9 +75,6 @@
 						</TABLE></td>
 				</tr>
 			</TABLE>
-			</td>
-			</tr>
-			</table>
 		</div>
 	</form>
 </body>

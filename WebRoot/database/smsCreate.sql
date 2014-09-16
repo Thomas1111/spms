@@ -240,7 +240,7 @@ create table report_info(
 	exameState tinyint default 0,
 	memo varchar(90),
 	reportTerm varchar(30) not null,
-	identifier varchar(30),
+	reportName varchar(30),
 	constraint fk_report_studentNo foreign key (studentNo) references stu_basic_info(studentNo),
 	constraint fk_report_tutorNo foreign key (tutorNo) references tutor_basic_info(tutorNo)
 );

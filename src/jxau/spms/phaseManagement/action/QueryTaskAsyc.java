@@ -71,6 +71,26 @@ public class QueryTaskAsyc extends ActionSupport {
 		return SUCCESS;
 	}
 	
+	/**
+	 * TODO 审核开题报告
+	 * @return
+	 */
+	public String verifyReport(){
+		message = "审核成功";
+		HashMap<String, Object> params = new HashMap<>();
+		//设置参数信息
+		params.put("type", request.getParameter("type"));
+		params.put("reportNo",request.getParameter("reportNo"));
+		try {
+			reportService.verifyReport(params);
+		} catch (UnusualParamsException e) {
+			// TODO: handle exception
+			message = e.getMessage();
+		}
+		
+		return SUCCESS;
+	}
+	
 	public String getMessage() {
 		return message;
 	}

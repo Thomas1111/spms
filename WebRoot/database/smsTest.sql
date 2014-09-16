@@ -149,6 +149,7 @@ insert into stu_mission_info values(1,'20111827','2014-08-18 12:00:00',0,'无');
 insert into stu_mission_info values(2,'20111826','2014-09-08 12:00:00',0,'无');
 insert into stu_mission_info values(2,'20111827','2014-09-08 12:00:00',0,'无');
 ##开题报告
+select * from report_info;
 insert into report_info values(null,'20111826','1231','2014-08-15 12:00:00',2,'无','2014-2015','231232131233');
 insert into report_info values(null,'20111827','1231','2014-08-15 12:00:00',2,'无','2014-2015','123123213123');
 insert into report_info values(null,'20111828','1231','2014-08-15 12:00:00',2,'无','2014-2015','131231231231');

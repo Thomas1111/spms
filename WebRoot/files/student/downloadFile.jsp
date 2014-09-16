@@ -25,22 +25,7 @@
 <link rel="stylesheet" rev="stylesheet"
 	href="<%=basePath%>css/style.css" type="text/css" media="all" />
 
-<script language="JavaScript" type="text/javascript">
-	function tishi() {
-		var a = confirm('132');
-		if (a != true)
-			return false;
-		window
-				.open(
-						"³åÍ»Ò³.htm",
-						"",
-						"depended=0,alwaysRaised=1,width=800,height=400,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-	}
 
-	function check() {
-		document.getElementById("aa").style.display = "";
-	}
-</script>
 <style type="text/css">
 <!--
 .atten {

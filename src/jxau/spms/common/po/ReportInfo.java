@@ -11,7 +11,7 @@ public class ReportInfo {
 	private int exameState;
 	private String memo;
 	private String reportTerm;
-	private String identifiter;
+	private String reportName;
 	
 	public int getReportNo() {
 		return reportNo;
@@ -55,11 +55,19 @@ public class ReportInfo {
 	public void setReportTerm(String reportTerm) {
 		this.reportTerm = reportTerm;
 	}
-	public String getIdentifiter() {
-		return identifiter;
+	public String getReportName() {
+		return reportName;
 	}
-	public void setIdentifiter(String identifiter) {
-		this.identifiter = identifiter;
+	public void setReportName(String reportName) {
+		this.reportName = reportName;
+	}
+	@Override
+	public String toString() {
+		return "ReportInfo [reportNo=" + reportNo + ", studentNo=" + studentNo
+				+ ", tutorNo=" + tutorNo + ", uploadTime=" + uploadTime
+				+ ", exameState=" + exameState + ", memo=" + memo
+				+ ", reportTerm=" + reportTerm + ", reportName=" + reportName
+				+ "]";
 	}
 	
 }

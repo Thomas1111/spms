@@ -147,11 +147,13 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                     </s:else>
                     </td>
                     <td width="20%" align="center" bgcolor="#FFFFFF">
-                        <input type="button" name="download" value="下载" onclick="" /> 
+                    	<a href="<%=path%>/report/<s:property value="%{#request.reportTerm}" />/<s:property value="%{#request.reportInfo[#status.index].reportName}" />">
+                        	<input type="button" name="download" value="下载" onclick="" /> 
+                        </a>
                         &nbsp;
-                        <input type="button" name="pass" value="通过" onclick="" /> 
+                        <input type="button" name="pass" value="通过" onclick="verifyReport('pass',<s:property value="%{#request.reportInfo[#status.index].reportNo}" />)" /> 
                         &nbsp;
-                        <input type="button" name="revoke" value="不通过" onclick="" /> 
+                        <input type="button" name="revoke" value="不通过" onclick="verifyReport('cancel',<s:property value="%{#request.reportInfo[#status.index].reportNo}" />)" /> 
                     </td>
                   </tr>
              </s:iterator>

@@ -142,5 +142,4 @@ public class DocUploadAction extends ActionSupport {
 	public void setUpload(File upload) {
 		this.upload = upload;
 	}
-	
 }

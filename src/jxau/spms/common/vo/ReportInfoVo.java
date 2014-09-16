@@ -8,13 +8,14 @@ import java.util.Date;
  * TODO  开题报告值对象
  */
 public class ReportInfoVo {
-
+	
 	private String subName;
+	private int reportNo;
 	private String studentNo;
 	private String studentName;
 	private Date uploadTime;
 	private int exameState;
-	private String identifier;
+	private String reportName;
 	
 	public String getSubName() {
 		return subName;
@@ -46,18 +47,23 @@ public class ReportInfoVo {
 	public void setExameState(int exameState) {
 		this.exameState = exameState;
 	}
-	public String getIdentifier() {
-		return identifier;
+	public String getReportName() {
+		return reportName;
 	}
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
+	public void setReportName(String reportName) {
+		this.reportName = reportName;
 	}
-	
+	public int getReportNo() {
+		return reportNo;
+	}
+	public void setReportNo(int reportNo) {
+		this.reportNo = reportNo;
+	}
 	@Override
 	public String toString() {
 		return "ReportInfoVo [subName=" + subName + ", studentNo=" + studentNo
 				+ ", studentName=" + studentName + ", uploadTime=" + uploadTime
-				+ ", exameState=" + exameState + ", identifier=" + identifier
+				+ ", exameState=" + exameState + ", reportName=" + reportName
 				+ "]";
 	}
 	

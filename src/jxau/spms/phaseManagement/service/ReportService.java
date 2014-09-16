@@ -46,8 +46,15 @@ public interface ReportService {
 	 * @param reportInfo 开题报告实体信息
 	 * @throws RuntimeException
 	 */
-	public void addReport(ReportInfo reportInfo ) throws RuntimeException;
-	
+	public void addReport(ReportInfo reportInfo,Map<String, Object> params) 
+			throws RuntimeException;
+	/**
+	 * TODO	导师审核开题报告
+	 * 下午7:16:05
+	 * @param params 审核参数
+	 * @throws RuntimeException
+	 */
+	public void verifyReport(Map<String, Object> params) throws RuntimeException;
 	/**
 	 * TODO 导师发布任务书
 	 * @param taskInfo 阶段任务实体类

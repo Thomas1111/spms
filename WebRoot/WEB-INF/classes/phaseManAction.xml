@@ -11,6 +11,9 @@
         <action name="queryReport" class="jxau.spms.phaseManagement.action.QueryReportAction" method="queryReport">  
             <result name="success">/files/tutor/verifyReport.jsp</result>
         </action>
+        <action name="manageReport" class="jxau.spms.phaseManagement.action.ReportAction">  
+            <result>/files/student/uploadFile.jsp</result>
+        </action>
  		 <action name="manageTask" class="jxau.spms.phaseManagement.action.TaskInfoAction">  
             <result name="success">/files/tutor/addMission.jsp</result>
         </action>

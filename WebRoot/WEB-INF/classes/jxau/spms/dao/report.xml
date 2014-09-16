@@ -11,7 +11,7 @@
    
     <!--获取学生开题报告-->
     <select id="selectStuReport" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.ReportInfoVo">
-		select si.subName,si.studentNo,sb.studentName,ri.uploadTime,ri.exameState,ri.identifier
+		select si.subName,ri.reportNo,si.studentNo,sb.studentName,ri.uploadTime,ri.exameState,ri.reportName
 		from report_info ri 
 		inner join subject_info si 
 		on si.studentNo = ri.studentNo 
@@ -50,13 +50,35 @@
 			si.studentNo = #{studentNo}
 		;
     </select>
-     <!--添加信息-->
+    <!--获取导师编号-->
+     <select id="selectTutorNo" parameterType="java.util.Map"  resultType="String">
+		select tutorNo from stu_basic_info where studentNo = #{studentNo};
+    </select>
+    <!--判断开题报告是够存在-->
+     <select id="repExistOrNot" parameterType="java.util.Map"  resultType="int">
+		select count(*) from report_info where 
+		studentNo = #{studentNo} and reportTerm = #{reportTerm};
+    </select>
+     <!--导师审核开题报告信息-->
+    <update id="verifyReportInfo" parameterType="java.util.Map">
+		update report_info set 
+		<if test="exameState != null">
+			exameState = #{exameState} 
+		</if>
+		where reportNo = #{reportNo};
+    </update>
+     <!--学生上传开题报告信息-->
     <insert id="addReportInfo" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="reportNo">
 		insert into report_info values
-			(#{reportNo},#{studentNo},#{tutorNo},#{uploadTime},
-			 #{exameState},#{memo},#{reportTerm},#{identifier});
+			(null,#{studentNo},#{tutorNo},#{uploadTime},
+			 #{exameState},#{memo},#{reportTerm},#{reportName});
     </insert>
-    <!--添加信息-->
+     <!--删除开题报告信息-->
+    <delete id="deleteReportInfo" parameterType="java.util.Map">
+		delete from report_info where
+		studentNo = #{studentNo} and reportTerm = #{reportTerm};
+    </delete>
+    <!--导师添加任务书信息-->
     <insert id="addTaskInfo" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="taskNo">
 		insert into task_info values
 			(null,#{subjectNo},#{content},#{diagram},
