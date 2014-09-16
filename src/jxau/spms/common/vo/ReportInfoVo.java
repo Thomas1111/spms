@@ -14,6 +14,7 @@ public class ReportInfoVo {
 	private String studentName;
 	private Date uploadTime;
 	private int exameState;
+	private String identifier;
 	
 	public String getSubName() {
 		return subName;
@@ -45,5 +46,19 @@ public class ReportInfoVo {
 	public void setExameState(int exameState) {
 		this.exameState = exameState;
 	}
-
+	public String getIdentifier() {
+		return identifier;
+	}
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+	
+	@Override
+	public String toString() {
+		return "ReportInfoVo [subName=" + subName + ", studentNo=" + studentNo
+				+ ", studentName=" + studentName + ", uploadTime=" + uploadTime
+				+ ", exameState=" + exameState + ", identifier=" + identifier
+				+ "]";
+	}
+	
 }

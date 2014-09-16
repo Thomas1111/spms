@@ -73,7 +73,8 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 			<td width="21"><img src="<%=basePath%>images/ico07.gif" width="20" height="18" /></td>
 			<td width="550" class="font051">
           选择学期：
-          <select id="term" name="term">
+          <select id="term" name="term" onchange="reloadTaskByTerm(this.options
+      			[this.options.selectedIndex].value)">
           </select>
         	  选题名称：<span id="subName">基于B/S架构的飞机航班订票系统的设计与开发</span>
       </td> 

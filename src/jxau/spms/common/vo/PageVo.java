@@ -4,7 +4,7 @@ public class PageVo {
 	// 当前要查询的页面
 	private int currentPage;
 	// 页面的显示的数据个数
-	private int size = 10;
+	private int size = 2;
 	// 数据库中满足数据的个数
 	private long count;
 	// 可以在页面中显示的数量

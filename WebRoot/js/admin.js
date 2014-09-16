@@ -84,6 +84,12 @@ function changePageNum(opeType,number){
 	case 2:
 		url = "./tutor/queryTutor?opeType=verifySub&currentPage=";
 		break;
+	case 3:
+		var terms = document.getElementById("term");	// 获取学期
+		var options = terms.options;
+		var term = options[terms.selectedIndex].text;
+		url = "report/queryReport?flag=reload&reportTerm="+term+"&currentPage=";
+		break;
 	default:
 		break;
 	}

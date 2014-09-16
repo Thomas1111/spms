@@ -11,11 +11,12 @@
    
     <!--获取学生开题报告-->
     <select id="selectStuReport" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.ReportInfoVo">
-		select si.subName,si.studentNo,sb.studentName,ri.uploadTime,ri.exameState
-		from report_info ri inner join stu_basic_info sb
-		on sb.studentNo = ri.studentNo
+		select si.subName,si.studentNo,sb.studentName,ri.uploadTime,ri.exameState,ri.identifier
+		from report_info ri 
 		inner join subject_info si 
 		on si.studentNo = ri.studentNo 
+		inner join stu_basic_info sb
+		on sb.studentNo = ri.studentNo
 		where ri.tutorNo = #{tutorNo}
 		<if test="reportTerm != null">
 			and ri.reportTerm = #{reportTerm}

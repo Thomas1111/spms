@@ -58,10 +58,11 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 <link href="<%=basePath%>css/css.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
 <script src="<%=basePath%>js/report.js"></script>
+<script src="<%=basePath%>js/admin.js"></script>
 <script src="<%=basePath%>js/jquery-1.7.2.min.js"></script>
 </head>
 
-<body onload="initTerm()">
+<body>
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td height="30">
@@ -76,10 +77,26 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
           选择学期：
           <select id="term" name="term" 
       		onchange="reloadReportByterm(this.options
-      			[this.options.selectedIndex].value),''">
+      			[this.options.selectedIndex].value)">
+      			 <s:iterator value="%{#request.terms}" id="id" status="status">
+      			 	<s:if test="#request.terms[#status.index].term == #request.reportTerm">
+      			 		<option selected=true>
+      			 			<s:property value="%{#request.reportTerm}" />
+      			 		</option>
+      			 	</s:if>
+      			 	<s:else>
+      			 		<option>
+      			 			<s:property value="%{#request.terms[#status.index].term}" />
+      			 		</option>
+      			 	</s:else>
+      			 </s:iterator>
           </select>
-          <input type="hidden" id="currentTerm" name="currentTerm" value="" />
-      </td> 
+          <span style="color:red">
+	          <s:if test="#request.message != '查询成功'">
+	          	<s:property value="#request.message" />
+	          </s:if>
+          </span>
+      	</td> 
 		  </tr>
         </table></td>
       </tr>
@@ -119,10 +136,15 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                     	<s:property value="%{#request.reportInfo[#status.index].uploadTime}" />
                     </td>
                     <td width="10%" align="center" bgcolor="#FFFFFF">
-                    <s:property value="%{#request.reportInfo[#status.index].exameState}" />
-                    <s:if test="<s:property value='%{#request.reportInfo[#status.index].exameState}' />==0">
+                    <s:if test="#request.reportInfo[#status.index].exameState == 2">
                     	待审核
                     </s:if>
+                    <s:elseif test="#request.reportInfo[#status.index].exameState == 1">
+                    	已通过
+                    </s:elseif>
+                    <s:else>
+                    	未通过
+                    </s:else>
                     </td>
                     <td width="20%" align="center" bgcolor="#FFFFFF">
                         <input type="button" name="download" value="下载" onclick="" /> 
@@ -145,18 +167,19 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
           <td height="6"><img src="<%=basePath%>images/spacer.gif" width="1" height="1" /></td>
         </tr>
                <tr>
-          <td height="33"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="right-font08">
+          <td height="33">
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="right-font08">
               <tr>
-                <td width="50%">共 <span class="right-text09">
+                <td width="50%">共 <span id="pageNum" class="right-text09">
                 	<s:property value="%{#request.pageVo.pageNum}" />
-                </span> 第<span class="right-text09">
+                </span> 第<span id="currentPage" class="right-text09">
                 	<s:property value="%{#request.pageVo.currentPage}" />
                 </span> 页</td>
-                <td width="49%" align="right">[<a href="#" class="right-font08" onclick="getFirstPage()">
+                <td width="49%" align="right">[<a class="right-font08" onclick="changePageNum('first',3)">
                                                 首页</a> 
-                | <a href="#" class="right-font08" onclick="change('fore')">上一页</a>
-                | <a href="#" class="right-font08" onclick="change('next')">下一页</a> 
-                | <a href="#" class="right-font08" onclick="change('last')">末页</a>] 
+                | <a class="right-font08" onclick="changePageNum('fore',3)">上一页</a>
+                | <a class="right-font08" onclick="changePageNum('next',3)">下一页</a> 
+                | <a class="right-font08" onclick="changePageNum('last',3)">末页</a>] 
                                                 转至</td>
                 <td width="1%"><table width="20" border="0" cellspacing="0" cellpadding="0">
                     <tr>
@@ -164,7 +187,7 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                       <input id="changeNum" name="changeNum" type="text" class="right-textfield03" size="1" />
                       </td>
                       <td width="87%">
-                      <input name="sure" type="button" class="right-button06" onclick="change('input')"/>
+                      <input name="sure" type="button" class="right-button06" onclick="changePageNum('input',3)"/>
                       </td>
                     </tr>
                 </table>

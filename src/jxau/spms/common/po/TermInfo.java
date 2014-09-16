@@ -18,4 +18,9 @@ public class TermInfo {
 		this.term = term;
 	}
 	
+	@Override
+	public String toString() {
+		return "TermInfo [termNo=" + termNo + ", term=" + term + "]";
+	}
+	
 }

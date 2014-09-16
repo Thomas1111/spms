@@ -80,7 +80,7 @@ function resetTaskInfo(){
 	document.getElementById("schedlue").value = " ";
 	document.getElementById("reference").value = " ";
 }
-//学生查询任务书(term)
+//学生查询任务书
 function initTaskInfo(){
 	$.post("student/queryTerm",		//获取当前学期信息
 			function(data){
@@ -97,9 +97,37 @@ function initTaskInfo(){
 				var term = termOptions.options[terms.length-1].text;	//获取默认节点的属性值
 				alert(term);
 				$.get("phaseManage/queryTaskAsyc?term="+term,function(data){	//获取当前学期信息
-					var subName = document.getElementById("subName");
-					subName.InnerHTML = data.taskInfoVo.subName;
+					if(data.message == "查询成功"){
+						var subName = document.getElementById("subName");
+						subName.InnerHTML = data.taskInfoVo.subName;	//设置任务书对应选题名称
+						//显示任务信息
+						document.getElementById("content").innerHTML = data.taskInfoVo.content;
+						document.getElementById("diagram").innerHTML = data.taskInfoVo.diagram;
+						document.getElementById("indicator").innerHTML = data.taskInfoVo.indicator;
+						document.getElementById("schedule").innerHTML = data.taskInfoVo.schedule;
+						document.getElementById("reference").innerHTML = data.taskInfoVo.reference;
+					}else{
+						alert(data.message);
+					}
+					
 				});
+	});
+}
+//学生查询任务书--term改变加载任务书信息
+function reloadTaskByTerm(term){
+	$.get("phaseManage/queryTaskAsyc?term="+term,function(data){	//获取当前学期信息
+		if(data.message == "查询成功"){
+			var subName = document.getElementById("subName");
+			subName.InnerHTML = data.taskInfoVo.subName;	//设置任务书对应选题名称
+			document.getElementById("content").innerHTML = data.taskInfoVo.content;
+			document.getElementById("diagram").innerHTML = data.taskInfoVo.diagram;
+			document.getElementById("indicator").innerHTML = data.taskInfoVo.indicator;
+			document.getElementById("schedule").innerHTML = data.taskInfoVo.schedule;
+			document.getElementById("reference").innerHTML = data.taskInfoVo.reference;
+		}else{
+			alert(data.message);
+		}
+		
 	});
 }
 //上报选题---初始化学期隐藏域

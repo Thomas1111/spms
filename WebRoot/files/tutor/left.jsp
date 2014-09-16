@@ -210,7 +210,7 @@ function list(idstr){
         </tr>
         <tr>
           <td width="9%" height="20" ><img id="xiaotu3" src="<%=basePath%>images/ico06.gif" width="8" height="12" /></td>
-          <td width="91%"><a href="<%=path%>/report/queryReport?tutorNo=<s:property value="#session.account"/>&reportTerm=2014-2015&currentPage=1" target="mainFrame" class="left-font03" onClick="tupian('3');">审核开题报告</a></td>
+          <td width="91%"><a href="<%=path%>/report/queryReport?reportTerm=2014-2015&currentPage=1" target="mainFrame" class="left-font03" onClick="tupian('3');">审核开题报告</a></td>
         </tr>
 		<tr>
           <td width="9%" height="20" ><img id="xiaotu1" src="<%=basePath%>images/ico06.gif" width="8" height="12" /></td>

@@ -3,6 +3,7 @@ package jxau.spms.phaseManagement.test;
 import java.util.HashMap;
 
 import jxau.spms.phaseManagement.service.ReportService;
+import jxau.spms.student.service.StudentService;
 import jxau.spms.tutor.po.TaskInfo;
 
 import org.junit.Test;
@@ -14,14 +15,15 @@ public class PhaseManTestCase {
 			new ClassPathXmlApplicationContext("applicationContext.xml");
 	private ReportService reportService = (ReportService) 
 			actionContext.getBean("reportService");
+	private StudentService studentService = (StudentService) 
+			actionContext.getBean("studentService");
 	
-	//@Test
+	@Test
 	public void testQueryReport(){
 		HashMap<String, Object> params = new HashMap<>();
-		//params.put("tutorNo", "1231");
-		//params.put("reportTerm", "2014-2015");
-		System.out.println(reportService.queryReport(params).get(0).getUploadTime());
-		System.out.println(reportService.queryReport(params).get(0).getUploadTime());
+		params.put("tutorNo", "1231");
+		params.put("reportTerm", "2014-2015");
+		System.out.println(reportService.queryReport(params));
 	}
 	
 	//@Test
@@ -41,11 +43,19 @@ public class PhaseManTestCase {
 		reportService.addTaskInfo(taskInfo, params);
 	}
 	
-	@Test
+	//@Test
 	public void testQueryTask(){
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("studentNo", "20111826");
 		params.put("term", "2014-2015");
 		System.out.println(reportService.queryTaskInfo(params));
+	}
+	
+	//@Test
+	public void testVeriReport() {
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("studentNo", "20111826");
+		params.put("term", "2014-2015");
+		System.out.println(studentService.queryTerms(null));
 	}
 }
