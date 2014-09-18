@@ -216,16 +216,18 @@ create table phase_mission_info(
 	endTime datetime not null,
 	misBrief text,
 	phaseTerm varchar(30) not null,
+	sendObject varchar(18) not null,
 	constraint fk_phase_mission_tutorNo foreign key (tutorNo) references tutor_basic_info(tutorNo)
 );
 
 /*学生阶段任务信息表17*/
 create table stu_mission_info(
-	missionNo int auto_increment,
+	missionNo int,
 	studentNo char(8),
-	uploadTime datetime not null,
+	uploadTime datetime,
 	exameState tinyint default 0,
-	memo varchar(90),
+	memo varchar(90) default '无',
+	missionName varchar(90),
 	primary key(missionNo,studentNo),
 	constraint fk_phase_mission_MissionNo foreign key (missionNo) references phase_mission_info(missionNo),
 	constraint fk_phase_mission_studentNo foreign key (studentNo) references stu_basic_info(studentNo)
@@ -240,7 +242,7 @@ create table report_info(
 	exameState tinyint default 0,
 	memo varchar(90),
 	reportTerm varchar(30) not null,
-	reportName varchar(30),
+	reportName varchar(90),
 	constraint fk_report_studentNo foreign key (studentNo) references stu_basic_info(studentNo),
 	constraint fk_report_tutorNo foreign key (tutorNo) references tutor_basic_info(tutorNo)
 );
@@ -254,6 +256,7 @@ create table paper_info(
 	exameState tinyint default 0,
 	memo varchar(90),
 	paperTerm varchar(30) not null,
+	paperName varchar(90),
 	constraint fk_paper_studentNo foreign key (studentNo) references stu_basic_info(studentNo),
 	constraint fk_paper_tutorNo foreign key (tutorNo) references tutor_basic_info(tutorNo)
 );

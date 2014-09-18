@@ -85,7 +85,7 @@ html {
 										</td>
 										<td width="550" class="font051">导师详细选题信息 <input
 											type="button" name="allocation" value="返回" class="font201"
-											onclick="javascript:window.location.href='<%=path%>/subject/displaySubject?currentPage=1&term=2014-2015&tutorNo='+<s:property value="%{#request.speSubVo.tutorNo}"/>" />
+											onclick="javascript:window.location.href='<%=path%>/subject/displaySubject?flag=reload&currentPage=<s:property value="%{#request.currentPage}" />&term=<s:property value="%{#request.term}" />&tutorNo=<s:property value="%{#request.speSubVo.tutorNo}"/>' " />
 										</td>
 									</tr>
 								</table>
@@ -149,7 +149,12 @@ html {
 													</td>
 													<td width="10%" align="center" bgcolor="#EEEEEE">性别</td>
 													<td width="5%" align="center" bgcolor="#FFFFFF">
-														<s:property value="%{#request.speSubVo.sex}" />
+													<s:if test="#request.speSubVo.sex==0">
+								                    	男
+								                    </s:if> 
+								                    <s:else>
+														女	
+													</s:else>
 													</td>
 													<td width="10%" align="center" bgcolor="#EEEEEE">年龄</td>
 													<td width="10%" height="20" bgcolor="#FFFFFF">

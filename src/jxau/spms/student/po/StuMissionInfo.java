@@ -5,10 +5,11 @@ import java.util.Date;
 public class StuMissionInfo {
 
 	private int missionNo;
-	private int studentNo;
+	private String studentNo;
 	private Date uploadTime;
 	private int exameState;
 	private String memo;
+	private String missionName;
 	
 	public int getMissionNo() {
 		return missionNo;
@@ -16,10 +17,10 @@ public class StuMissionInfo {
 	public void setMissionNo(int missionNo) {
 		this.missionNo = missionNo;
 	}
-	public int getStudentNo() {
+	public String getStudentNo() {
 		return studentNo;
 	}
-	public void setStudentNo(int studentNo) {
+	public void setStudentNo(String studentNo) {
 		this.studentNo = studentNo;
 	}
 	public Date getUploadTime() {
@@ -39,6 +40,20 @@ public class StuMissionInfo {
 	}
 	public void setMemo(String memo) {
 		this.memo = memo;
+	}
+	public String getMissionName() {
+		return missionName;
+	}
+	public void setMissionName(String missionName) {
+		this.missionName = missionName;
+	}
+	
+	@Override
+	public String toString() {
+		return "StuMissionInfo [missionNo=" + missionNo + ", studentNo="
+				+ studentNo + ", uploadTime=" + uploadTime + ", exameState="
+				+ exameState + ", memo=" + memo + ", missionName="
+				+ missionName + "]";
 	}
 	
 }

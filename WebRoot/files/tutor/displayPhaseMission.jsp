@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%> 
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -56,51 +57,13 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 
 <link href="<%=basePath%>css/css.css" rel="stylesheet" type="text/css" />
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="<%=basePath%>js/xiangmu.js"></script>
+<script src="<%=basePath%>js/admin.js"></script>
+<script src="<%=basePath%>js/phaseMission.js"></script>
+<script src="<%=basePath%>js/jquery-1.7.2.min.js"></script>
 </head>
-<SCRIPT language=JavaScript>
-function sousuo(){
-	window.open("gaojisousuo.htm","","depended=0,alwaysRaised=1,width=800,height=510,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-}
-function selectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			obj[i].checked = true;
-		}
-	}
-}
 
-function unselectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			if (obj[i].checked==true) obj[i].checked = false;
-			else obj[i].checked = true;
-		}
-	}
-}
-
-function link(){
-    document.getElementById("fom").action="xiangmu.htm";
-   document.getElementById("fom").submit();
-}
-
-function on_load(){
-	var loadingmsg=document.getElementById("loadingmsg");
-	var mainpage=document.getElementById("mainpage");
-	loadingmsg.style.display="";
-	mainpage.style.display="none";
-	
-	loadingmsg.style.display="none";
-	mainpage.style.display="";
-}
-</SCRIPT>
-
-<body onload="on_load()">
-<form name="fom" id="fom" method="post" action="">
+<body>
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">
-
   <tr>
     <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
@@ -110,12 +73,28 @@ function on_load(){
 		  <tr>
 			<td width="21"><img src="<%=basePath%>images/ico07.gif" width="20" height="18" /></td>
 			<td width="550" class="font051">
-          选择学期：
-          <select name="term">
-            <option>2011-2012</option>
-            <option>2012-2013</option>
-            <option>2013-2014</option>
+           选择学期：
+          <select id="term" name="term" 
+      		onchange="reloadPhaseByterm(this.options
+      			[this.options.selectedIndex].value)">
+      			 <s:iterator value="%{#request.terms}" id="id" status="status">
+      			 	<s:if test="#request.terms[#status.index].term == #request.term">
+      			 		<option selected=true>
+      			 			<s:property value="%{#request.term}" />
+      			 		</option>
+      			 	</s:if>
+      			 	<s:else>
+      			 		<option>
+      			 			<s:property value="%{#request.terms[#status.index].term}" />
+      			 		</option>
+      			 	</s:else>
+      			 </s:iterator>
           </select>
+           <span style="color:red">
+	          <s:if test="#request.message != '查询成功'">
+	          	<s:property value="#request.message" />
+	          </s:if>
+          </span>
       </td> 
 		  </tr>
         </table></td>
@@ -140,25 +119,25 @@ function on_load(){
                     <td width="10%" align="center" bgcolor="#EEEEEE">任务对象</td>
                     <td width="30%" height="20" align="center" bgcolor="#EEEEEE">任务描述</td>
                   </tr>
+             <s:iterator value="%{#request.phaseMissions}" id="id" status="status">
                   <tr align="center">
-				            <td width="30%" height="20" align="center" bgcolor="#FFFFFF">基于B/S架构的飞机航班订票系统的设计与开发</td>
-                    <td width="15%" align="center" bgcolor="#FFFFFF">2014-07-15</td>
-                    <td width="15%" align="center" bgcolor="#FFFFFF">2014-07-19</td>
-                    <td width="10%" align="center" bgcolor="#FFFFFF">全部学生</td>
-                    <td width="30%" align="center" bgcolor="#FFFFFF">无</td>
-                  </tr>
-				         <tr align="center">
-                    <td width="30%" height="20" align="center" bgcolor="#FFFFFF">基于B/S架构的飞机航班订票系统的设计与开发</td>
-                    <td width="15%" align="center" bgcolor="#FFFFFF">2014-07-15</td>
-                    <td width="15%" align="center" bgcolor="#FFFFFF">2014-07-19</td>
-                    <td width="10%" align="center" bgcolor="#FFFFFF">
-                      <select name="missionObject">
-                          <option>赖辉强</option>
-                          <option>徐建文</option>
-                      </select>
+				    <td width="30%" height="20" align="center" bgcolor="#FFFFFF">
+				    	<s:property value="%{#request.phaseMissions[#status.index].misName}" />
+				    </td>
+                    <td width="15%" align="center" bgcolor="#FFFFFF">
+                    	<s:property value="%{#request.phaseMissions[#status.index].startTime}" />
                     </td>
-                    <td width="30%" align="center" bgcolor="#FFFFFF">无</td>
+                    <td width="15%" align="center" bgcolor="#FFFFFF">
+                    	<s:property value="%{#request.phaseMissions[#status.index].endTime}" />
+                    </td>
+                    <td width="10%" align="center" bgcolor="#FFFFFF">
+                    	<s:property value="%{#request.phaseMissions[#status.index].sendObject}" />
+                    </td>
+                    <td width="30%" align="center" bgcolor="#FFFFFF">
+                    	<s:property value="%{#request.phaseMissions[#status.index].misBrief}" />
+                    </td>
                   </tr>
+			</s:iterator>
                 </table>
               </td>
               </tr>
@@ -171,26 +150,39 @@ function on_load(){
           <td height="6"><img src="<%=basePath%>images/spacer.gif" width="1" height="1" /></td>
         </tr>
         <tr>
-          <td height="33"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="right-font08">
-              <tr>
-                <td width="50%">共 <span class="right-text09">5</span> 第<span class="right-text09"> 1</span> 页</td>
-                <td width="49%" align="right">[<a href="#" class="right-font08">首页</a> | <a href="#" class="right-font08">上一页</a> | <a href="#" class="right-font08">下一页</a> | <a href="#" class="right-font08">末页</a>] 转至</td>
-                <td width="1%"><table width="20" border="0" cellspacing="0" cellpadding="0">
+          <td height="33">
+          <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="right-font08">
+             <tr>
+                <td width="50%">共 <span id="pageNum" class="right-text09">
+                	<s:property value="%{#request.pageVo.pageNum}" />
+                </span> 第<span id="currentPage" class="right-text09">
+                	<s:property value="%{#request.pageVo.currentPage}" />
+                </span> 页</td>
+                <td width="49%" align="right">[<a class="right-font08" onclick="changePageNum('first',4)">
+                                                首页</a> 
+                | <a class="right-font08" onclick="changePageNum('fore',4)">上一页</a>
+                | <a class="right-font08" onclick="changePageNum('next',4)">下一页</a> 
+                | <a class="right-font08" onclick="changePageNum('last',4)">末页</a>] 
+                                                转至</td>
+                <td width="1%">
+                <table width="20" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                      <td width="1%"><input name="textfield3" type="text" class="right-textfield03" size="1" /></td>
-                      <td width="87%"><input name="Submit23222" type="submit" class="right-button06" value=" " />
+                      <td width="1%">
+                      <input id="changeNum" name="changeNum" type="text" class="right-textfield03" size="1" />
+                      </td>
+                      <td width="87%">
+                      <input name="sure" type="button" class="right-button06" onclick="changePageNum('input',4)"/>
                       </td>
                     </tr>
                 </table></td>
               </tr>
           </table>
-       </fieldset>
       </td>
      </tr>
       </table>
+    </fieldset>
   </td>
   </tr>
 </table>
-</form>
 </body>
 </html>

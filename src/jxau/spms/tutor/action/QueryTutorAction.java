@@ -7,8 +7,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import jxau.spms.admin.po.AdminInfo;
+import jxau.spms.common.po.TermInfo;
 import jxau.spms.common.vo.PageVo;
 import jxau.spms.exception.UnusualParamsException;
+import jxau.spms.student.service.StudentService;
 import jxau.spms.tutor.po.TutorBasicInfo;
 import jxau.spms.tutor.service.TutorService;
 import org.apache.struts2.ServletActionContext;
@@ -27,6 +29,7 @@ public class QueryTutorAction extends ActionSupport implements SessionAware{
 	private HttpServletRequest request = ServletActionContext.getRequest();
 	private Map<String, Object> session;	
 	private TutorService tutorService;
+	private StudentService studentService;
 	
 	/**
 	 * 查询导师信息(导师、管理员)
@@ -34,20 +37,18 @@ public class QueryTutorAction extends ActionSupport implements SessionAware{
 	 * 
 	*/
 	public String queryTutor(){
-		String message = "";
+		String message = "加载成功";
 		String flag = "tutor";		//定义重定向的标识
 		HashMap<String, Object> params = new HashMap<>();		//查询输入条件
 		String account = (String) session.get("account");		//获取账号
 		int role = (int) session.get("role");		//获取角色编号
-		if ("".equals(account)||account == null) {
-			System.out.println("编号为空!");
-		}
 		if (role == 2) {			//判断查询导师信息的角色
 			querySingle(message,params,account);
 		}else {		//当前角色是管理员
 			String tutorNo = (String) request.getParameter("tutorNo");
 			if (tutorNo == null) {		//判断管理员是否查询单个导师信息
 				params.put("adminNo", account);		//存储管理员账号
+				setTerms();		//设置学期信息
 				try {
 					PageVo pageVo = setPageVo(params);		//设置分页对象，设定参数
 					params.put("start", pageVo.getFirstIndex());	//设置起始序数
@@ -105,6 +106,25 @@ public class QueryTutorAction extends ActionSupport implements SessionAware{
 		return pageVo;
 	}
 	
+	/**
+	 * TODO 设置学期信息
+	 * 下午4:35:42
+	 */
+	public void setTerms(){
+		List<TermInfo> terms = studentService.queryTerms(null);
+		//判断加载信息标志位
+		String flag = request.getParameter("flag");
+		//获取开题报告学期
+		String term;
+		if ("reload".equals(flag)) {
+			term = request.getParameter("term");	//获取加载学期信息
+		}else {
+			term = terms.get(terms.size() - 1).getTerm();		//默认加载最新学期内容
+		}
+		//设置term属性
+		request.setAttribute("terms", terms);
+		request.setAttribute("term", term);
+	}
 	@Override
 	public void setSession(Map<String, Object> session) {
 		// TODO Auto-generated method stub
@@ -114,5 +134,8 @@ public class QueryTutorAction extends ActionSupport implements SessionAware{
 	public void setTutorService(TutorService tutorService){
 		this.tutorService = tutorService;
 	}
-	
+	 @Resource(name="studentService")
+	public void setStudentService(StudentService studentService){
+		this.studentService = studentService;
+	}
 }

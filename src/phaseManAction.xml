@@ -5,7 +5,15 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd">
       
 <struts>  
-             
+    <package name="phaseMissionManager" namespace="/phaseMission" extends="struts-default">  
+               
+        <action name="phaMisAction" class="jxau.spms.phaseManagement.action.PhaseMissionAction" method="addPhaseMission">  
+            <result name="add">/files/tutor/addPhaseMission.jsp</result>
+            <result name="tutPhaMisson">/files/tutor/displayPhaseMission.jsp</result>
+            <result name="stuPhaMisson">/files/student/fillPhaseMission.jsp</result>
+        </action>
+    </package> 
+        
     <package name="reportManager" namespace="/report" extends="struts-default">  
                
         <action name="queryReport" class="jxau.spms.phaseManagement.action.QueryReportAction" method="queryReport">  
@@ -21,6 +29,9 @@
     
      <package name="PhaseManagerAjax" namespace="/phaseManage" extends="json-default">     
         <action name="queryTaskAsyc" class="jxau.spms.phaseManagement.action.QueryTaskAsyc" method="queryTask">  
+            <result type="json"></result>
+        </action>
+        <action name="phaseMissionAys" class="jxau.spms.phaseManagement.action.PhaseMissionAys" method="getSendObject">  
             <result type="json"></result>
         </action>
     </package> 

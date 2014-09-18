@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="jxau.spms.dao"><!-- namespace必须是与接口的包路径一致，不然会报错误 -->
+
+    <!--<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" /> --><!-- Mybaties内置二级缓存 -->
+    <!-- 查询返回集合类型的配置 -->
+    <!-- 查询返回集合类型的配置 -->
+    <!-- 使用第三方缓存插件实现二级缓存-->
+ 
+     <!--获取发送对象信息-->
+    <select id="selectSendObject" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.PhaseMissionVo">
+		select ab.studentNo,ab.studentName from stu_basic_info ab inner join subject_info si 
+		on si.studentNo = ab.studentNo where 
+		<if test="stuExaState != null">
+			si.stuExaState = #{stuExaState} and
+		</if>
+		<if test="term != null">
+			si.subTerm = #{term} and
+		</if>
+		<if test="studentName != null">
+			ab.studentName = #{studentName} and
+		</if>
+		<if test="tutorNo != null">
+			ab.tutorNo = #{tutorNo}
+		</if>
+		;
+    </select> 
+     <!--导师、学生获取阶段任务信息-->
+     <!--  pm inner join stu_mission_info sm on
+		sm.missionNo = pm.missionNo inner join stu_basic_info sb on
+		sb.studentNo = sm.studentNo  -->
+    <select id="selectPhaMission" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.StuPhaseMission">
+		select * from phase_mission_info pm
+		<if test="studentNo != null">
+			inner join stu_mission_info sm on sm.missionNo = pm.missionNo
+		</if>
+		where
+		<if test="term != null">
+			pm.phaseTerm = #{term} and
+		</if>
+		<if test="studentNo != null">
+			sm.studentNo = #{studentNo}
+		</if>
+		<if test="tutorNo != null">
+			pm.tutorNo = #{tutorNo}
+		</if>
+		<if test="start != null">
+			limit #{start},#{number}
+		</if>
+		;
+    </select> 
+    <!--获取阶段任务数量-->
+     <select id="selectMissionNum" parameterType="java.util.Map"  resultType="int">
+		select count(*) from phase_mission_info pm 
+		<if test="studentNo != null">
+			inner join stu_mission_info sm on sm.missionNo = pm.missionNo
+		</if>
+		where
+		<if test="term != null">
+			pm.phaseTerm = #{term} and
+		</if>
+		<if test="studentNo != null">
+			sm.studentNo = #{studentNo}
+		</if>
+		<if test="tutorNo != null">
+			pm.tutorNo = #{tutorNo}
+		</if>
+		;
+    </select> 
+     <!--导师发布阶段任务信息-->
+    <insert id="addPhaseMission" parameterType="jxau.spms.tutor.po.PhaseMissionInfo" useGeneratedKeys="true" keyProperty="missionNo">
+		insert into phase_mission_info values
+		(null,#{tutorNo},#{misName},#{startTime},#{endTime},#{misBrief},#{phaseTerm},#{sendObject});
+    </insert>
+   <!--批量添加学生文档信息--> 
+     <insert id="batchAddStuPhase" parameterType="java.util.Map">
+		insert into stu_mission_info values
+		<foreach collection="phaseMissions" item="item" index="index" separator="," >  
+			(#{item.missionNo},#{item.studentNo},null,null,null,null)
+		</foreach>
+    </insert>
+     <!--学生上传阶段任务信息-->
+     <update id="uploadPhaseMis" parameterType="jxau.spms.student.po.StuMissionInfo">
+		update stu_mission_info set missionName = #{missionName}
+		,exameState = #{exameState},uploadTime = #{uploadTime} where
+		<if test="missionNo != null">
+			missionNo = #{missionNo}
+		</if>
+		;
+    </update> 
+    
+</mapper>

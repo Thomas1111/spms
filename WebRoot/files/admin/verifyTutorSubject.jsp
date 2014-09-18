@@ -130,7 +130,7 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                     	<s:property value="%{#request.tutorsInfo[#status.index].direction}" />
                     </td>
                     <td width="20%" align="center" bgcolor="#FFFFFF">
-                        <input type="button" name="listAllSub" value="查看所有选题" onclick="javascript:window.location.href='<%=path%>/subject/displaySubject?currentPage=1&term=2014-2015&tutorNo='+<s:property value="%{#request.tutorsInfo[#status.index].tutorNo}"/>" />
+                        <input type="button" name="listAllSub" value="查看所有选题" onclick="javascript:window.location.href='<%=path%>/subject/displaySubject?currentPage=1&tutorNo='+<s:property value="%{#request.tutorsInfo[#status.index].tutorNo}"/>" />
                     </td>
                   </tr>
             </s:iterator>

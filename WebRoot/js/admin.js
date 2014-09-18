@@ -28,9 +28,14 @@ function verifyTutorSub(state,subjectNo){
 	var currentPage = document.getElementById("currentPage").innerHTML;
 	$.get("subject/opeSubject!verifySubject?exameState="+state+"&subjectNo="+subjectNo+"&term="+term,function(data){
 		alert(data.message);		//显示操作信息
-		var tutorNo = document.getElementById("tutorNo").value;
+		var tutorNo = document.getElementById("tutorNo").value;		//获取隐藏域信息
 		javascript:window.location.href="subject/displaySubject?currentPage="+currentPage+"&term="+term+"&tutorNo="+tutorNo;
 	});
+}
+//管理员更换学期，重新加载选题信息
+function reloadTutorSubByterm(term){
+	var tutorNo = document.getElementById("tutorNo").value;		//获取隐藏域信息
+	javascript:window.location.href="subject/displaySubject?flag=reload&currentPage=1&term="+term+"&tutorNo="+tutorNo;
 }
 //创建审核导师上报选题表
 function createTutSubTab(term,url){
@@ -74,21 +79,29 @@ function createTutSubTab(term,url){
 		}
 	});
 }
-
+//更改页面，加载信息(非异步加载方式)
 function changePageNum(opeType,number){
-	var url = "./tutor/queryTutor?currentPage=";
+	var url = "tutor/queryTutor?currentPage=";
 	switch(number){
-	case 1:
-		url = "./tutor/queryTutor?opeType=adminManifest&currentPage=";
+	case 1:		//导师获取学生名单
+		var term = getCurrentTerm();	//获取当前学期
+		url = "tutor/queryTutor?opeType=adminManifest&flag=reload&term="+term+"&currentPage=";
 		break;
 	case 2:
-		url = "./tutor/queryTutor?opeType=verifySub&currentPage=";
+		url = "tutor/queryTutor?opeType=verifySub&currentPage=";
 		break;
-	case 3:
-		var terms = document.getElementById("term");	// 获取学期
-		var options = terms.options;
-		var term = options[terms.selectedIndex].text;
+	case 3://导师获取审核开题报告信息
+		var term = getCurrentTerm();	//获取当前学期
 		url = "report/queryReport?flag=reload&reportTerm="+term+"&currentPage=";
+		break;
+	case 4:
+		var term = getCurrentTerm();	//获取当前学期
+		url = "phaseMission/phaMisAction!queryPhaseInfo?flag=reload&term="+term+"&currentPage=";
+		break;
+	case 5:		//管理员获取导师选题信息
+		var term = getCurrentTerm();	//获取当前学期
+		var tutorNo = document.getElementById("tutorNo").value;		//获取隐藏域信息
+		url = "subject/displaySubject?flag=reload&tutorNo="+tutorNo+"&term="+term+"&currentPage=";
 		break;
 	default:
 		break;
@@ -132,4 +145,11 @@ function changePageNum(opeType,number){
 		};
 	}
 	window.location.href=url+currentPage;
+}
+//获取当前学期
+function getCurrentTerm(){
+	var terms = document.getElementById("term");	// 获取学期
+	var options = terms.options;
+	var term = options[terms.selectedIndex].text;
+	return term;
 }

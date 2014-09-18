@@ -141,13 +141,13 @@ insert into qua_verify_info values(3,'0791','2014-08-19 12:00:00',0,'无');
 insert into qua_verify_info values(4,'0791','2014-08-19 12:00:00',0,'无');
 ##阶段任务信息表
 select * from phase_mission_info;
-insert into phase_mission_info values(null,'1231','需求分析','2014-08-19 12:00:00','2014-08-31 12:00:00','完成系统的需求分析任务','2014-2015');
-insert into phase_mission_info values(null,'1231','总体设计','2014-09-01 12:00:00','2014-09-9 12:00:00','完成系统的总体设计任务','2014-2015');
+insert into phase_mission_info values(null,'1231','需求分析','2014-08-19 12:00:00','2014-08-31 12:00:00','完成系统的需求分析任务','2014-2015','全部学生');
+insert into phase_mission_info values(null,'1231','总体设计','2014-09-01 12:00:00','2014-09-9 12:00:00','完成系统的总体设计任务','2014-2015','全部学生');
 ##学生阶段信息任务
-insert into stu_mission_info values(1,'20111826','2014-08-18 12:00:00',0,'无');
-insert into stu_mission_info values(1,'20111827','2014-08-18 12:00:00',0,'无');
-insert into stu_mission_info values(2,'20111826','2014-09-08 12:00:00',0,'无');
-insert into stu_mission_info values(2,'20111827','2014-09-08 12:00:00',0,'无');
+insert into stu_mission_info values(1,'20111826','2014-08-18 12:00:00',0,'无','*****.doc');
+insert into stu_mission_info values(1,'20111827','2014-08-18 12:00:00',0,'无','*****.doc');
+insert into stu_mission_info values(2,'20111826','2014-09-08 12:00:00',0,'无','*****.doc');
+insert into stu_mission_info values(2,'20111827','2014-09-08 12:00:00',0,'无','*****.doc');
 ##开题报告
 select * from report_info;
 insert into report_info values(null,'20111826','1231','2014-08-15 12:00:00',2,'无','2014-2015','231232131233');
@@ -155,10 +155,10 @@ insert into report_info values(null,'20111827','1231','2014-08-15 12:00:00',2,'�
 insert into report_info values(null,'20111828','1231','2014-08-15 12:00:00',2,'无','2014-2015','131231231231');
 insert into report_info values(null,'20111829','1231','2014-08-15 12:00:00',2,'无','2014-2015','1231231231241');
 ##论文信息
-insert into paper_info values(null,'20111826','1231','2014-08-15 12:00:00',0,'无','2014-2015');
-insert into paper_info values(null,'20111827','1231','2014-08-15 12:00:00',0,'无','2014-2015');
-insert into paper_info values(null,'20111828','1231','2014-08-15 12:00:00',0,'无','2014-2015');
-insert into paper_info values(null,'20111829','1231','2014-08-15 12:00:00',0,'无','2014-2015');
+insert into paper_info values(null,'20111826','1231','2014-08-15 12:00:00',0,'无','2014-2015','*****.doc');
+insert into paper_info values(null,'20111827','1231','2014-08-15 12:00:00',0,'无','2014-2015','*****.doc');
+insert into paper_info values(null,'20111828','1231','2014-08-15 12:00:00',0,'无','2014-2015','*****.doc');
+insert into paper_info values(null,'20111829','1231','2014-08-15 12:00:00',0,'无','2014-2015','*****.doc');
 ##文档信息
 insert into document_info values(null,'1231','2014-08-15 12:00:00','B/S结构下论文结构','开题报告类','123123123123');
 insert into document_info values(null,'1231','2014-08-15 12:00:00','B/S结构下论文结构','毕设文档类','123123123123');

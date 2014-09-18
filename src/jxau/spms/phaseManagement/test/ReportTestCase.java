@@ -11,7 +11,7 @@ import jxau.spms.tutor.po.TaskInfo;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class PhaseManTestCase {
+public class ReportTestCase {
 
 	private ClassPathXmlApplicationContext actionContext = 
 			new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -78,5 +78,5 @@ public class PhaseManTestCase {
 		
 		reportService.addReport(reportInfo, params);
 	}
-
+	
 }

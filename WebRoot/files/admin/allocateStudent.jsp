@@ -73,7 +73,7 @@ html {
 <script src="<%=basePath%>/js/admin.js"></script>
 </head>
 
-<body onload="initTerm()">
+<body>
 	<table id="mainpage" width="100%" border="0" cellspacing="0"
 		cellpadding="0">
 		<tr>
@@ -89,8 +89,26 @@ html {
 										width="20" height="18" />
 									</td>
 									<td width="550" class="font051">
-									学期： <select id="term" name="term">
-									</select>
+									学期：
+										<select id="term"
+											name="term"
+											onchange="reloadTutorSubByterm(this.options
+      											[this.options.selectedIndex].value)">
+												<s:iterator value="%{#request.terms}" id="id"
+													status="status">
+													<s:if
+														test="#request.terms[#status.index].term == #request.term">
+														<option selected=true>
+															<s:property value="%{#request.term}" />
+														</option>
+													</s:if>
+													<s:else>
+														<option>
+															<s:property value="%{#request.terms[#status.index].term}" />
+														</option>
+													</s:else>
+												</s:iterator>
+										</select>
 									</td>
 								</tr>
 							</table>
@@ -137,7 +155,7 @@ html {
 															value="%{#request.tutorsInfo[#status.index].tutorName}" />
 													</td>
 													<td width="5%" align="center" bgcolor="#FFFFFF">
-													<s:if test="#request.tutorsInfo[#status.index].sex}==0">
+													<s:if test="#request.tutorsInfo[#status.index].sex==0">
 								                    	男
 								                    </s:if> 
 								                    <s:else>
@@ -177,24 +195,25 @@ html {
 						<td height="33"><table width="100%" border="0" align="center"
 								cellpadding="0" cellspacing="0" class="right-font08">
 								<tr>
-									<td width="50%">共 <span class="right-text09"> <s:property
-												value="%{#request.pageVo.pageNum}" /> </span> 第<span
-										class="right-text09"> <s:property
-												value="%{#request.pageVo.currentPage}" /> </span> 页</td>
-									<td width="49%" align="right">[<a 
-										class="right-font08" onclick="changePageNum('first',1)"> 首页</a> | <a
-										class="right-font08" onclick="changePageNum('fore',1)">上一页</a>
-										| <a class="right-font08" onclick="changePageNum('next',1)">下一页</a>
-										| <a class="right-font08" onclick="changePageNum('last',1)">末页</a>]
-										转至</td>
-									<td width="1%"><table width="20" border="0"
-											cellspacing="0" cellpadding="0">
-											<tr>
-												<td width="1%"><input id="changePageNumNum" name="changePageNumNum"
-													type="text" class="right-textfield03" size="1" /></td>
-												<td width="87%"><input name="sure" type="button"
-													class="right-button06" onclick="changePageNum('input',1)" /></td>
-											</tr>
+										<td width="50%">共 <span id="pageNum" class="right-text09">
+												<s:property value="%{#request.pageVo.pageNum}" /> </span> 第<span
+											id="currentPage" class="right-text09"> <s:property
+													value="%{#request.pageVo.currentPage}" /> </span> 页</td>
+										<td width="49%" align="right">[<a class="right-font08"
+											onclick="changePageNum('first',1)"> 首页</a> | <a
+											class="right-font08" onclick="changePageNum('fore',1)">上一页</a>
+											| <a class="right-font08" onclick="changePageNum('next',1)">下一页</a>
+											| <a class="right-font08" onclick="changePageNum('last',1)">末页</a>]
+											转至</td>
+										<td width="1%">
+											<table width="20" border="0" cellspacing="0" cellpadding="0">
+												<tr>
+													<td width="1%"><input id="changeNum" name="changeNum"
+														type="text" class="right-textfield03" size="1" /></td>
+													<td width="87%"><input name="sure" type="button"
+														class="right-button06" onclick="changePageNum('input',1)" />
+													</td>
+												</tr>
 										</table></td>
 								</tr>
 							</table></td>
