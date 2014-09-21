@@ -95,7 +95,6 @@ function initTaskInfo(){
 				//设定option默认值(最新学期)
 				termOptions.options[terms.length-1].selected=true;
 				var term = termOptions.options[terms.length-1].text;	//获取默认节点的属性值
-				alert(term);
 				$.get("phaseManage/queryTaskAsyc?term="+term,function(data){	//获取当前学期信息
 					if(data.message == "查询成功"){
 						var subName = document.getElementById("subName");
@@ -322,7 +321,6 @@ function createApplyTab(term,url){
 			subject.innerHTML = subInfoHtml;
 			setPageInfo(data.pageVo);	//设置分页属性
 		}else{
-			alert("***");
 			alert(message);
 		}
 	});
@@ -343,7 +341,6 @@ function createCancelTab(term,url){
 			for(var j = 0;j < subjectInfos.length;j++){
 				//获取审核状态并进行转换
 				var exameState = displayExamState(subjectInfos[j].stuExaState);
-				alert(subjectInfos[j].stuExaState);
 				var button;
 				var subTerm = subjectInfos[j].subTerm.split("-");
 				var temp = "<tr align='center'>"+

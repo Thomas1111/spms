@@ -42,7 +42,7 @@ public class TaskInfoAction extends ActionSupport {
 		HashMap<String, Object> params = new HashMap<>(); 	//实例化参数信息
 		//设置参数信息
 		params.put("subName", request.getParameter("subName"));
-		params.put("tutorNo", session.getAttribute("account"));
+		params.put("tutorNo", session.getAttribute("tutorNo"));
 		params.put("term", request.getParameter("term"));
 		//实例化任务信息
 		TaskInfo taskInfo = new TaskInfo();

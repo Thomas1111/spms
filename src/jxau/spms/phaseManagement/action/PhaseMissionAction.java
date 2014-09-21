@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import jxau.spms.common.po.ReportInfo;
 import jxau.spms.common.po.TermInfo;
+import jxau.spms.common.vo.MissionPageVo;
 import jxau.spms.common.vo.PageVo;
 import jxau.spms.common.vo.ReportInfoVo;
 import jxau.spms.common.vo.StuPhaseMission;
@@ -69,8 +70,8 @@ public class PhaseMissionAction extends ActionSupport {
     public String addPhaseMission(){
     	message = "添加成功";
     	String sendObj = request.getParameter("missionObject");	//获取发送对象
-    	String tutrNo = (String) session.getAttribute("account");	//获取导师账号
-    	String startTime = request.getParameter("startTime");	//获取其实时间
+    	String tutrNo = (String) session.getAttribute("tutorNo");	//获取导师账号
+    	String startTime = request.getParameter("startTime");	//获取起始时间
     	String deadline = request.getParameter("deadline");		//获取终止时间
     	
     	//实例化并设置阶段任务信息
@@ -126,18 +127,26 @@ public class PhaseMissionAction extends ActionSupport {
 			term = terms.get(terms.size() - 1).getTerm();		//默认加载最新学期内容
 		}
 		int role = (int) session.getAttribute("role");	//获取角色编号哦
-		String account = (String) session.getAttribute("account");	//获取用户账号
+		String account = null;	
 		//获取当前页面数
 		String page = request.getParameter("currentPage");
 		if (page == null || "".equals(page)) {
 			message = "参数错误";
-			return "success";
+			return dispatch;
 		}
 		int currentPage = Integer.parseInt(page.trim());
 		//设置分页对象属性
 		pageVo.setCurrentPage(currentPage);
 		//设置查询参数
 		params.put("role", role);
+		//判断角色,获取用户账号
+		if (role == 1) {
+			account = (String) session.getAttribute("studentNo");		
+		}else if (role==2) {
+			account = (String) session.getAttribute("tutorNo");	
+		}else {
+			account = (String) session.getAttribute("adminNo");	
+		}
 		params.put("account", account);
 		params.put("term", term);
 		//设置分页内容
@@ -167,10 +176,68 @@ public class PhaseMissionAction extends ActionSupport {
 		if (role == 1) {
 			dispatch = "stuPhaMisson";
 		}
-		System.out.println("*********" + message);
+
     	return dispatch;
     }
-    
+    /**
+     * TODO 导师获取学生阶段任务审核信息
+     * 下午4:15:57
+     * @return
+     */
+    public String queryVerMission(){
+    	message = "查询成功";
+    	HashMap<String, Object> params = new HashMap<>();
+    	MissionPageVo missionPageVo = new MissionPageVo();
+		//获取默认学期信息
+    	List<TermInfo> terms = studentService.queryTerms(null);
+		//判断加载信息标志位
+		String flag = request.getParameter("flag");
+		//获取开题报告学期
+		String term;
+		if ("reload".equals(flag)) {
+			term = request.getParameter("term");	//获取加载学期信息
+		}else {
+			term = terms.get(terms.size() - 1).getTerm();		//默认加载最新学期内容
+		}
+		String tutorNo = (String) session.getAttribute("tutorNo");	//获取用户账号
+		String init = request.getParameter("init");
+		String missionNo = null;
+		//设置查询参数
+		params.put("tutorNo", tutorNo);
+		params.put("term", term);
+		if ("yes".equals(init)) {		//判断是否默认加载
+			params.put("first", "yes");		
+		}else {
+			missionNo = request.getParameter("missionNo");
+			if (missionNo == null || " ".equals(missionNo)) {
+				message = "参数错误";
+				return "veriMisInfo";
+			}
+			params.put("missionNo",Integer.parseInt(missionNo.trim()));  //设置missionNo参数
+		}
+		//设置term属性
+		request.setAttribute("terms", terms);
+		request.setAttribute("term", term);
+		
+		try {
+			//查询信息
+			List<StuPhaseMission> verMissions = 
+					phaseMissionService.queryVerMission(params,missionPageVo);
+			//设置request属性
+			request.setAttribute("verMissions", verMissions);
+			request.setAttribute("missionPageVo",missionPageVo);	//设置当前阶段任务编号	//设置当前阶段任务编号
+			} catch (UnusualParamsException e) {
+				// TODO: handle exception
+				message = e.getMessage();
+			}catch (CommonErrorException e) {
+				// TODO: handle exception
+				message = e.getMessage();
+			}finally{
+				request.setAttribute("message", message);
+			}
+	
+    	return "veriMisInfo";
+    }
     /**
 	 * TODO 学生上传阶段任务
 	 * @return 跳转标记位
@@ -185,7 +252,7 @@ public class PhaseMissionAction extends ActionSupport {
 			return "stuPhaMisson";
 		}
 		//获取学生学号
-		String studentNo = (String) session.getAttribute("account");
+		String studentNo = (String) session.getAttribute("studentNo");
 		stuMissionInfo.setStudentNo(studentNo);			//设置学生学号
 		stuMissionInfo.setMissionNo(Integer.parseInt(missionNo.trim()));	//设置任务编号
 		stuMissionInfo.setUploadTime(new Date());	//设置上传时间	

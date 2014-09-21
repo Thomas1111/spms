@@ -78,6 +78,22 @@
 		delete from report_info where
 		studentNo = #{studentNo} and reportTerm = #{reportTerm};
     </delete>
+    <!--学生上传论文信息-->
+    <insert id="addPaperInfo" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="paperNo">
+		insert into paper_info values
+			(null,#{studentNo},#{uploadTime},
+			 #{exameState},#{memo},#{paperTerm},#{paperName});
+    </insert>
+    <!--判断论文信息是否存在-->
+     <select id="paperExistOrNot" parameterType="java.util.Map"  resultType="int">
+		select count(*) from paper_info where 
+		studentNo = #{studentNo} and paperTerm = #{paperTerm};
+    </select>
+    <!--删除论文信息-->
+    <delete id="deletePaperInfo" parameterType="java.util.Map">
+		delete from paper_info where
+		studentNo = #{studentNo} and paperTerm = #{paperTerm};
+    </delete>
     <!--导师添加任务书信息-->
     <insert id="addTaskInfo" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="taskNo">
 		insert into task_info values

@@ -8,7 +8,7 @@
     <!-- 查询返回集合类型的配置 -->
     <!-- 查询返回集合类型的配置 -->
     <!-- 使用第三方缓存插件实现二级缓存-->
-   
+  
     <!--获取导师上传文档信息-->
     <select id="selectTutorDocument" parameterType="java.util.Map"  resultType="jxau.spms.tutor.po.DocumentInfo">
 		select * from document_info di where di.tutorNo = #{account};

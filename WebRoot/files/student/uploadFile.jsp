@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%> 
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -35,8 +36,8 @@
 </style>
 </head>
 
-<body class="ContentBody" onload="initTerm()">
-	<form id="addDocuemnt" action="report/manageReport!addReport" method="post" enctype="multipart/form-data" onsubmit="return checkReportInfo(this)">
+<body class="ContentBody" onload="initUplaodInfo()">
+	<form id="addDocuemnt" action="" method="post" enctype="multipart/form-data" onsubmit="return checkReportInfo(this)">
 		<div class="MainDiv">
 			<table width="99%" border="0" cellpadding="0" cellspacing="0"
 				class="CContent">
@@ -56,8 +57,6 @@
 											<tr>
 												<td width="30%" align="center" class="atten">上传文件类型： <select
 													id="fileType" name="fileType">
-														<option selected=true>开题报告类</option>
-														<option>毕设文档类</option>
 												</select></td>
 												<td width="30%" align="center" class="atten">选择学期：
 														 <select id="term" name="term">

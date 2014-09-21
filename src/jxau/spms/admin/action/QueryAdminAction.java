@@ -42,7 +42,7 @@ public class QueryAdminAction extends ActionSupport {
 	 */
 	public String queryAdmin(){
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		String adminNo = (String) session.getAttribute("account");
+		String adminNo = (String) session.getAttribute("adminNo");
 		params.put("adminNo", adminNo);		//设置查询参数
 		//调用service方法
 		AdminBasicInfo adminBasicInfo = adminService.queryAdminByNo(params);

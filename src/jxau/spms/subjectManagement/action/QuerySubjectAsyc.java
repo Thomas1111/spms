@@ -73,12 +73,12 @@ public class QuerySubjectAsyc extends ActionSupport {
 		}
 		//判断角色参数
 		if (role == 1) {	//角色为学生
-			String studentNo = (String) session.getAttribute("account");	//获取账号信息
+			String studentNo = (String) session.getAttribute("studentNo");	//获取账号信息
 			params.put("studentNo", studentNo);		//设置学生学号参数
-		}else if (role == 2){
-			String tutorNo = (String)session.getAttribute("account");
+		}else if (role == 2){	//角色为导师
+			String tutorNo = (String)session.getAttribute("tutorNo");
 			params.put("tutorNo", tutorNo);		//设置导师参数
-			params.put("stuExaState",1);	//设置学生选题状态为通过	
+			params.put("stuExaState",1);	//设置学生选题状态为通过
 		}else {			//角色为管理员
 			String tutorNo = (String) request.getParameter("tutorNo");	//管理员获取导师工号
 			params.put("tutorNo",tutorNo);		//设置导师工号
@@ -110,7 +110,7 @@ public class QuerySubjectAsyc extends ActionSupport {
 		String currentPage = request.getParameter("currentPage");	//获取当前页面
 		pageVo.setCurrentPage(Integer.parseInt(currentPage));		//设置当前页面
 		String term =request.getParameter("term");		//获取学期信息
-		String tutorNo = (String)session.getAttribute("account");
+		String tutorNo = (String)session.getAttribute("tutorNo");
 		params.put("tutorNo", tutorNo);	//设置导师账号参数
 		params.put("stuExaState",1);	//设置学生选题状态为通过
 		params.put("term",term);	//设置学期参数
@@ -141,7 +141,7 @@ public class QuerySubjectAsyc extends ActionSupport {
 		String currentPage = request.getParameter("currentPage");	//获取当前页面
 		pageVo.setCurrentPage(Integer.parseInt(currentPage));		//设置当前页面
 		String term =request.getParameter("term");		//获取学期信息
-		String adminNo = (String)session.getAttribute("account");
+		String adminNo = (String)session.getAttribute("adminNo");
 		
 		params.put("adminNo", adminNo);	//设置导师账号参数
 		params.put("term",term);	//设置学期参数

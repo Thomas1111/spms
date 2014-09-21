@@ -49,7 +49,7 @@ public class NoticeUploadAction extends ActionSupport {
 		session = request.getSession();
 		NoticeInfo noticeInfo = new NoticeInfo();
 		//获取管理员账号
-		String adminNo = (String) session.getAttribute("account");
+		String adminNo = (String) session.getAttribute("adminNo");
 		String noticeTitle = request.getParameter("noticeTitle");	//获取notice标题
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmssSSS");
 		String identifier = adminNo + format.format(new Date());
@@ -60,10 +60,10 @@ public class NoticeUploadAction extends ActionSupport {
 		noticeInfo.setUploadTime(new Date());
 		noticeInfo.setIdentifier(identifier);
         try {
-        	FileUpload.upload(adminNo,upload,identifier+suffix,"notice");		//调用上传方法
-        	message = noticeService.addNotice(noticeInfo);
         	ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");
         	out = ServletActionContext.getResponse().getWriter();
+        	FileUpload.upload(adminNo,upload,identifier+suffix,"notice");		//调用上传方法
+        	message = noticeService.addNotice(noticeInfo);
 		} catch (UnusualParamsException e) {
 			// TODO: handle exception
 			message = e.getMessage();

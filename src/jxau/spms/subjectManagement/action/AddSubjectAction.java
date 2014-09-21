@@ -76,7 +76,7 @@ public class AddSubjectAction extends ActionSupport {
 		subjectInfo.setSubType(subType);
 		subjectInfo.setApplyTime(currentTime);
 		subjectInfo.setTutorNo((String)request.
-				getSession().getAttribute("account"));
+				getSession().getAttribute("tutorNo"));
 		
 		try {
 			subjectService.addSubject(subjectInfo);

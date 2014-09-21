@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 /**
  *  Dao层封装
- * @author thomas
+ * @author anping
  *
  */
 public interface Dao {

@@ -21,6 +21,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ActionSupport;
 
+/**
+ * @author Lai Huiqiang
+ * 2014-9-21
+ * TODO
+ */
 @Controller("docUploadAction")
 @Scope("prototype")
 public class QueryDocumentAction extends ActionSupport {
@@ -42,13 +47,14 @@ public class QueryDocumentAction extends ActionSupport {
 	 */
 	public String queryDocument(){
 		String flag = "student";
+		String message = "查询成功";
 		request = ServletActionContext.getRequest();
 		session = request.getSession();
 		List<DocumentInfo> docInfo = null;
 		//List<StuDownInfo> studentDoc = null;
 		//获取参数信息
 		int role = (int) session.getAttribute("role");
-		String account = (String) session.getAttribute("account");
+		String account = (String) session.getAttribute("studentNo");
 		HashMap< String, Object> params = new HashMap<>();
 		//设置查询条件
 		params.put("role", role);
@@ -56,25 +62,21 @@ public class QueryDocumentAction extends ActionSupport {
 		//调用service查询方法
 		try {
 			docInfo = docService.queryDocument(params);
-			if (role == 1) {
-			}else {
+			if (role == 2) {
 				flag = "tutor";
 			}
 			request.setAttribute("docInfo", docInfo);
 		} catch (UnusualParamsException e) {
 			// TODO: handle exception
-			System.out.print(e.getMessage());
-			return flag;
+			message = e.getMessage();
 		}catch (RoleNotPermittedException e) {
 			// TODO: handle exception
-			System.out.print(e.getMessage());
-			return flag;
+			message = e.getMessage();
 		}catch (DocNotExistException e) {
 			// TODO: handle exception
-			System.out.print(e.getMessage());
-			return flag;
+			message = e.getMessage();
 		}
-		
+		request.setAttribute("message", message);
 		return flag;
 	}
 	

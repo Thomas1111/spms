@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
   <display-name></display-name>
+  <!--过滤字符编码-->
   <filter>
     <filter-name>characterEncoding</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -12,7 +13,22 @@
   <filter-mapping>
     <filter-name>characterEncoding</filter-name>
     <url-pattern>/*</url-pattern>
+    <url-pattern>/*/*</url-pattern>
   </filter-mapping>
+   <!--控制访问权限-->
+	<filter>
+	    <filter-name>URLFilter</filter-name>
+	    <filter-class>jxau.spms.filter.URLFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	    <filter-name>URLFilter</filter-name>
+	    <url-pattern>/index_admin.jsp</url-pattern>
+	    <url-pattern>/index_tutor.jsp</url-pattern>
+	    <url-pattern>/index_student.jsp</url-pattern>
+	    <url-pattern>/files/student/*</url-pattern>
+	    <url-pattern>/files/tutorNo/*</url-pattern>
+	    <url-pattern>/files/adminNo/*</url-pattern>
+	</filter-mapping>
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>/WEB-INF/classes/applicationContext.xml</param-value>

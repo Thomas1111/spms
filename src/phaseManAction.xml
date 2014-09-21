@@ -11,6 +11,7 @@
             <result name="add">/files/tutor/addPhaseMission.jsp</result>
             <result name="tutPhaMisson">/files/tutor/displayPhaseMission.jsp</result>
             <result name="stuPhaMisson">/files/student/fillPhaseMission.jsp</result>
+            <result name="veriMisInfo">/files//tutor/verifyPhaseMission.jsp</result>
         </action>
     </package> 
         
@@ -19,7 +20,7 @@
         <action name="queryReport" class="jxau.spms.phaseManagement.action.QueryReportAction" method="queryReport">  
             <result name="success">/files/tutor/verifyReport.jsp</result>
         </action>
-        <action name="manageReport" class="jxau.spms.phaseManagement.action.ReportAction">  
+        <action name="manageReport" class="jxau.spms.phaseManagement.action.ReportAction" method="uploadFile">  
             <result>/files/student/uploadFile.jsp</result>
         </action>
  		 <action name="manageTask" class="jxau.spms.phaseManagement.action.TaskInfoAction">  

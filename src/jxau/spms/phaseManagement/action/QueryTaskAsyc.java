@@ -48,7 +48,7 @@ public class QueryTaskAsyc extends ActionSupport {
 		HashMap<String, Object> params = new HashMap<>();
 		//获取参数信息
 		String term = request.getParameter("term");
-		String studentNo = (String) session.getAttribute("account");
+		String studentNo = (String) session.getAttribute("studentNo");
 		//设置参数信息
 		params.put("term", term);
 		params.put("studentNo", studentNo);

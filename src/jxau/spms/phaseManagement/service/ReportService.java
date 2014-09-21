@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jxau.spms.common.po.PaperInfo;
 import jxau.spms.common.po.ReportInfo;
 import jxau.spms.common.vo.ReportInfoVo;
 import jxau.spms.common.vo.TaskInfoVo;
@@ -41,12 +42,22 @@ public interface ReportService {
 	public TaskInfoVo queryTaskInfo(HashMap<String, Object> params) 
 			throws RuntimeException;
 	/**
-	 * TODO 增加开题报告信息
+	 * TODO 学生上传开题报告信息
 	 * 下午7:03:50
-	 * @param reportInfo 开题报告实体信息
+	 * @param  删除已存在信息参数
+	 * @ReportInfo 开题报告实体信息
 	 * @throws RuntimeException
 	 */
 	public void addReport(ReportInfo reportInfo,Map<String, Object> params) 
+			throws RuntimeException;
+	/**
+	 * TODO 学生上传论文信息
+	 * 上午11:10:49
+	 * @param paperInfo 学生论文信息实体类
+	 * @param params 删除已存在信息参数
+	 * @throws RuntimeException
+	 */
+	public void addPaper(PaperInfo paperInfo,Map<String, Object> params) 
 			throws RuntimeException;
 	/**
 	 * TODO	导师审核开题报告

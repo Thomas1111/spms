@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import jxau.spms.abstraction.dao.Dao;
+import jxau.spms.common.po.PaperInfo;
 import jxau.spms.common.po.ReportInfo;
 import jxau.spms.common.po.SubjectInfo;
 import jxau.spms.common.vo.ReportInfoVo;
@@ -66,6 +67,10 @@ public class ReportServiceImple implements ReportService {
 		// TODO Auto-generated method stub
 		if (reportInfo == null	|| params == null) {
 			throw new UnusualParamsException("参数不能为空!");
+		}
+		if (params.get("studentNo") == null ||
+				params.get("reportTerm") == null) {
+			throw new UnusualParamsException("参数内容不能为空!");
 		}
 		//获取导师工号
 		String tutorNo = dao.selectOne(mapper + "selectTutorNo",params);
@@ -181,5 +186,27 @@ public class ReportServiceImple implements ReportService {
 		
 		//调用dao方法更新开题报告
 		dao.update(mapper + "verifyReportInfo", params);
+	}
+	/* (non-Javadoc)
+	 * @see jxau.spms.phaseManagement.service.ReportService#addPaper(jxau.spms.common.po.PaperInfo, java.util.Map)
+	 * TODO 学生上传开题报告
+	 */
+	@Override
+	public void addPaper(PaperInfo paperInfo, Map<String, Object> params)
+			throws RuntimeException {
+		// TODO Auto-generated method stub
+		if (paperInfo == null	|| params == null) {
+			throw new UnusualParamsException("参数不能为空!");
+		}
+		if (params.get("studentNo") == null ||
+				params.get("paperTerm") == null) {
+			throw new UnusualParamsException("参数内容不能为空!");
+		}
+		int count =  dao.selectOne(mapper + "paperExistOrNot",params);	//获取论文信息数量
+		if (count >= 1) {	//判断论文信息是否已存在
+			dao.delete(mapper + "deletePaperInfo", params);	//删除已存在信息
+		}
+		//调用dao添加方法
+		dao.add(mapper+"addPaperInfo", paperInfo);
 	}
 }

@@ -3,6 +3,7 @@ package jxau.spms.tutor.action;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
@@ -28,14 +29,20 @@ public class ModifyPasswordAction extends ActionSupport implements SessionAware{
 		request = ServletActionContext.getRequest();
 		PassModification modify = new PassModification();		//实例化修改密码对象
 		//设置密码对象相应的属性
-		modify.setAccount((String) session.get("account"));
-		modify.setRole((int) session.get("role"));
-		System.out.println("**********=" + (int) session.get("role"));
+		int role = (int) session.get("role");
+		modify.setRole(role);
 		modify.setRealPass((String)session.get("password"));
 		modify.setPassword((String)request.getParameter("originPass"));
 		modify.setModifyPass((String)request.getParameter("modifyPass"));
 		modify.setConfirmPass((String)request.getParameter("confirmPass"));
-		System.out.println("========" + modify.getConfirmPass());
+		//判断角色
+		if (role == 1) {
+			modify.setAccount((String) session.get("studentNo"));		
+		}else if (role==2) {
+			modify.setAccount((String) session.get("tutorNo"));	
+		}else {
+			modify.setAccount((String) session.get("adminNo"));	
+		}
 		//调用service方法获取信息
 		try {
 			message = tutorService.updatePass(modify);

@@ -251,14 +251,12 @@ create table report_info(
 create table paper_info(
 	paperNo int auto_increment primary key,
 	studentNo char(8),
-	tutorNo char(4),
 	uploadTime datetime not null,
 	exameState tinyint default 0,
 	memo varchar(90),
 	paperTerm varchar(30) not null,
 	paperName varchar(90),
-	constraint fk_paper_studentNo foreign key (studentNo) references stu_basic_info(studentNo),
-	constraint fk_paper_tutorNo foreign key (tutorNo) references tutor_basic_info(tutorNo)
+	constraint fk_paper_studentNo foreign key (studentNo) references stu_basic_info(studentNo)
 );
 
 /*阶段任务信息表20*/
@@ -282,8 +280,13 @@ create table stu_down_info(
 	constraint fk_stu_down_docNo foreign key (docNo) references document_info(docNo),
 	constraint fk_stu_down_studentNo foreign key (studentNo) references stu_basic_info(studentNo)
 );
-/*学期表*/
+/*学期表22*/
 create table term_info(
 	termNo int auto_increment primary key,
 	term varchar(10) not null
+);
+/*学期表23*/
+create table document_type(
+	documentNo int auto_increment primary key,
+	documentType varchar(30) not null
 );

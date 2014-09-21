@@ -60,7 +60,7 @@ public class QueryStudentAsyc extends ActionSupport {
 			tutorNo = (String) request.getParameter("tutorNo");
 		}else {
 			//获取导师工号
-			tutorNo = (String) session.getAttribute("account");
+			tutorNo = (String) session.getAttribute("tutorNo");
 		}
 		String term = request.getParameter("term");
 		int currentPage = Integer.parseInt(request.getParameter("currentPage"));

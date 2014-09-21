@@ -91,11 +91,11 @@ function list(idstr){
 				<table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
 				  <tr>
 					<td width="25%" rowspan="2"><img src="<%=basePath%>images/ico02.gif" width="35" height="35" /></td>
-					<td width="75%" height="22" class="left-font01">您好，<span class="left-font02"><s:property value="#session.name"/></span></td>
+					<td width="75%" height="22" class="left-font01">您好，<span class="left-font02"><s:property value="#session.studentName"/></span></td>
 				  </tr>
 				  <tr>
 					<td height="22" class="left-font01">
-						[&nbsp;<a href="<%=basePath%>login.jsp" target="_top" class="left-font01">退出</a>&nbsp;]</td>
+						[&nbsp;<a href="<%=path%>/userlogin!loginOut" target="_top" class="left-font01">退出</a>&nbsp;]</td>
 				  </tr>
 				</table>
 			</td>

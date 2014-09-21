@@ -90,7 +90,6 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
                   <tr>
                     <td width="10%" height="20" align="center" bgcolor="#EEEEEE">姓名</td>
                     <td width="10%" align="center" bgcolor="#FFFFFF">
-                    	<s:property value="%{#request.pageVo.pageNum}" />
                     </td>
                     <td width="10%" align="center" bgcolor="#EEEEEE">性别</td>
                     <td width="5%" align="center" bgcolor="#FFFFFF">女</td>

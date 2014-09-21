@@ -5,10 +5,12 @@ import java.util.Date;
 public class StuPhaseMission {
 
 	private String studentName;
+	private String studentNo;
 	private int missionNo;
 	private String tutorNo;
 	private String misName;
 	private Date startTime;
+	private Date uploadTime;
 	private Date endTime;
 	private String misBrief;
 	private String phaseTerm;
@@ -20,6 +22,12 @@ public class StuPhaseMission {
 	}
 	public void setStudentName(String studentName) {
 		this.studentName = studentName;
+	}
+	public String getStudentNo() {
+		return studentNo;
+	}
+	public void setStudentNo(String studentNo) {
+		this.studentNo = studentNo;
 	}
 	public int getMissionNo() {
 		return missionNo;
@@ -44,6 +52,13 @@ public class StuPhaseMission {
 	}
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
+	}
+	
+	public Date getUploadTime() {
+		return uploadTime;
+	}
+	public void setUploadTime(Date uploadTime) {
+		this.uploadTime = uploadTime;
 	}
 	public Date getEndTime() {
 		return endTime;
@@ -77,9 +92,10 @@ public class StuPhaseMission {
 	}
 	@Override
 	public String toString() {
-		return "StuPhaseMission [studentName=" + studentName + ", missionNo="
-				+ missionNo + ", tutorNo=" + tutorNo + ", misName=" + misName
-				+ ", startTime=" + startTime + ", endTime=" + endTime
+		return "StuPhaseMission [studentName=" + studentName + ", studentNo="
+				+ studentNo + ", missionNo=" + missionNo + ", tutorNo="
+				+ tutorNo + ", misName=" + misName + ", startTime=" + startTime
+				+ ", uploadTime=" + uploadTime + ", endTime=" + endTime
 				+ ", misBrief=" + misBrief + ", phaseTerm=" + phaseTerm
 				+ ", sendObject=" + sendObject + ", exameState=" + exameState
 				+ "]";

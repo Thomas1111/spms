@@ -120,8 +120,50 @@ function checkFile(form,missionNo){
 	}
 	var fileName = filePath.split("\\").pop();	//获取文件名称
 	var term = getCurrentTerm();	//获取当前学期
-	form.action = "phaseMission/phaMisAction!uploadPhaMission?missionNo="
+	form.action = "phaseManage/phaseMissionAys!uploadPhaMission?missionNo="
 		+ missionNo + "&term=" + term + "&fileName=" + fileName;
 	
 	return flag;
+}
+//导师审核阶段任务----更换学期加载数据
+function reloadVerMisInfo(term){
+	window.location.href="phaseMission/phaMisAction!queryVerMission?flag=reload&init=yes&term="+term;
+}
+//导师审核阶段任务----切换阶段任务(上一个、下一个)
+function switchVerMission(type,missionNo,limit){
+	
+	if(type == "fore"){
+		if(missionNo - 1< limit){
+			alert("已经是第一个了");
+			return;
+		}
+		missionNo = missionNo - 1;
+	}else{
+		if(missionNo + 1 > limit){
+			alert("已经是最后第一个了");
+			return;
+		}
+		missionNo = missionNo + 1;
+	}
+	// 获取学期
+	var terms = document.getElementById("term");	
+	var options = terms.options;
+	var term = options[terms.selectedIndex].text;
+	//重新加载数据
+	window.location.href="phaseMission/phaMisAction!queryVerMission?flag=reload" +
+			"&term="+term+"&missionNo="+missionNo;
+}
+//导师审核阶段任务----审核学生阶段任务
+function verifyPhaseMission(missionNo,studentNo,verType){
+	$.get("phaseManage/phaseMissionAys!verifyStuPhaMis?missionNo="+missionNo
+			+"&studentNo="+studentNo+"&verType="+verType,function(data){
+		alert(data.message);
+		// 获取当前学期
+		var terms = document.getElementById("term");	
+		var options = terms.options;
+		var term = options[terms.selectedIndex].text;
+		//重新加载数据
+		window.location.href="phaseMission/phaMisAction!queryVerMission?flag=reload" +
+				"&term="+term+"&missionNo="+missionNo;
+	});
 }

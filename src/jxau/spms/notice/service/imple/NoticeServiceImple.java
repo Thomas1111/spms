@@ -70,6 +70,7 @@ public class NoticeServiceImple implements NoticeService {
 		//判断角色,选择持久化操作
 		if (role == 1) {
 			id = "selectStudentNotice";
+			
 		}else if (role==2) {
 			id = "selectTutorNotice";
 		}else {

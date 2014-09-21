@@ -42,7 +42,6 @@ function createTutSubTab(term,url){
 	$.get(url+"type=asyc"+"&term="+term,function(data){
 		var message = data.message;
 		var subjectInfos = data.tutorSubInfos;
-		alert(subjectInfos.length);
 		if(message == "加载成功"){
 			var subject = document.getElementById("subjectInfo");
 			var subInfoHtml = "<tr><td height='20' colspan='13' align='center' bgcolor='#EEEEEE' class='tablestyle_title'>" +

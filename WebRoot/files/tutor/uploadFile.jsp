@@ -33,18 +33,6 @@ function fill(){
 			$("#fileName").attr("value",String(document).split("\\").pop());
 		}
 	}
-function tishi()
-{
-  var a=confirm('132');
-  if(a!=true)return false;
-  window.open("³åÍ»Ò³.htm","","depended=0,alwaysRaised=1,width=800,height=400,location=0,menubar=0,resizable=0,scrollbars=0,status=0,toolbar=0");
-}
-
-function check()
-{
-document.getElementById("aa").style.display="";
-}
-
 </script>
 <style type="text/css">
 
@@ -72,7 +60,7 @@ document.getElementById("aa").style.display="";
 					  <tr>
 					    <td nowrap align="center" width="25%">
 					    	 <select name="sendObject">
-					    	 	<option checked="true">----发给所有----</option>
+					    	 	<option selected="true">----发给所有----</option>
 					    <s:iterator value="%{#request.stuBasicInfos}" id="id" status="status">
             					<option>
             			<s:property value="%{#request.stuBasicInfos[#status.index].studentName}" />
@@ -82,7 +70,7 @@ document.getElementById("aa").style.display="";
 					    </td>
 					    <td width="25%" align="left">
 					    	 <select name="fileType">
-					    	 	<option checked="true">开题报告类</option>
+					    	 	<option selected="true">开题报告类</option>
             					<option>毕设文档类</option>
            						<option>其它</option>
          					 </select>
@@ -104,9 +92,6 @@ document.getElementById("aa").style.display="";
 	 </td>
   </tr>
 		</TABLE>
-	 </td>
-  </tr>
-  </table>
 </div>
 </form>
 </body>

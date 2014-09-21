@@ -24,8 +24,6 @@
 	<!--struts2 指定上传文件的最大值-->
 	<constant name="struts.multipart.maxSize" value="104857600"></constant>
 	
-	
-    
 	<!--过滤Action层-->
 	<package name="interceptor">
       <interceptors>
@@ -33,25 +31,15 @@
          <interceptor name="autowiring" class="com.opensymphony.xwork2.spring.interceptor.ActionAutowiringInterceptor"/>
       </interceptors>
    </package>
-   
+  
    <!--用户登录-->
 	<package name="userLogin" namespace="/" extends="struts-default">
     	<action name="userlogin" class="jxau.spms.login.action.LoginAction" method="login">
-			<result name="error">/login.jsp</result>
-		<!-- 
-			<result name="tutor" type="redirect">/index_tutor.jsp</result>
-			<result name="student" type="redirect">/index_student.jsp</result>
-			<result name="admin" type="redirect">/index_admin.jsp</result>
-		 -->
+			<result type="redirect">/login.jsp</result>
 		</action>
 	</package>
-	<!-- 测试Strut2 Json-->
-	<package name="example"  extends="json-default">
-     <action name="JSONExample" class="jxau.spms.student.test.TestJsonAction">
-        <result type="json"/>
-     </action>
-     
-  	</package>
+
+	
 	<!--外部action配置文件-->
 	<include file="studentAction.xml"></include>	
 	<include file="tutorAction.xml"></include>	

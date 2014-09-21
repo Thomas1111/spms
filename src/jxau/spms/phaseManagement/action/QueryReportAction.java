@@ -54,7 +54,7 @@ public class QueryReportAction extends ActionSupport {
 		request = ServletActionContext.getRequest();
 		session = request.getSession();
 		//获取导师工号
-		String tutorNo = (String) session.getAttribute("account");
+		String tutorNo = (String) session.getAttribute("tutorNo");
 		List<TermInfo> terms = studentService.queryTerms(null);
 		//判断加载信息标志位
 		String flag = request.getParameter("flag");

@@ -40,13 +40,15 @@ public class QueryTutorAction extends ActionSupport implements SessionAware{
 		String message = "加载成功";
 		String flag = "tutor";		//定义重定向的标识
 		HashMap<String, Object> params = new HashMap<>();		//查询输入条件
-		String account = (String) session.get("account");		//获取账号
+		String account = null;		//获取账号
 		int role = (int) session.get("role");		//获取角色编号
 		if (role == 2) {			//判断查询导师信息的角色
+			account = (String) session.get("tutorNo");
 			querySingle(message,params,account);
 		}else {		//当前角色是管理员
 			String tutorNo = (String) request.getParameter("tutorNo");
 			if (tutorNo == null) {		//判断管理员是否查询单个导师信息
+				account = (String) session.get("adminNo");
 				params.put("adminNo", account);		//存储管理员账号
 				setTerms();		//设置学期信息
 				try {

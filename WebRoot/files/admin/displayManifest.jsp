@@ -58,34 +58,6 @@ html { overflow-x: auto; overflow-y: auto; border:0;}
 <link href="<%=basePath%>css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<%=basePath%>js/xiangmu.js"></script>
 </head>
-<SCRIPT language=JavaScript>
-
-function selectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			obj[i].checked = true;
-		}
-	}
-}
-
-function unselectAll(){
-	var obj = document.fom.elements;
-	for (var i=0;i<obj.length;i++){
-		if (obj[i].name == "delid"){
-			if (obj[i].checked==true) obj[i].checked = false;
-			else obj[i].checked = true;
-		}
-	}
-}
-
-function link(){
-    document.getElementById("fom").action="xiangmu.htm";
-   document.getElementById("fom").submit();
-}
-
-</SCRIPT>
-
 <body>
 <form name="fom" id="fom" method="post" action="">
 <table id="mainpage" width="100%" border="0" cellspacing="0" cellpadding="0">

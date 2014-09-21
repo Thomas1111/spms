@@ -88,16 +88,13 @@
 		</if>
 		si.tutorNo = #{tutorNo};
     </select>
-	 <!--导师获取学生选题结果-->
+	 <!--导师获取学生发布阶段任务信息-->
     <select id="selectSubResult" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.StuSubjectVo">
 		select si.subjectNo from subject_info si inner join stu_basic_info sb on si.studentNo = sb.studentNo 
 		inner join task_info ti on si.subjectNo = ti.subjectNo
 		where 
 		<if test="term != null">
 			si.subTerm = #{term} and
-		</if>
-		<if test="stuExaState != null">
-			si.stuExaState = #{stuExaState} and
 		</if>
 		si.tutorNo = #{tutorNo}
 		<if test="start != null">

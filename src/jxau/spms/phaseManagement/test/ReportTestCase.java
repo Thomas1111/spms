@@ -3,10 +3,12 @@ package jxau.spms.phaseManagement.test;
 import java.util.Date;
 import java.util.HashMap;
 
+import jxau.spms.common.po.PaperInfo;
 import jxau.spms.common.po.ReportInfo;
 import jxau.spms.phaseManagement.service.ReportService;
 import jxau.spms.student.service.StudentService;
 import jxau.spms.tutor.po.TaskInfo;
+import jxau.spms.util.FileUpload;
 
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -53,7 +55,7 @@ public class ReportTestCase {
 		System.out.println(reportService.queryTaskInfo(params));
 	}
 	
-	@Test
+	//@Test
 	public void testVeriReport() {
 		HashMap<String, Object> params = new HashMap<>();
 		params.put("type", "pass");
@@ -79,4 +81,21 @@ public class ReportTestCase {
 		reportService.addReport(reportInfo, params);
 	}
 	
+	@Test
+	public void addPaper() {
+		
+		HashMap<String, Object> params = new HashMap<>();
+		PaperInfo paperInfo = new PaperInfo();
+		paperInfo.setExameState(2);
+		paperInfo.setMemo("无");
+		paperInfo.setPaperName("*******.doc");
+		paperInfo.setPaperTerm("2014-2015");
+		paperInfo.setStudentNo("20111826");
+		paperInfo.setUploadTime(new Date());
+		
+		params.put("studentNo", "20111826");
+		params.put("paperTerm", paperInfo.getPaperTerm());
+		
+		reportService.addPaper(paperInfo, params);
+	}
 }

@@ -157,11 +157,11 @@ html {
 															<s:property value="%{#request.phaseMissions[#status.index].misBrief}" />
 														</td>
 														<td width="20%" align="center" bgcolor="#FFFFFF">
-														<form name="fom" method="post" action="" onsubmit=
-															"return checkFile(this,<s:property value="%{#request.phaseMissions[#status.index].missionNo}" />)">
+														<!-- <form name="fom" method="post" action="" onsubmit=
+															"return checkFile(this,<s:property value="%{#request.phaseMissions[#status.index].missionNo}" />)"> -->
 															<input id="<s:property value="%{#request.phaseMissions[#status.index].missionNo}" />" type="file" name="upload" style="width:150px;" />
 															<input type="submit" name="uploadPhase" value="上传"/>
-														</form>
+														<!--</form>-->
 														</td>
 														<td width="10%" align="center" bgcolor="#FFFFFF">
 															<s:if test="#request.phaseMissions[#status.index].exameState == 0">

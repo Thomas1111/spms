@@ -155,10 +155,10 @@ insert into report_info values(null,'20111827','1231','2014-08-15 12:00:00',2,'�
 insert into report_info values(null,'20111828','1231','2014-08-15 12:00:00',2,'无','2014-2015','131231231231');
 insert into report_info values(null,'20111829','1231','2014-08-15 12:00:00',2,'无','2014-2015','1231231231241');
 ##论文信息
-insert into paper_info values(null,'20111826','1231','2014-08-15 12:00:00',0,'无','2014-2015','*****.doc');
-insert into paper_info values(null,'20111827','1231','2014-08-15 12:00:00',0,'无','2014-2015','*****.doc');
-insert into paper_info values(null,'20111828','1231','2014-08-15 12:00:00',0,'无','2014-2015','*****.doc');
-insert into paper_info values(null,'20111829','1231','2014-08-15 12:00:00',0,'无','2014-2015','*****.doc');
+insert into paper_info values(null,'20111826','2014-08-15 12:00:00',0,'无','2014-2015','*****.doc');
+insert into paper_info values(null,'20111827','2014-08-15 12:00:00',0,'无','2014-2015','*****.doc');
+insert into paper_info values(null,'20111828','2014-08-15 12:00:00',0,'无','2014-2015','*****.doc');
+insert into paper_info values(null,'20111829','2014-08-15 12:00:00',0,'无','2014-2015','*****.doc');
 ##文档信息
 insert into document_info values(null,'1231','2014-08-15 12:00:00','B/S结构下论文结构','开题报告类','123123123123');
 insert into document_info values(null,'1231','2014-08-15 12:00:00','B/S结构下论文结构','毕设文档类','123123123123');
@@ -175,4 +175,7 @@ insert into stu_down_info values(null,2,'20111833','无');
 ##学期信息
 insert into term_info values (null,'2013-2014');
 insert into term_info values (null,'2014-2015');
+##文件类型信息
+insert into document_type values (null,'开题报告类');
+insert into document_type values (null,'毕设文档类');
 

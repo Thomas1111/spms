@@ -10,7 +10,10 @@ import javax.security.auth.login.AccountException;
 import org.springframework.stereotype.Service;
 
 import jxau.spms.abstraction.dao.Dao;
+import jxau.spms.common.po.DocumentType;
+import jxau.spms.common.vo.MissionPageVo;
 import jxau.spms.common.vo.PhaseMissionVo;
+import jxau.spms.common.vo.StuPhaseMission;
 import jxau.spms.exception.CommonErrorException;
 import jxau.spms.exception.UnusualParamsException;
 import jxau.spms.phaseManagement.service.PhaseMissionService;
@@ -62,7 +65,6 @@ public class PhaseMissionServiceImple implements PhaseMissionService {
 		params.put("tutorNo", phaseMissionInfo.getTutorNo());	//设置导师工号参数
 		if (!"----全部----".equals(sendObj)) {		//获取并判断发送对象
 			params.put("studentName",sendObj);
-			sendObj="全部学生";
 		}
 		params.put("stuExaState", 1);		//设置审核为"已通过"状态
 		params.put("term",phaseMissionInfo.getPhaseTerm());		//设置学期信息
@@ -199,6 +201,86 @@ public class PhaseMissionServiceImple implements PhaseMissionService {
 		stuMissionInfo.setExameState(2);	//设置阶段任务审核状态为"审核中"
 		//调用dao更新方法
 		dao.update(mapper + "uploadPhaseMis", stuMissionInfo);
+	}
+
+	@Override
+	public List<StuPhaseMission> queryVerMission(Map<String, Object> params,MissionPageVo missionPageVo)
+			throws RuntimeException {
+		// TODO Auto-generated method stub
+		if (params == null) {	
+			throw new UnusualParamsException("参数信息不能为空");
+		}
+		//判断参数内容是否为空
+		if (params.get("tutorNo") == null || 
+				params.get("term") == null) {
+			throw new UnusualParamsException("请设置必要参数信息");
+		}
+		String init = (String) params.get("first");
+		//判断是否第一次加载数据
+		if ( init != null && "yes".equals(init)) {
+			//获取默认加载的第一条记录
+			List<StuPhaseMission> firstNo = dao.select(mapper + "selectVerMission", params);
+			//判断加载的数量的合理性
+			if (firstNo.size() == 0 || firstNo == null) {
+				throw new CommonErrorException("未发布阶段任务或者暂无人上该阶段任务!");
+			}
+			int missionNo = firstNo.get(0).getMissionNo();		//获取第一条记录的missionNO
+			params.put("missionNo", missionNo);
+			params.remove("first");		//清除第一条记录的标记位
+		}
+		//获取具体某个阶段任务的所有学生记录
+		List<StuPhaseMission> verPhaInfo = dao.select(mapper + "selectVerMission", params);
+		//判断数量是否为空
+		if (verPhaInfo.size() == 0 || verPhaInfo == null) {
+			throw new CommonErrorException("尚无人上传该阶段任务!");
+		}
+		params.remove("missionNo");		//移除missionNo
+		params.put("first","init");		//移除missionNo
+		//设置MissionPageVo属性
+		List<StuPhaseMission> first = dao.select(mapper + "selectVerMission", params);
+		missionPageVo.setFirst(first.get(0).getMissionNo());
+		missionPageVo.setNumber(verPhaInfo.size());
+		missionPageVo.setCurrentNo(verPhaInfo.get(0).getMissionNo()); 
+		
+		return verPhaInfo;
+	}
+
+	/* (non-Javadoc)
+	 * @see jxau.spms.phaseManagement.service.PhaseMissionService#verifyStuPhaMis(java.util.Map)
+	 * TODO 导师审核学生阶段任务
+	 */
+	@Override
+	public void verifyStuPhaMis(Map<String, Object> params) throws RuntimeException {
+		// TODO Auto-generated method stub
+		if (params == null) {	
+			throw new UnusualParamsException("参数信息不能为空");
+		}
+		//判断参数内容是否为空
+		if (params.get("missionNo") == null || 
+				params.get("exameState") == null
+					|| params.get("studentNo") == null) {
+			throw new UnusualParamsException("请设置必要参数信息");
+		}
+		//导师更新学生阶段任务的审核状态
+		dao.update(mapper + "verifyStuPhaMis", params);
+	}
+
+	/* (non-Javadoc)
+	 * @see jxau.spms.phaseManagement.service.PhaseMissionService#queryDocType(java.util.Map)
+	 * TODO 获取学生上传文件类型信息
+	 */
+	@Override
+	public List<DocumentType> queryDocType(Map<String, Object> params)
+			throws RuntimeException {
+		// TODO Auto-generated method stub
+		//调用dao方法
+		List<DocumentType> docType = dao.select(mapper + "selectDocType", params);
+		//判断加载信息是否为空
+		if (docType == null || docType.size() == 0) {
+			throw new UnusualParamsException("文件类型信息加载错误!");
+		}
+		
+		return docType;
 	}
 
 }

@@ -46,7 +46,15 @@ public class QueryNoticeAction extends ActionSupport{
 		List<NoticeInfo> noticeInfos = null;
 		//获取参数信息
 		int role = (int) session.getAttribute("role");
-		String account = (String) session.getAttribute("account");
+		String account = null;
+		//判断角色
+		if (role == 1) {
+			account = (String) session.getAttribute("studentNo");		
+		}else if (role==2) {
+			account = (String) session.getAttribute("tutorNo");	
+		}else {
+			account = (String) session.getAttribute("adminNo");	
+		}
 		HashMap< String, Object> params = new HashMap<>();
 		//设置查询条件
 		params.put("role", role);

@@ -55,7 +55,7 @@ public class OpeSubjectAction extends ActionSupport {
 			params.put("subjectNo", Integer.parseInt(subjectNo));
 			params.put("leftNum", Integer.parseInt(leftNum));
 			params.put("opeType", opeType);
-			params.put("studentNo",session.getAttribute("account"));
+			params.put("studentNo",session.getAttribute("studentNo"));
 			params.put("term", term);
 			try {
 				message = subjectService.operateSubject(params);		//调用service操作方法

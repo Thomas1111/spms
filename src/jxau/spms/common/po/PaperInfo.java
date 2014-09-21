@@ -6,11 +6,11 @@ public class PaperInfo {
 
 	private int paperNo;
 	private String studentNo;
-	private String tutorNo;
 	private Date uploadTime;
 	private int exameState;
 	private String memo;
 	private String paperTerm;
+	private String paperName;
 	
 	public int getPaperNo() {
 		return paperNo;
@@ -23,12 +23,6 @@ public class PaperInfo {
 	}
 	public void setStudentNo(String studentNo) {
 		this.studentNo = studentNo;
-	}
-	public String getTutorNo() {
-		return tutorNo;
-	}
-	public void setTutorNo(String tutorNo) {
-		this.tutorNo = tutorNo;
 	}
 	public Date getUploadTime() {
 		return uploadTime;
@@ -53,6 +47,19 @@ public class PaperInfo {
 	}
 	public void setPaperTerm(String paperTerm) {
 		this.paperTerm = paperTerm;
+	}
+	public String getPaperName() {
+		return paperName;
+	}
+	public void setPaperName(String paperName) {
+		this.paperName = paperName;
+	}
+	@Override
+	public String toString() {
+		return "PaperInfo [paperNo=" + paperNo + ", studentNo=" + studentNo
+				+ ", uploadTime=" + uploadTime + ", exameState=" + exameState
+				+ ", memo=" + memo + ", paperTerm=" + paperTerm
+				+ ", paperName=" + paperName + "]";
 	}
 	
 }

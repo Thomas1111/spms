@@ -36,11 +36,10 @@ public class FileUpload {
 		storageFileName = fileName;
     	//存储文件目标路径
     	String tarPath = ServletActionContext.getServletContext()  
-                .getRealPath(File.separator+module) + File.separator 
+                .getRealPath(File.separator)+ module + File.separator 
                 + account + File.separator + storageFileName;
-    	
     	File storageFile = new File(tarPath); 	//实例化目标文件
-        createAdminDir(tarPath);		//创建notice下目录(adminNo)
+    	createTarDir(tarPath);		//创建notice下目录(adminNo)
         //调用工具类copy实现存储文件
         FileUpload.copy(upload, storageFile); 
 	}
@@ -85,16 +84,17 @@ public class FileUpload {
 	}
 	
 	/**
-	 * TODO 创建管理员目录
+	 * TODO 创建存储目录
 	 * 上午11:38:41
 	 * @param tarPath 目标路径
 	 * @return 
 	 */
-	public static void createAdminDir(String tarPath){
+	public static void createTarDir(String tarPath){
 		int pos = tarPath.lastIndexOf(File.separator);
-		File tarFile = new File(tarPath.substring(0,pos+1));
+		String tarDir = tarPath.substring(0,pos+1);
+		File tarFile = new File(tarDir);
 		if (!tarFile.exists()) {
-			tarFile.mkdir();
+			tarFile.mkdirs();
 		}
 	}
 }

@@ -37,13 +37,13 @@ public class QueryTutorAsyc extends ActionSupport {
 		message = "导师信息加载成功";
 		HashMap<String, Object> params = new HashMap<>();		//查询输入条件
 		pageVo = new PageVo();
-		String account = (String) session.get("account");		//获取管理员账号
+		String adminNo = (String) session.get("adminNo");		//获取管理员账号
 		String term = (String) request.getParameter("term");
 		//设置当前页面数
 		pageVo.setCurrentPage(Integer.parseInt(request.getParameter("currentPage")));
 		pageVo.setCount(tutorService.queryTutorNumber(params));		//获取导师数量
 		//if (tutorNo != null) {		//判断管理员是否查询单个导师信息
-			params.put("adminNo", account);		//存储管理员账号
+			params.put("adminNo", adminNo);		//存储管理员账号
 			try {
 				params.put("start", pageVo.getFirstIndex());	//设置起始序数
 				params.put("number", pageVo.getSize());		//设置选取数量

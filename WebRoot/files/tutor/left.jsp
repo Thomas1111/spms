@@ -86,11 +86,11 @@ function list(idstr){
 		<table width="100%" border="0" cellpadding="0" cellspacing="0">
 		  <tr>
 					<td width="25%" rowspan="2"><img src="<%=basePath%>images/ico02.gif" width="35" height="35" /></td>
-					<td width="75%" height="22" class="left-font01">您好，<span class="left-font02"><s:property value="#session.name"/></span></td>
+					<td width="75%" height="22" class="left-font01">您好，<span class="left-font02"><s:property value="#session.tutorName"/></span></td>
 				  </tr>
 				  <tr>
 					<td height="22" class="left-font01">
-						[&nbsp;<a href="<%=basePath%>login.jsp" target="_top" class="left-font01">退出</a>&nbsp;]</td>
+						[&nbsp;<a href="<%=path%>/userlogin!loginOut" target="_top" class="left-font01">退出</a>&nbsp;]</td>
 				  </tr>
 		</table>
 		
@@ -222,7 +222,7 @@ function list(idstr){
         </tr>
         <tr>
           <td width="9%" height="20" ><img id="xiaotu9" src="<%=basePath%>images/ico06.gif" width="8" height="12" /></td>
-          <td width="91%"><a href="<%=basePath%>files/tutor/verifyPhaseMission.jsp" target="mainFrame" class="left-font03" onClick="tupian('9');">审核阶段任务</a></td>
+          <td width="91%"><a href="<%=path%>/phaseMission/phaMisAction!queryVerMission?init=yes" target="mainFrame" class="left-font03" onClick="tupian('9');">审核阶段任务</a></td>
         </tr>
       </table>
 <!--毕设管理 -->
@@ -269,7 +269,7 @@ function list(idstr){
 	  <table id="subtree6" style="DISPLAY: none" width="80%" border="0" align="center" cellpadding="0" cellspacing="0" class="left-table02">
         <tr>
           <td width="9%" height="20"><img id="xiaotu13" src="<%=basePath%>images/ico06.gif" width="8" height="12" /></td>
-          <td width="91%"><a href="<%=path%>/student/queryStudent?tutorNo=<s:property value="#session.account" />&operationNo=tutorDoc" target="mainFrame" class="left-font03" onClick="tupian('13');">上传文档</a></td>
+          <td width="91%"><a href="<%=path%>/student/queryStudent?tutorNo=<s:property value="#session.tutorNo" />&operationNo=tutorDoc" target="mainFrame" class="left-font03" onClick="tupian('13');">上传文档</a></td>
         </tr>
         <tr>
           <td width="9%" height="20"><img id="xiaotu1" src="<%=basePath%>images/ico06.gif" width="8" height="12" /></td>

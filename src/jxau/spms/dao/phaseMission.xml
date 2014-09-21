@@ -8,7 +8,11 @@
     <!-- 查询返回集合类型的配置 -->
     <!-- 查询返回集合类型的配置 -->
     <!-- 使用第三方缓存插件实现二级缓存-->
- 
+    
+ 	<!--获取上传文档类型信息-->
+    <select id="selectDocType" parameterType="java.util.Map"  resultType="jxau.spms.common.po.DocumentType">
+		select * from document_type;
+    </select>
      <!--获取发送对象信息-->
     <select id="selectSendObject" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.PhaseMissionVo">
 		select ab.studentNo,ab.studentName from stu_basic_info ab inner join subject_info si 
@@ -28,9 +32,7 @@
 		;
     </select> 
      <!--导师、学生获取阶段任务信息-->
-     <!--  pm inner join stu_mission_info sm on
-		sm.missionNo = pm.missionNo inner join stu_basic_info sb on
-		sb.studentNo = sm.studentNo  -->
+     <!--    -->
     <select id="selectPhaMission" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.StuPhaseMission">
 		select * from phase_mission_info pm
 		<if test="studentNo != null">
@@ -51,6 +53,26 @@
 		</if>
 		;
     </select> 
+    <!--导师获取学生阶段任务审核信息-->
+    <select id="selectVerMission" parameterType="java.util.Map"  resultType="jxau.spms.common.vo.StuPhaseMission">
+		select * from phase_mission_info pm inner join stu_mission_info sm on
+		sm.missionNo = pm.missionNo inner join stu_basic_info sb on
+		sb.studentNo = sm.studentNo
+		where
+		<if test="term != null">
+			pm.phaseTerm = #{term} and
+		</if>
+		<if test="missionNo != null">
+			sm.missionNo = #{missionNo} and
+		</if>
+		<if test="tutorNo != null">
+			pm.tutorNo = #{tutorNo}
+		</if>
+		<if test="first != null">
+			order by pm.missionNo limit 1,1
+		</if>
+		;
+    </select>
     <!--获取阶段任务数量-->
      <select id="selectMissionNum" parameterType="java.util.Map"  resultType="int">
 		select count(*) from phase_mission_info pm 
@@ -90,5 +112,15 @@
 		</if>
 		;
     </update> 
-    
+      <!--导师审核学生阶段任务-->
+     <update id="verifyStuPhaMis" parameterType="java.util.Map">
+		update stu_mission_info set exameState = #{exameState} where
+		<if test="missionNo != null">
+			missionNo = #{missionNo} and
+		</if>
+		<if test="studentNo != null">
+			studentNo = #{studentNo}
+		</if>
+		;
+    </update> 
 </mapper>

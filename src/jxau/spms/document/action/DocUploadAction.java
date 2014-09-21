@@ -34,25 +34,24 @@ public class DocUploadAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	private DocumentService docService;
 	private StudentService studentService;
-	private HttpSession session;
-	private HttpServletRequest request;	
+	private HttpServletRequest request = ServletActionContext.getRequest();	
+	private HttpSession session = request.getSession();
 	// 封装上传文件域的属性  
     private File upload;  
-    
+    private String sendObject;	//发送对象
+    private String fileType;	//文件类型
+    private String uploadFileName;	//文件名称
 	/**
 	 * Lai Huiqiang
-	 * TODO 上传公告(持久化)
+	 * TODO 导师上传文档(持久化)
 	 * 下午3:48:07
 	 * @return 跳转标记位
 	 */
 	public String uploadDoc(){
 		String message = null;
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		request = ServletActionContext.getRequest();
-		session = request.getSession();
-		String stuName = request.getParameter("sendObject");	//获取发送对象
 		DocumentInfo tutorDoc = setTutorDoc();		//获取导师信息
-		List<StuDownInfo> studentDoc = setStuDoc(stuName);		//设置学生下载信息
+		List<StuDownInfo> studentDoc = setStuDoc(sendObject);		//设置学生下载信息
 		String suffix = ".doc";
         try {
         	FileUpload.upload(tutorDoc.getTutorNo(),upload,
@@ -80,14 +79,12 @@ public class DocUploadAction extends ActionSupport {
 	public DocumentInfo setTutorDoc(){
 		DocumentInfo tutorDoc = new DocumentInfo();
 		//获取管理员账号
-		String tutorNo = (String) session.getAttribute("account");
-		String docType = request.getParameter("fileType");		//获取文件类型
+		String tutorNo = (String) session.getAttribute("tutorNo");
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmssSSS");
 		String identifier = tutorNo + format.format(new Date());		//获取上传文件编号
-		String fileName = request.getParameter("fileName");		//获取文件名称
 		//设置上传条件
-		tutorDoc.setDocName(fileName);
-		tutorDoc.setDocType(docType);
+		tutorDoc.setDocName(uploadFileName);
+		tutorDoc.setDocType(fileType);
 		tutorDoc.setTutorNo(tutorNo);
 		tutorDoc.setUploadTime(new Date());
 		tutorDoc.setIdentifier(identifier);
@@ -105,7 +102,7 @@ public class DocUploadAction extends ActionSupport {
 		List<StuDownInfo> studentDoc = new ArrayList<>();	
 		HashMap<String, Object> params = new HashMap<>();
 		//设置查询参数
-		params.put("tutorNo", session.getAttribute("account"));
+		params.put("tutorNo", session.getAttribute("tutorNo"));
 		//获取学生基本信息
 		List<StuBasicInfo> stuInfo = studentService.queryTutorStu(params);
 		if ("----发给所有----".equals(stuName)) {		//判断是否是发给全部学生
@@ -142,4 +139,23 @@ public class DocUploadAction extends ActionSupport {
 	public void setUpload(File upload) {
 		this.upload = upload;
 	}
+	public String getSendObject() {
+		return sendObject;
+	}
+	public void setSendObject(String sendObject) {
+		this.sendObject = sendObject;
+	}
+	public String getFileType() {
+		return fileType;
+	}
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
+	public String getUploadFileName() {
+		return uploadFileName;
+	}
+	public void setUploadFileName(String uploadFileName) {
+		this.uploadFileName = uploadFileName;
+	}
+
 }
